@@ -64,6 +64,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     lsb-release \
     procps \
     sudo \
+    unzip \
     x11vnc \
     xkb-data \
     xvfb \
