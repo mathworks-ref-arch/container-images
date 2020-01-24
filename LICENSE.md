@@ -1,8 +1,8 @@
 MATHWORKS CLOUD REFERENCE ARCHITECTURE LICENSE
 
-The files in this Github repository refer to commercial software products and services, virtual machine images, and related materials of The MathWorks, Inc. (“MathWorks Programs”). MathWorks Programs are separately licensed under the MathWorks Software License Agreement, available in the desktop installation of the MathWorks Programs or in the virtual machine image.
+The files in this GitHub repository refer to commercial software products and services, virtual machine images, and related materials of The MathWorks, Inc. (“MathWorks Programs”). MathWorks Programs are separately licensed under the MathWorks Software License Agreement, available in the desktop installation of the MathWorks Programs or in the virtual machine image. The files in this GitHub repository may also refer to third-party software licensed under separate terms provided by such third parties.
 
-The following license terms apply only to the files in this Github repository, including files in this folder and its subfolders, and do not apply to MathWorks Programs. References to “software” and “code” in the following license terms refer to the files in this Github repository.
+The following license terms apply only to the files in this GitHub repository, including files in this folder and its subfolders, and do not apply to MathWorks Programs. References to “software” and “code” in the following license terms refer to the files in this GitHub repository.
 
 Copyright (c) 2020, The MathWorks, Inc.
 
