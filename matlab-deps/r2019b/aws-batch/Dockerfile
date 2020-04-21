@@ -19,35 +19,28 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libc6 \
     libcairo-gobject2 \
     libcairo2 \
-    libcap2 \
-    libcomerr2 \
     libcups2 \
     libdbus-1-3 \
+    libdbus-glib-1-2 \
     libfontconfig1 \
     libgconf-2-4 \
-    libgcrypt20 \
     libgdk-pixbuf2.0-0 \
-    libgssapi-krb5-2 \
+    libgnomevfs2-0 \
     libgstreamer-plugins-base1.0-0 \
     libgstreamer1.0-0 \
-    libgtk2.0-0 \
     libgtk-3-0 \
-    libk5crypto3 \
-    libkrb5-3 \
-    libnspr4 \
-    libnspr4-dbg \
+    libidl-2-0 \
     libnss3 \
     libpam0g \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     libpangoft2-1.0-0 \
-    libpciaccess0 \
     libpython2.7 \
-    libpython3.5 \
+    libpython3.6 \
+    libpython3.7 \
     libselinux1 \
     libsm6 \
     libsndfile1 \
-    libudev1 \
     libx11-6 \
     libx11-xcb1 \
     libxcb1 \
@@ -59,21 +52,16 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libxft2 \
     libxi6 \
     libxinerama1 \
-    libxmu6 \
     libxrandr2 \
     libxrender1 \
-    libxslt1.1 \
     libxss1 \
     libxt6 \
     libxtst6 \
     libxxf86vm1 \
-    lsb-release \
     procps \
     sudo \
     unzip \
-    x11vnc \
     xkb-data \
-    xvfb \
     zip \
     zlib1g \
  && apt-get install -y \
