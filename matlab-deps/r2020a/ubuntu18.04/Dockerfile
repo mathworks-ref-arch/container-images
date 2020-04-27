@@ -13,35 +13,25 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libc6 \
     libcairo-gobject2 \
     libcairo2 \
-    libcap2 \
-    libcomerr2 \
     libcups2 \
     libdbus-1-3 \
     libfontconfig1 \
-    libgconf-2-4 \
-    libgcrypt20 \
     libgdk-pixbuf2.0-0 \
-    libgssapi-krb5-2 \
     libgstreamer-plugins-base1.0-0 \
     libgstreamer1.0-0 \
-    libgtk2.0-0 \
     libgtk-3-0 \
-    libk5crypto3 \
-    libkrb5-3 \
     libnspr4 \
-    libnspr4-dbg \
     libnss3 \
     libpam0g \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     libpangoft2-1.0-0 \
-    libpciaccess0 \
     libpython2.7 \
-    libpython3.5 \
+    libpython3.6 \
+    libpython3.7 \
     libselinux1 \
     libsm6 \
     libsndfile1 \
-    libudev1 \
     libx11-6 \
     libx11-xcb1 \
     libxcb1 \
@@ -53,21 +43,17 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libxft2 \
     libxi6 \
     libxinerama1 \
-    libxmu6 \
     libxrandr2 \
     libxrender1 \
-    libxslt1.1 \
-    libxss1 \
     libxt6 \
     libxtst6 \
     libxxf86vm1 \
-    lsb-release \
+    locales \
+    locales-all \
     procps \
     sudo \
     unzip \
-    x11vnc \
     xkb-data \
-    xvfb \
     zlib1g
 
 # Uncomment the following RUN apt-get statement to install extended locale support for MATLAB
@@ -109,6 +95,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 #ENV PATH="/usr/local/MATLAB/R2020a/bin:${PATH}"
 #ENTRYPOINT ["matlab"]
 
-# To avoid inadvertantly polluting the / directory, use root's home directory 
+# To avoid inadvertantly polluting the / directory, use root's home directory
 # while running MATLAB.
 WORKDIR /root
