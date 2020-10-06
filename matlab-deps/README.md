@@ -9,6 +9,7 @@ This container includes the dependencies required to run MATLAB®, Simulink®, a
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |----------- | ----------- |
 |[`latest`, `r2020b`, `r2020b-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2020b/ubuntu20.04/Dockerfile) | R2020b | Ubuntu 20.04 | ubuntu:20.04 | |
+|[`r2020b-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2020b/aws-batch/Dockerfile) | R2020b | Ubuntu 20.04 | nvidia/cuda:11.0-base-ubuntu20.04 | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
 |[`r2020a`, `r2020a-ubuntu18.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2020a/ubuntu18.04/Dockerfile) | R2020a | Ubuntu 18.04 | ubuntu:18.04 | |
 |[`r2020a-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2020a/aws-batch/Dockerfile) | R2020a | Ubuntu 18.04 | nvidia/cuda:10.1-base | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
 |[`r2019b`, `r2019b-ubuntu18.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2019b/ubuntu18.04/Dockerfile) | R2019b | Ubuntu 18.04 | ubuntu:18.04 | |
