@@ -4,6 +4,8 @@ FROM nvidia/cuda:11.0-base-ubuntu20.04
 
 MAINTAINER MathWorks
 
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
+
 # The following libraries are all required by MATLAB, except for:
 # csh                  - Support MATLAB's Engine API for C and Fortran. See https://www.mathworks.com/help/matlab/matlab_external/introducing-matlab-engine.html
 # gcc, g++, gfortran   - Support Simulink code generation and mex with gcc, g++, or gfortran.

@@ -1,7 +1,10 @@
-# Generated MATLAB Dockerfile
+# Copyright 2020 The MathWorks, Inc.
+
 FROM ubuntu:20.04
 
 MAINTAINER The MathWorks
+
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
 libasound2 \

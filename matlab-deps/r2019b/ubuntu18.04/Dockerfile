@@ -4,6 +4,8 @@ FROM ubuntu:18.04
 
 MAINTAINER MathWorks
 
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
+
 RUN apt-get update && apt-get install --no-install-recommends -y \
     ca-certificates \
     libasound2 \
