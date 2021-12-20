@@ -30,6 +30,6 @@ RUN chmod -R +wx ${JOB_STORAGE_LOCATION}
 # while running MATLAB.
 WORKDIR ${JOB_STORAGE_LOCATION}
 
-COPY r2021b/aws-batch/stageDataAndRunJob.sh /usr/local/stageDataAndRunJob.sh
+COPY stageDataAndRunJob.sh /usr/local/stageDataAndRunJob.sh
 RUN chmod +x /usr/local/stageDataAndRunJob.sh
 ENTRYPOINT ["/usr/local/stageDataAndRunJob.sh"]
