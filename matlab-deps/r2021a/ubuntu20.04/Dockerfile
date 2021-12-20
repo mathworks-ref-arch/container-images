@@ -6,60 +6,10 @@ LABEL maintainer="The MathWorks"
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 
-RUN apt-get update && apt-get install --no-install-recommends -y \
-ca-certificates \
-libasound2 \
-libatk1.0-0 \
-libc6 \
-libcairo-gobject2 \
-libcairo2 \
-libcrypt1 \
-libcups2 \
-libdbus-1-3 \
-libfontconfig1 \
-libgdk-pixbuf2.0-0 \
-libgstreamer-plugins-base1.0-0 \
-libgstreamer1.0-0 \
-libgtk-3-0 \
-libnspr4 \
-libnss3 \
-libodbc1 \
-libpam0g \
-libpango-1.0-0 \
-libpangocairo-1.0-0 \
-libpangoft2-1.0-0 \
-libpython2.7 \
-libpython3.8 \
-libselinux1 \
-libsm6 \
-libsndfile1 \
-libuuid1 \
-libx11-6 \
-libx11-xcb1 \
-libxcb1 \
-libxcomposite1 \
-libxcursor1 \
-libxdamage1 \
-libxext6 \
-libxfixes3 \
-libxft2 \
-libxi6 \
-libxinerama1 \
-libxrandr2 \
-libxrender1 \
-libxt6 \
-libxtst6 \
-libxxf86vm1 \
-locales \
-locales-all \
-make \
-net-tools \
-procps \
-sudo \
-tzdata \
-unzip \
-zlib1g \
-&& apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
+COPY base-dependencies.txt /tmp/base-dependencies.txt
+
+RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
+    && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
 RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 
