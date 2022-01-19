@@ -1,4 +1,4 @@
-# Copyright 2021 The MathWorks, Inc.
+# Copyright 2021-2022 The MathWorks, Inc.
 
 FROM nvidia/cuda:11.4.1-base-ubuntu20.04
 
@@ -16,6 +16,16 @@ COPY base-dependencies.txt /tmp/base-dependencies.txt
 
 RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
     && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
+
+# Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
+WORKDIR /packages
+RUN export DEBIAN_FRONTEND=noninteractive &&\
+    wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/ubuntu-focal/all-packages.tar.gz &&\
+    tar -x -f all-packages.tar.gz \
+        --wildcards libc-bin_*.deb libc6_*.deb locales-all*.deb locales_*.deb nscd_*.deb &&\
+    apt-get install --yes --no-install-recommends ./*.deb &&\
+    rm -fr /packages
+WORKDIR /
 
 # Install the AWS CLI to use for staging input and output data
 RUN pip3 install awscli

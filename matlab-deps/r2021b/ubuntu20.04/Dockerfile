@@ -1,4 +1,4 @@
-# Copyright 2021 The MathWorks, Inc.
+# Copyright 2021-2022 The MathWorks, Inc.
 FROM ubuntu:20.04
 
 LABEL maintainer="The MathWorks"
@@ -11,6 +11,16 @@ RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-
     && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
 RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
+
+# Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
+WORKDIR /packages
+RUN export DEBIAN_FRONTEND=noninteractive &&\
+    wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/ubuntu-focal/all-packages.tar.gz &&\
+    tar -x -f all-packages.tar.gz \
+        --wildcards libc-bin_*.deb libc6_*.deb locales-all*.deb locales_*.deb nscd_*.deb &&\
+    apt-get install --yes --no-install-recommends ./*.deb &&\
+    rm -fr /packages
+WORKDIR /
 
 # Uncomment the following RUN apt-get statement if you will be using Simulink 
 # code generation capabilities, or if you will be compiling your own mex files
