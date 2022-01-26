@@ -18,11 +18,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-
     && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
 # Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
+# Note: base-dependencies.txt includes libcrypt-dev and linux-libc-dev to enable installation of patched -dev packages
 WORKDIR /packages
 RUN export DEBIAN_FRONTEND=noninteractive &&\
     wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/ubuntu-focal/all-packages.tar.gz &&\
     tar -x -f all-packages.tar.gz \
-        --wildcards libc-bin_*.deb libc6_*.deb locales-all*.deb locales_*.deb nscd_*.deb &&\
+        --exclude glibc-*.deb \
+        --exclude libc6-dbg*.deb &&\
     apt-get install --yes --no-install-recommends ./*.deb &&\
     rm -fr /packages
 WORKDIR /
