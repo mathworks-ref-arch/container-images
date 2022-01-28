@@ -1,4 +1,4 @@
-# Copyright 2021-2022 The MathWorks, Inc.
+# Copyright 2021 The MathWorks, Inc.
 FROM ubuntu:20.04
 
 LABEL maintainer="The MathWorks"
@@ -19,7 +19,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&\
     wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/ubuntu-focal/all-packages.tar.gz &&\
     tar -x -f all-packages.tar.gz \
         --exclude glibc-*.deb \
-	--exclude libc6-dbg*.deb &&\
+        --exclude libc6-dbg*.deb &&\
     apt-get install --yes --no-install-recommends ./*.deb &&\
     rm -fr /packages
 WORKDIR /
