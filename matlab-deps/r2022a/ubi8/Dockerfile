@@ -1,0 +1,36 @@
+# Copyright 2022 The MathWorks, Inc.
+FROM registry.access.redhat.com/ubi8/ubi:latest
+
+LABEL maintainer="The MathWorks"
+
+ENV TZ="Etc/UTC"
+
+COPY base-dependencies.txt /tmp/base-dependencies.txt
+
+RUN yum update --disableplugin=subscription-manager -y \
+    && yum install --disableplugin=subscription-manager -y `cat /tmp/base-dependencies.txt`
+
+ENV LANG C
+RUN [ -s /etc/machine-id ] || dbus-uuidgen > /etc/machine-id
+RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
+
+# Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
+WORKDIR /packages
+RUN wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/almalinux-$(source /etc/os-release && echo $VERSION_ID)/all-packages.tar.gz &&\
+    tar -x -f all-packages.tar.gz &&\
+    yum --disableplugin=subscription-manager install -y *.rpm &&\
+    rm -fr /packages && \
+    yum --disableplugin=subscription-manager clean all -y
+WORKDIR /
+
+# Uncomment the following RUN yum statement to enable code generation capabilities,
+# or if you will be compiling your own mex files with gcc, g++, or gfortran.
+#
+#RUN yum install -y gcc.x86_64 gcc-c++.x86_64 gcc-gfortran.x86_64 && yum --disableplugin=subscription-manager clean all -y
+
+# Uncomment the following line if you require the fuse filesystem
+#RUN yum install -y fuse-libs.x86_64 && yum --disableplugin=subscription-manager clean all -y
+
+# Uncomment to resolve certain license manager issues
+#RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
+
