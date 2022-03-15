@@ -1,5 +1,5 @@
 # Copyright 2021 The MathWorks, Inc.
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.access.redhat.com/ubi8/ubi:8.5-226
 
 LABEL maintainer="The MathWorks"
 
