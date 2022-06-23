@@ -14,15 +14,6 @@ ENV LANG C
 RUN [ -s /etc/machine-id ] || dbus-uuidgen > /etc/machine-id
 RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 
-# Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
-WORKDIR /packages
-RUN wget -q https://github.com/mathworks/build-glibc-bz-19329-patch/releases/download/almalinux-$(source /etc/os-release && echo $VERSION_ID)/all-packages.tar.gz &&\
-    tar -x -f all-packages.tar.gz &&\
-    yum --disableplugin=subscription-manager install -y *.rpm &&\
-    rm -fr /packages && \
-    yum --disableplugin=subscription-manager clean all -y
-WORKDIR /
-
 # Uncomment the following RUN yum statement to enable code generation capabilities,
 # or if you will be compiling your own mex files with gcc, g++, or gfortran.
 #
