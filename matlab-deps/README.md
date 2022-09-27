@@ -8,7 +8,9 @@ This container includes the dependencies required to run MATLAB®, Simulink®, a
 
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |----------- | ----------- |
-|[`latest`, `r2022a`, `r2022a-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022a/ubuntu20.04/Dockerfile) | R2022a | Ubuntu 20.04 | ubuntu:20.04 | |
+|[`latest`, `r2022b`, `r2022b-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022b/ubuntu20.04/Dockerfile) | R2022b | Ubuntu 20.04 | ubuntu:20.04 | |
+|[`r2022b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022b/ubi8/Dockerfile) | R2022b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
+|[`r2022a`, `r2022a-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022a/ubuntu20.04/Dockerfile) | R2022a | Ubuntu 20.04 | ubuntu:20.04 | |
 |[`r2022a-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022a/ubi8/Dockerfile) | R2022a | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
 |[`r2022a-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2022a/aws-batch/Dockerfile) | R2022a | Ubuntu 20.04 | nvidia/cuda:11.6.0-base-ubuntu20.04 | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
 |[`r2021b`, `r2021b-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/master/matlab-deps/r2021b/ubuntu20.04/Dockerfile) | R2021b | Ubuntu 20.04 | ubuntu:20.04 | |
