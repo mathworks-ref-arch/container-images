@@ -1,6 +1,6 @@
 # Copyright 2020-2021 The MathWorks, Inc.
 
-FROM nvidia/cuda:10.1-base
+FROM nvidia/cuda:10.1-base-ubuntu18.04
 
 LABEL maintainer="The MathWorks"
 
