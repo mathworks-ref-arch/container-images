@@ -1,0 +1,18 @@
+# Copyright 2023 The MathWorks, Inc.
+# This workflow re-builds all matlab_deps images at a regular cadence to
+# include any security updates from the base layers
+name: Build Trigger for matlab_deps Images on DockerHub
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run at 00:00 on every Monday (1st Day of the Week)
+    - cron: "0 0 * * 1"
+
+jobs:
+  trigger-build-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Request
+        run: curl -X POST ${{ secrets.BUILD_MATLAB_DEPS_URL }}
