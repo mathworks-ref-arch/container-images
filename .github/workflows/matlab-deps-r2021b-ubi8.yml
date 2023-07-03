@@ -1,0 +1,29 @@
+# Build & Publish matlab-deps/r2021b/ubi8
+name: matlab-deps-r2021b-ubi8
+
+# Define when builds will occur:
+on:
+  # Run workflow when there is a push to the 'main' branch & push includes changes to any files in described path
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'matlab-deps/r2021b/ubi8/**'
+
+  # Run at 00:00 on every Monday (1st Day of the Week) (See: crontab.guru)
+  schedule:
+    - cron: '0 0 * * 1'
+
+  workflow_dispatch:
+
+jobs:
+  build-and-publish-docker-image:
+    uses: ./.github/workflows/build-and-publish-docker-image.yml
+    secrets: inherit
+    with:
+        docker_build_context: './matlab-deps/r2021b/ubi8'
+        base_image_name: mathworks/matlab-deps
+        matlab_release_tag: 'r2021b'
+        os_info_tag: 'ubi8'
+        is_default_os: false
+        should_add_latest_tag: false
