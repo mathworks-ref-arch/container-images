@@ -4,3 +4,9 @@ This repository contains source files for the container images published by Math
 
 ## Technical Support
 If you require assistance or have a request for additional features or capabilities, please contact [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
+
+----
+
+Copyright 2019-2023 The MathWorks, Inc.
+
+----
