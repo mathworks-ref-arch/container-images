@@ -1,6 +1,6 @@
-# Copyright 2021-2022 The MathWorks, Inc.
+# Copyright 2021-2023 The MathWorks, Inc.
 
-FROM nvidia/cuda:11.4.1-base-ubuntu20.04
+FROM nvidia/cuda:11.8.0-base-ubuntu20.04
 
 LABEL maintainer="The MathWorks"
 
