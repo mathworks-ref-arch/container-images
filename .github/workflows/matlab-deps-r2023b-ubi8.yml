@@ -1,6 +1,6 @@
 # Copyright 2023 The MathWorks, Inc.
-# Build & Publish matlab-deps/r2022b/aws-batch
-name: matlab-deps-r2022b-aws-batch
+# Build & Publish matlab-deps/r2023b/ubi8
+name: matlab-deps-r2023b-ubi8
 
 # Define when builds will occur:
 on:
@@ -9,7 +9,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'matlab-deps/r2022b/aws-batch/**'
+      - 'matlab-deps/r2023b/ubi8/**'
 
   # Run at 00:00 on every Monday (1st Day of the Week) (See: crontab.guru)
   schedule:
@@ -22,9 +22,9 @@ jobs:
     uses: ./.github/workflows/build-and-publish-docker-image.yml
     secrets: inherit
     with:
-        docker_build_context: './matlab-deps/r2022b/aws-batch'
+        docker_build_context: './matlab-deps/r2023b/ubi8'
         base_image_name: mathworks/matlab-deps
-        matlab_release_tag: 'r2022b'
-        os_info_tag: 'aws-batch'
+        matlab_release_tag: 'r2023b'
+        os_info_tag: 'ubi8'
         is_default_os: false
         should_add_latest_tag: false

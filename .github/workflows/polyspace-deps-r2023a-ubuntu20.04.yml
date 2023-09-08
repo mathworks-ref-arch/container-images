@@ -1,3 +1,4 @@
+# Copyright 2023 The MathWorks, Inc.
 # Build & Publish polyspace-deps/r2023a/ubuntu20.04
 name: polyspace-deps-r2023a-ubuntu20.04
 
@@ -26,4 +27,4 @@ jobs:
         matlab_release_tag: 'r2023a'
         os_info_tag: 'ubuntu20.04'
         is_default_os: true
-        should_add_latest_tag: true
+        should_add_latest_tag: false
