@@ -1,0 +1,153 @@
+# Copyright 2023 The MathWorks, Inc.
+
+name: Build and Publish Extra UBI Packages for Hardening
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ubi-hardening-extras/**'
+      - "!ubi-hardening-extras/**.md"
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  BASE_IMAGE: almalinux-base
+
+jobs:
+  build-base-image:
+    runs-on: ubuntu-latest
+
+    # This job builds the base image and uploads it to the artifacts.
+    # The following jobs all build from this base image.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build base image and save as tar archive
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ubi-hardening-extras/${{ env.BASE_IMAGE }}
+          tags: ${{ env.BASE_IMAGE }}:latest
+          outputs: type=docker,dest=/tmp/${{ env.BASE_IMAGE }}.tar
+
+      - name: Upload base image archive to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BASE_IMAGE }}
+          path: /tmp/${{ env.BASE_IMAGE }}.tar
+          retention-days: 1
+
+
+  build-and-publish-ubi-hardening-extras:
+    runs-on: ubuntu-latest
+
+    needs: build-base-image
+
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        package: [icewm, novnc, tigervnc, xterm]
+
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository }}/ubi-hardening-extras/${{ matrix.package }}
+      RED: \033[0;31m
+      GREEN: \033[0;32m
+      ORANGE: \033[0;33m
+      NC: \033[0m
+
+    # This job builds the Docker image for a specific UBI package.
+    # It then checks if the package is different from the last version published.
+    # Finally, it updates GHCR if the package was updated.
+    # This runs for all packages in the matrix.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download base image archive from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.BASE_IMAGE }}
+          path: /tmp
+
+      - name: Load base image from tar archive
+        run: |
+          docker load --input /tmp/${{ env.BASE_IMAGE }}.tar
+          docker image ls -a
+
+      # Build the package Docker image locally to retrieve the new signature.
+      # We will only push to GHCR if the new package SHA-256 is different from the latest one.
+      - name: Build new UBI package Docker image locally
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ubi-hardening-extras/${{ matrix.package }}
+          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          outputs: type=local,dest=/tmp/new/
+          push: false
+
+      - name: Login to GitHub Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Try to retrieve the latest package pushed to GHCR. 
+      # This will error when running this action for the first time.
+      - name: Pull latest UBI package Docker image from ghcr
+        id: pull_latest
+        continue-on-error: true
+        run: |
+          docker pull ${{ env.IMAGE_NAME }}:latest
+
+      - name: Extract signature and version from latest Docker image
+        id: extract
+        run: |
+          # Extract signature and version files from latest docker image if pull was succesful.
+          if [[ ${{ steps.pull_latest.outcome }} == 'success' ]]; then
+            VERSION=$(bash ./ubi-hardening-extras/workflow/extract_metadata.sh ${{ env.IMAGE_NAME }}:latest)
+            echo -e "${{ env.GREEN }}>> Found ${{ env.IMAGE_NAME }} version ${VERSION}.${{ env.NC }}"
+            NEXT_VERSION=$(bash ./ubi-hardening-extras/workflow/increment_version.sh ${VERSION})
+
+          else
+            echo -e "${{ env.RED }}>> Image ${{ env.IMAGE_NAME }} does not exist.${{ env.NC }}"
+            NEXT_VERSION="v1.0"
+
+          fi
+          echo "next_version=${NEXT_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Check latest signature against new signature
+        id: check
+        run: |
+          # Compare the SHA-256 signature of the latest published package versus the new build
+          STATUS=$(cmp --silent /tmp/latest/*.sha256 /tmp/new/*.sha256; echo $?)
+          if [[ "${STATUS}" == '0' ]]; then
+            echo -e "${{ env.GREEN }}>> ${{ matrix.package }} has not changed, nothing to do.${{ env.NC }}"
+          else
+            echo -e "${{ env.ORANGE }}>> ${{ matrix.package }} has changed, updating the artifacts.${{ env.NC }}"
+          fi
+          echo "is_identical=${STATUS}" >> $GITHUB_OUTPUT
+
+      # Rebuild the same package Docker image from step "Build new UBI package Docker image locally"
+      # this time storing the new version number and pushing to GHCR (since we now know if something has changed). 
+      # The build relies on the docker build cache to simply update the version and push.
+      - name: Build and push to GitHub Container Registry if package has changed
+        uses: docker/build-push-action@v5
+        if: ${{ steps.check.outputs.is_identical != '0' }}
+        with:
+          context: ./ubi-hardening-extras/${{ matrix.package }}
+          build-args: |
+            BASE_IMAGE=${{ env.BASE_IMAGE }}
+            VERSION=${{ steps.extract.outputs.next_version }}
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ steps.extract.outputs.next_version }}
+          push: true
