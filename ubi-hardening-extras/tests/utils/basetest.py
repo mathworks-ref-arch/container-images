@@ -11,7 +11,7 @@ class TestCase(unittest.TestCase):
     """Base test class"""
 
     # default parameters (can be overridden in derived test classes)
-    buildargs = {"IMAGE_UNDER_TEST": os.getenv("IMAGE_NAME")}
+    buildargs = {"IMAGE_UNDER_TEST": os.getenv("IMAGE_UNDER_TEST")}
     dockerfile = "Dockerfile"
 
     @classmethod
