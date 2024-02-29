@@ -1,5 +1,12 @@
 # Polyspace Dependencies
 
+> :warning: **Starting in R2024a, the `polyspace-deps` repository will no longer receive updates or support.**
+>
+> To streamline the container workflows for Polyspace products, the libraries and other dependencies required to run Polyspace products in containers are now included in the `Dockerfile` of the corresponding products. To continue using Polyspace products in Docker containers, see:
+>
+>* [Polyspace Bug Finder and Code Prover Server](https://github.com/mathworks-ref-arch/polyspace-bug-finder-server-dockerfile)
+>* [Polyspace Test](https://github.com/mathworks-ref-arch/polyspace-test-dockerfile)
+
 This repository includes the libraries and other dependencies required to run the Polyspace Bug Finder&trade; Server&trade; and Polyspace Code Prover&trade; Server&trade; MathWorks&reg; products. These dependencies are installed during the build of a Polyspace Bug Finder/Code Prover Server container image.
 
 To build and run a Polyspace Bug Finder Server and Polyspace Code Prover Server container, follow [these instructions](https://github.com/mathworks-ref-arch/polyspace-bug-finder-server-dockerfile) .
@@ -26,6 +33,6 @@ If you require assistance or have a request for additional features or capabilit
 
 ----
 
-Copyright 2022-2023 The MathWorks, Inc.
+Copyright 2022-2024 The MathWorks, Inc.
 
 ----

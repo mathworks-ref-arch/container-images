@@ -27,4 +27,4 @@ jobs:
         matlab_release_tag: 'r2023b'
         os_info_tag: 'ubuntu22.04'
         is_default_os: true
-        should_add_latest_tag: true
+        should_add_latest_tag: false

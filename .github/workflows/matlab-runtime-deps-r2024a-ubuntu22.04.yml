@@ -1,6 +1,6 @@
-# Copyright 2023 The MathWorks, Inc.
-# Build & Publish matlab-runtime-deps/r2023b/ubuntu22.04
-name: matlab-runtime-deps-r2023b-ubuntu22.04
+# Copyright 2024 The MathWorks, Inc.
+# Build & Publish matlab-runtime-deps/r2024a/ubuntu22.04
+name: matlab-runtime-deps-r2024a-ubuntu22.04
 
 # Define when builds will occur:
 on:
@@ -9,7 +9,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'matlab-runtime-deps/r2023b/ubuntu22.04/**'
+      - 'matlab-runtime-deps/r2024a/ubuntu22.04/**'
 
   # Run at 00:00 on every Monday (1st Day of the Week) (See: crontab.guru)
   schedule:
@@ -22,9 +22,9 @@ jobs:
     uses: ./.github/workflows/build-and-publish-docker-image.yml
     secrets: inherit
     with:
-        docker_build_context: './matlab-runtime-deps/r2023b/ubuntu22.04'
+        docker_build_context: './matlab-runtime-deps/r2024a/ubuntu22.04'
         base_image_name: mathworks/matlab-runtime-deps
-        matlab_release_tag: 'r2023b'
+        matlab_release_tag: 'r2024a'
         os_info_tag: 'ubuntu22.04'
         is_default_os: true
-        should_add_latest_tag: false
+        should_add_latest_tag: true
