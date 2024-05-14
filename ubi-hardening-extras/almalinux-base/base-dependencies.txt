@@ -26,6 +26,6 @@ at-spi2-atk
 mesa-libgbm
 at-spi2-core
 wget
-python2
+python3
 initscripts
 java-1.8.0-openjdk

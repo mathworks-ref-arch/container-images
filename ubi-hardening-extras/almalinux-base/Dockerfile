@@ -1,6 +1,6 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2024 The MathWorks, Inc.
 ARG BASE_IMAGE=almalinux
-ARG BASE_TAG=8.9
+ARG BASE_TAG=9.3
 
 FROM ${BASE_IMAGE}:${BASE_TAG}
 

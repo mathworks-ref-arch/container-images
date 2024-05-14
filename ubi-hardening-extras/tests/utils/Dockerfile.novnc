@@ -1,8 +1,8 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2024 The MathWorks, Inc.
 
 ARG BASE_REGISTRY=redhat
-ARG BASE_IMAGE=ubi8
-ARG BASE_TAG=8.9
+ARG BASE_IMAGE=ubi9
+ARG BASE_TAG=9.3
 ARG IMAGE_UNDER_TEST=novnc
 
 FROM ${IMAGE_UNDER_TEST} AS image-under-test

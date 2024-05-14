@@ -1,4 +1,4 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2024 The MathWorks, Inc.
 
 name: Build and Publish Extra UBI Packages for Hardening
 
@@ -15,7 +15,7 @@ on:
 
 env:
   BASE_IMAGE: almalinux-base
-  OS_TAG: ubi8.9
+  OS_TAG: ubi9.3
 
 jobs:
   build-base-image:
@@ -38,7 +38,7 @@ jobs:
           outputs: type=docker,dest=/tmp/${{ env.BASE_IMAGE }}.tar
 
       - name: Upload base image archive to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BASE_IMAGE }}
           path: /tmp/${{ env.BASE_IMAGE }}.tar
@@ -74,7 +74,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download base image archive from artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.BASE_IMAGE }}
           path: /tmp
@@ -95,7 +95,7 @@ jobs:
           push: false
 
       - name: Login to GitHub Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -152,7 +152,7 @@ jobs:
 
       - name: Set up Python 3
         if: ${{ steps.check.outputs.is_identical != '0' }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
