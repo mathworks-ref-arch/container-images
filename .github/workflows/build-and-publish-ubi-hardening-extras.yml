@@ -15,7 +15,7 @@ on:
 
 env:
   BASE_IMAGE: almalinux-base
-  OS_TAG: ubi9.3
+  OS_TAG: ubi9.4
 
 jobs:
   build-base-image:
