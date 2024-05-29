@@ -7,7 +7,7 @@ import unittest
 import utils
 
 
-IMAGE_NAME = os.getenv('IMAGE_NAME')
+IMAGE_NAME = os.getenv("IMAGE_NAME")
 
 
 class TestNLMImage(unittest.TestCase):

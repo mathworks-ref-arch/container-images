@@ -1,4 +1,4 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2024 The MathWorks, Inc.
 
-docker>=6.1.2
-pytest-testinfra>=9.0
+docker
+pytest-testinfra

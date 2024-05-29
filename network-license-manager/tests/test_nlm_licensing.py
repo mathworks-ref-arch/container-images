@@ -10,14 +10,14 @@ import utils
 import tempfile
 
 
-HOSTNAME = os.getenv('HOSTNAME')
-PORT = os.getenv('PORT')
-MATLAB_RELEASE = os.getenv('MATLAB_RELEASE')
-IMAGE_NAME = os.getenv('IMAGE_NAME')
+HOSTNAME = os.getenv("HOSTNAME")
+PORT = os.getenv("PORT")
+MATLAB_RELEASE = os.getenv("MATLAB_RELEASE")
+IMAGE_NAME = os.getenv("IMAGE_NAME")
 LICENSE_FILE_DIR = str(pathlib.Path(os.getenv("LICENSE_FILE_PATH")).parent)
 
 
-MATLAB_IMAGE = 'mathworks/matlab'
+MATLAB_IMAGE = "mathworks/matlab"
 
 
 class TestNLMLicensing(unittest.TestCase):
@@ -25,7 +25,6 @@ class TestNLMLicensing(unittest.TestCase):
     Test class to test the expected user workflow:
     run the network license manager docker image and use it to license matlab
     """
-
 
     @classmethod
     def setUpClass(cls):
@@ -39,7 +38,6 @@ class TestNLMLicensing(unittest.TestCase):
             type="bind",
         )
 
-
     def setUp(self):
         logdir = tempfile.mkdtemp()
         self.logs_mount = docker.types.Mount(
@@ -51,13 +49,12 @@ class TestNLMLicensing(unittest.TestCase):
         self.logfilepath = pathlib.Path(self.logs_mount["Source"]) / logfilename
         self.addCleanup(lambda: self.logfilepath.unlink(missing_ok=True))
 
-
     def test_license_manager_is_running(self):
         """
         Test that FlexNet Licensing is started when the container is run
         and that the docker log is copied to the log file
         """
-       nlm = self.client.containers.run(
+        nlm = self.client.containers.run(
             image=IMAGE_NAME,
             init=True,
             mounts=[self.license_mount, self.logs_mount],
@@ -85,35 +82,32 @@ class TestNLMLicensing(unittest.TestCase):
             )
         self.assertEqual(stat.filemode(self.logfilepath.stat().st_mode), "-rw-rw-rw-")
 
-
     def test_license_manager_shutdown(self):
         """
         Test that FlexLM is shutdown when the container is stopped
         """
-       nlm = self.client.containers.run(
+        nlm = self.client.containers.run(
             image=IMAGE_NAME,
             init=True,
             mounts=[self.license_mount, self.logs_mount],
             hostname=HOSTNAME,
             detach=True,
         )
-        self.addCleanup(lambda: nlm.remove(force=True))
+        self.addCleanup(lambda: nlm.remove())
         utils.wait_for_logs(nlm, r"\(MLM\) Listener Thread: running")
 
         # Stop the container now NLM is running
         nlm.stop()
-        self.addCleanup(lambda: nlm.remove())
 
         # Check FlexLM started and stopped
         nlm_logs = nlm.logs().decode()
+
         self.assertRegex(
             nlm_logs, r"\(lmgrd\) FlexNet Licensing \(.*\) started on " + HOSTNAME
         )
 
         # Check LMGRD shutdown and shutdown occurred only once
-        self.assertEqual(
-            nlm_logs.count("Shutdown LMGRD"), 1
-        )
+        self.assertEqual(nlm_logs.count("License Manager has shut down."), 1)
 
         self.assertTrue(self.logfilepath.is_file)
         with open(str(self.logfilepath), "r") as logfile:
@@ -122,7 +116,6 @@ class TestNLMLicensing(unittest.TestCase):
                 logfile.read(),
                 "The docker logs and the log file are not the same",
             )
-
 
     def test_nlm_can_license_matlab(self):
         """
@@ -142,7 +135,7 @@ class TestNLMLicensing(unittest.TestCase):
 
         output = self.client.containers.run(
             image=f"{MATLAB_IMAGE}:{MATLAB_RELEASE}",
-            environment={"MLM_LICENSE_FILE":  f"{PORT}@{HOSTNAME}"},
+            environment={"MLM_LICENSE_FILE": f"{PORT}@{HOSTNAME}"},
             network_mode=f"container:{nlm.id}",
             command="-batch pi",
             auto_remove=True,
@@ -151,7 +144,6 @@ class TestNLMLicensing(unittest.TestCase):
         self.assertIn(pi_value, output.decode(), output.decode())
         self.assertIn(f'(MLM) OUT: "MATLAB" matlab@{HOSTNAME}', nlm.logs().decode())
         self.assertIn(f'(MLM) IN: "MATLAB" matlab@{HOSTNAME}', nlm.logs().decode())
-
 
     def test_no_license(self):
         """
