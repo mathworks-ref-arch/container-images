@@ -15,7 +15,7 @@ Download this container image either by cloning or downloading this repository f
 and navigate to the `network-license-manager` folder.
 ```bash
 git clone https://github.com/mathworks-ref-arch/container-images.git
-cd network-license-manager
+cd container-images/network-license-manager
 ```
 
 ### Provide License File
