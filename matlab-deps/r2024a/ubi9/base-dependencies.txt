@@ -1,7 +1,6 @@
 alsa-lib.x86_64
 cairo.x86_64
 cairo-gobject.x86_64
-compat-openssl11.x86_64
 cups-libs.x86_64
 fontconfig.x86_64
 gdk-pixbuf2.x86_64

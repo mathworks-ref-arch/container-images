@@ -23,7 +23,6 @@ libpango-1.0-0
 libpangocairo-1.0-0
 libpangoft2-1.0-0
 libsndfile1
-libssl1.1
 libudev1
 libuuid1
 libwayland-client0

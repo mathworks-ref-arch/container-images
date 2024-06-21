@@ -33,7 +33,6 @@ net-tools.x86_64
 nspr.x86_64
 nss.x86_64
 nss-util.x86_64
-openssl-libs.x86_64
 pam.x86_64
 pango.x86_64
 procps-ng.x86_64
