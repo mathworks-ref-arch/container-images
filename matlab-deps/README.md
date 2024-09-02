@@ -8,7 +8,12 @@ This container includes the dependencies required to run MATLAB®, Simulink®, a
 
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |----------- | ----------- |
-|[`latest`, `r2024a`, `r2024a-ubuntu22.04`, `R2024a`, `R2024a-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubuntu22.04/Dockerfile) | R2024a | Ubuntu 22.04 | ubuntu:22.04 | |
+|[`latest`, `r2024b`, `r2024b-ubuntu22.04`, `R2024b`, `R2024b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubuntu22.04/Dockerfile) | R2024b | Ubuntu 22.04 | ubuntu:22.04 | |
+|[`r2024b-ubuntu20.04`, `R2024b-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubuntu20.04/Dockerfile) | R2024b | Ubuntu 20.04 | ubuntu:20.04 | |
+|[`r2024b-ubi9`, `R2024b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubi9/Dockerfile) | R2024b | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
+|[`r2024b-ubi8`, `R2024b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubi8/Dockerfile) | R2024b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
+|[`r2024b-aws-batch`, `R2024b-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/aws-batch/Dockerfile) | R2024b | Ubuntu 22.04 | nvidia/cuda:12.2.2-base-ubuntu22.04 | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
+|[`r2024a`, `r2024a-ubuntu22.04`, `R2024a`, `R2024a-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubuntu22.04/Dockerfile) | R2024a | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2024a-ubuntu20.04`, `R2024a-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubuntu20.04/Dockerfile) | R2024a | Ubuntu 20.04 | ubuntu:20.04 | |
 |[`r2024a-ubi9`, `R2024a-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubi9/Dockerfile) | R2024a | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
 |[`r2024a-ubi8`, `R2024a-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubi8/Dockerfile) | R2024a | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
