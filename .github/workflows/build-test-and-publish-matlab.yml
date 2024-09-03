@@ -23,7 +23,7 @@ on:
 
 jobs:
   test-shell-scripts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
 
     steps:
       - name: Checkout repo
