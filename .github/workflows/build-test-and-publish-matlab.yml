@@ -1,0 +1,98 @@
+# Copyright 2024 The MathWorks, Inc.
+
+# This file builds, tests & publishes the mathworks/matlab and mathworks/matlab-deep-learning Docker Images to DockerHub.
+# Both images are built during a single job to optimise caching and final storage size for the images.
+
+name: Build, Test and Publish MATLAB images
+
+on:
+  workflow_dispatch:
+
+  # Runs at 02:00 every Monday
+  schedule:
+    - cron: "0 2 * * 1"
+
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/build-test-and-publish-matlab.yml"
+      - ".github/actions/build-test-and-publish-matlab/action.yml"
+      - "matlab/*"
+      - "tests/matlab/*"
+      - "!matlab/*.md"
+
+jobs:
+  test-shell-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run shell script unit tests
+        working-directory: tests/matlab
+        run: ./run-bats-test.sh
+
+  build-test-push-matlab:
+    needs: test-shell-scripts
+    strategy:
+      fail-fast: false
+      matrix:
+        matlab_release: [R2024a, R2023b, R2023a]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # GitHub runners come preinstalled with a lot of software that
+      # is not needed for this workflow. To increase available space
+      # these packages are removed.
+      # https://github.com/actions/runner-images/issues/2840
+      - name: Cleanup
+        run: |
+          sudo rm -rf \
+            "$AGENT_TOOLSDIRECTORY" \
+            /opt/google/chrome \
+            /opt/microsoft/msedge \
+            /opt/microsoft/powershell \
+            /opt/pipx \
+            /usr/lib/mono \
+            /usr/local/julia* \
+            /usr/local/lib/android \
+            /usr/local/lib/node_modules \
+            /usr/local/share/chromium \
+            /usr/local/share/powershell \
+            /usr/share/dotnet \
+            /usr/share/swift
+          df -h /
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build, Test, and Publish MATLAB
+        id: build-test-and-publish-matlab-to-dockerhub
+        uses: ./.github/actions/build-test-and-publish-matlab
+        with:
+          variant: matlab
+          matlab_release: ${{ matrix.matlab_release }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024A }}
+          base_image_name: "mathworks/matlab"
+
+      - name: Build, Test, and Publish MATLAB Deep Learning
+        # Run this step even if the previous step failed
+        if: success() || steps.build-test-and-publish-matlab-to-dockerhub.outcome == 'failure'
+        uses: ./.github/actions/build-test-and-publish-matlab
+        with:
+          variant: matlab-deep-learning
+          matlab_release: ${{ matrix.matlab_release }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024A }}
+          base_image_name: "mathworks/matlab-deep-learning"
+
+      - name: Fail job if any tests failed
+        if: steps.build-test-and-publish-matlab-to-dockerhub.outcome == 'failure'
+        run: exit 1

@@ -8,11 +8,11 @@ LICENSE_FILE="/usr/local/MATLAB/licenses/license.dat"
 lmgrdPID="" # lmgrdPID will store the lmgrd PID once started
 
 echo_and_log() {
-    echo "$1" | tee -a "$LOG_FILE"
+    echo "$1" | tee -a "${LOG_FILE}"
 }
 
 shutdown_run=0
-_term () {
+_term() {
     if [[ $shutdown_run -eq 0 ]]; then
         shutdown_run=1
     else
@@ -30,7 +30,7 @@ _term () {
             echo_and_log "License Manager has shut down."
         fi
         # Propagate shutdown exit code in case of errors
-        exit $shutdown_status 
+        exit $shutdown_status
     fi
 }
 
@@ -42,4 +42,4 @@ chown lmgr $LOG_FILE
 chmod 666 $LOG_FILE
 runuser -u lmgr -- /nlm/etc/glnxa64/lmgrd -z -2 -p -local -c $LICENSE_FILE | tee -a $LOG_FILE &
 lmgrdPID=$!
-wait "$lmgrdPID"
+wait "${lmgrdPID}"

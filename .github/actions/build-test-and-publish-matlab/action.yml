@@ -1,0 +1,78 @@
+# Copyright 2024 The MathWorks, Inc.
+
+# This file tests & publishes the Docker Images to DockerHub.
+
+name: Test and Publish MATLAB Image
+
+inputs:
+  variant:
+    required: true
+  matlab_release:
+    required: true
+  matlab_license_file:
+    required: true
+  base_image_name:
+    required: true
+  test_dir:
+    required: false
+    default: "./tests/matlab"
+  license_file_path:
+    required: false
+    default: "${{ github.workspace }}/tests/licenses/license.dat"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build image
+      uses: docker/bake-action@v5
+      with:
+        workdir: matlab
+        files: |
+          ./docker-bake.hcl
+          ./release-config/${{ matrix.matlab_release }}.env.hcl
+        targets: ${{ inputs.variant }}
+        set: |
+          *.cache-from=type=local,src=/tmp/.buildx-cache
+          *.cache-to=type=local,mode=max,dest=/tmp/.buildx-cache
+        load: true
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install test dependencies
+      shell: bash
+      working-directory: ${{ inputs.test_dir }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Generate license file
+      shell: bash
+      working-directory: tests/tools
+      env:
+        LICENSE_FILE_PATH: ${{ inputs.license_file_path }}
+        MATLAB_LICENSE_FILE: ${{ inputs.matlab_license_file }}
+      run: |
+        ./gen_license_file.sh
+
+    - name: Test container
+      shell: bash
+      env:
+        IMAGE_NAME: "${{ inputs.base_image_name }}:${{ inputs.matlab_release }}"
+        LICENSE_FILE_PATH: ${{ inputs.license_file_path }}
+      working-directory: ${{ inputs.test_dir }}
+      run: |
+        python -m unittest "test_${{ inputs.variant }}.py"
+
+    - name: Publish images
+      shell: bash
+      run: |
+        docker push --all-tags ${{ inputs.base_image_name }}

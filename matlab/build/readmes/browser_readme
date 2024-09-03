@@ -1,0 +1,30 @@
+Welcome to the MATLAB Container
+
+This container includes commercial software products of The MathWorks,
+Inc. ("MathWorks Programs") and related materials. MathWorks Programs are
+licensed under the MathWorks Software License Agreement, available in the
+MATLAB installation in this container. Related materials in this
+container are licensed under separate licenses which can be found in
+their respective folders.
+
+Use the -help flag to learn more about the usage of this container:
+
+    docker run mathworks/matlab:{{MATLAB_RELEASE}} -help
+
+To access MATLAB running in the container via web browser, make sure you have exposed port 8888.
+To get started:
+
+    Point a browser to port 8888 of the docker host machine running
+    this container
+
+    http://hostname:8888/index.html
+
+If want to launch MATLAB on a different base url, you need to set MWI_BASE_URL environment variable. 
+`MWI_BASE_URL`: Default value is '/'. The url at which MATLAB will be accessible at. 
+                Must start with '/'. If set to "/matlab", the url to access MATLAB would be:
+                `http://hostname:8888/matlab/index.html`
+
+For a complete list of environment variables, check the link below:
+https://github.com/mathworks/matlab-proxy/blob/main/Advanced-Usage.md
+
+If you require assistance or have a request for additional features or capabilities, please contact MathWorks Technical Support: https://www.mathworks.com/support/contact_us.html

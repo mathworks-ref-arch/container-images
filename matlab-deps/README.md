@@ -2,7 +2,7 @@
 
 This container includes the dependencies required to run MATLAB®, Simulink®, and other MathWorks products.
 
-**Note: This container does not include MATLAB.  To build a MATLAB container, follow [these instructions](https://github.com/mathworks-ref-arch/matlab-dockerfile).**
+**Note: This container does not include MATLAB.  To use a prebuild MATLAB container image, see the [MATLAB Container Image](https://hub.docker.com/r/mathworks/matlab) on Docker Hub. To build your own MATLAB container image, follow [these instructions](https://github.com/mathworks-ref-arch/matlab-dockerfile).**
 
 ## Supported Tags
 

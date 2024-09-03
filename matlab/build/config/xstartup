@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Copyright 2021-2024 The MathWorks, Inc.
+
+xhost +
+
+# SESSION_MANAGER is inherited from the environment and some window
+# managers require that it be cleared.
+# http://osdir.com/ml/gnome.ximian.snapshots/2002-09/msg00034.html
+unset SESSION_MANAGER
+
+# Startup scripts, e.g. /etc/xdg/xfce4/xinitrc require
+# http://en.wikipedia.org/wiki/D-Bus to run correctly.
+unset DBUS_SESSION_BUS_ADDRESS
+
+# Set VNCSESSION to tell /etc/xdg/xfce4/xinitrc to not run xscreensaver
+# http://vstone.eu/2009/04/disabling-xscreensaver-when-using-xfce-vnc/
+export VNCSESSION=yes
+
+startxfce4 &
+
+# Make sure that copy / paste are correctly forwarded to the VNC viewer
+vncconfig -nowin

@@ -1,0 +1,5 @@
+__pycache__
+logs/*
+licenses/*
+**/license.dat
+tmp/**

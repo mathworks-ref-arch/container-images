@@ -1,0 +1,12 @@
+# Copyright 2021-2024 The MathWorks, Inc.
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MATLAB {{MATLAB_RELEASE}}
+Comment=
+Exec=/usr/bin/bash -ic 'matlab -desktop'
+Icon=/opt/matlab/{{MATLAB_RELEASE}}/bin/glnxa64/cef_resources/matlab_icon.png
+Path=
+Terminal=false
+StartupNotify=false
+Path=/home/matlab/Documents/MATLAB

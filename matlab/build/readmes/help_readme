@@ -1,0 +1,22 @@
+Welcome to the MATLAB Container
+
+This help page documents the different flags and environment variables that you can use when starting the container.
+
+Options:
+    -help               Show this screen.
+    -vnc                Start the VNC server process for MATLAB desktop.
+    -browser            Start MATLAB desktop to access it in a browser.
+    -shell              Start a shell in the container.
+    -batch <command>    Start MATLAB in batch mode on container startup, and run the specified command. Requires MLM_LICENSE_FILE to be set.
+
+Environment variables:
+    General:
+        MLM_LICENSE_FILE    Use to license MATLAB; specify either a mounted license file or a license server of the form port@hostname.
+        PROXY_SETTINGS      Use a proxy server to connect to the MathWorks licensing servers.
+        PASSWORD            Change the password used to access the MATLAB desktop.
+
+    If -browser flag is used to launch the container:
+        MWI_BASE_URL        Will set the base url on which MATLAB will be accessible on.
+
+Find detailed documentation for this container at the link below:
+https://hub.docker.com/r/mathworks/matlab

@@ -1,14 +1,14 @@
 # Copyright 2024 The MathWorks, Inc.
 
 import os
-import docker
 import pathlib
-import requests
 import stat
-import unittest
-import utils
 import tempfile
+import unittest
 
+import docker
+import requests
+import utils
 
 HOSTNAME = os.getenv("HOSTNAME")
 PORT = os.getenv("PORT")
@@ -120,7 +120,7 @@ class TestNLMLicensing(unittest.TestCase):
     def test_nlm_can_license_matlab(self):
         """
         Test that the network license manager Docker container can be used to license
-        a matlab docker container
+        a MATLAB docker container
         """
         pi_value = "3.1416"
         nlm = self.client.containers.run(

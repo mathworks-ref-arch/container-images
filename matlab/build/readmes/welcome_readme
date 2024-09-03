@@ -1,0 +1,14 @@
+Welcome to the MATLAB Container
+
+This container includes commercial software products of The MathWorks,
+Inc. ("MathWorks Programs") and related materials. MathWorks Programs are
+licensed under the MathWorks Software License Agreement, available in the
+MATLAB installation in this container. Related materials in this
+container are licensed under separate licenses which can be found in
+their respective folders.
+
+Use the -help flag to learn more about the usage of this container:
+
+    docker run mathworks/matlab:{{MATLAB_RELEASE}} -help
+
+If you require assistance or have a request for additional features or capabilities, please contact MathWorks Technical Support: https://www.mathworks.com/support/contact_us.html
