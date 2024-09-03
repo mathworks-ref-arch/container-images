@@ -23,7 +23,7 @@ on:
 
 jobs:
   test-shell-scripts:
-    runs-on: ubuntu-latest-m
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
@@ -40,7 +40,7 @@ jobs:
       matrix:
         matlab_release: [R2024a, R2023b, R2023a]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
 
     steps:
       - name: Checkout repo
