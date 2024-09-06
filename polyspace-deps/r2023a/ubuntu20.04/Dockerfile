@@ -1,7 +1,7 @@
 # Copyright 2023 The MathWorks, Inc.
 FROM ubuntu:20.04
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 

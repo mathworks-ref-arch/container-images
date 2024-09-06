@@ -4,7 +4,7 @@ ARG BASE_TAG=9.4
 
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 ARG LOCATION_ROOT=/tmp
 

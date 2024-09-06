@@ -2,7 +2,7 @@
 
 FROM nvidia/cuda:12.2.2-base-ubuntu22.04
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 

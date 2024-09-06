@@ -1,7 +1,7 @@
 # Copyright 2022 The MathWorks, Inc.
 FROM registry.access.redhat.com/ubi8/ubi:latest
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 ENV TZ="Etc/UTC"
 

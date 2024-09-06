@@ -5,7 +5,7 @@ FROM ${BASE_IMAGE} as base
 
 FROM scratch AS extract-stage
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 COPY --from=base /*.sha256 /
 COPY --from=base /*.version /

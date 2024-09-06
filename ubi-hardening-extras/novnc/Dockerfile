@@ -24,7 +24,7 @@ RUN echo "${VERSION}" > ${LOCATION}.version
 FROM scratch AS export-stage
 ARG LOCATION_ROOT
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 COPY --from=rpm-install ${LOCATION_ROOT}/*.gz /
 COPY --from=rpm-install ${LOCATION_ROOT}/*.sha256 /
