@@ -6,7 +6,7 @@ RUN yum update --disableplugin=subscription-manager -y \
     && yum --disableplugin=subscription-manager clean all -y
 
 # Get license manager directly from the mathworks website
-ARG MATLAB_RELEASE=R2024a
+ARG MATLAB_RELEASE=R2024b
 RUN cd /tmp && \
     curl https://ssd.mathworks.com/supportfiles/downloads/${MATLAB_RELEASE}/license_manager/${MATLAB_RELEASE}/daemons/glnxa64/mathworks_network_license_manager_glnxa64.zip --output mathworks_network_license_manager_glnxa64.zip && \
     unzip mathworks_network_license_manager_glnxa64.zip -d /nlm/ && \
