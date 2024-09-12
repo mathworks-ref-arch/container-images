@@ -3,7 +3,7 @@
 # General Configuration variables
 
 variable "LATEST_RELEASE" {
-  default = "R2024a"
+  default = "R2024b"
 }
 
 variable "MATLAB_RELEASE" {

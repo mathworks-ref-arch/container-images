@@ -19,7 +19,6 @@ on:
       - ".github/actions/build-test-and-publish-matlab/action.yml"
       - "matlab/*"
       - "tests/matlab/*"
-      - "!matlab/*.md"
 
 jobs:
   test-shell-scripts:
@@ -38,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        matlab_release: [R2024a, R2023b, R2023a]
+        matlab_release: [R2024b, R2024a, R2023b, R2023a]
 
     runs-on: ubuntu-latest-m
 
@@ -80,7 +79,7 @@ jobs:
         with:
           variant: matlab
           matlab_release: ${{ matrix.matlab_release }}
-          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024A }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
           base_image_name: "mathworks/matlab"
 
       - name: Build, Test, and Publish MATLAB Deep Learning
@@ -90,7 +89,7 @@ jobs:
         with:
           variant: matlab-deep-learning
           matlab_release: ${{ matrix.matlab_release }}
-          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024A }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
           base_image_name: "mathworks/matlab-deep-learning"
 
       - name: Fail job if any tests failed

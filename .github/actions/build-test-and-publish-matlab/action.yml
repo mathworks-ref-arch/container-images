@@ -21,7 +21,7 @@ inputs:
     default: "${{ github.workspace }}/tests/licenses/license.dat"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Checkout repo
       uses: actions/checkout@v4
