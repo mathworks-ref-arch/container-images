@@ -15,7 +15,6 @@ on:
 
 env:
   BASE_IMAGE: almalinux-base
-  OS_TAG: ubi9.4
 
 jobs:
   build-base-image:
@@ -55,8 +54,13 @@ jobs:
       packages: write
 
     strategy:
+      fail-fast: false
       matrix:
         package: [icewm, novnc, tigervnc, xterm]
+        tag: [ubi9.4]
+        include:
+          - package: matlab
+            tag: R2024b
 
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository }}/ubi-hardening-extras/${{ matrix.package }}
@@ -84,6 +88,10 @@ jobs:
           docker load --input /tmp/${{ env.BASE_IMAGE }}.tar
           docker image ls -a
 
+      - name: Make image save location
+        run: |
+          mkdir -p /tmp/new
+
       # Build the package Docker image locally to retrieve the new signature.
       # We will only push to GHCR if the new package SHA-256 is different from the latest one.
       - name: Build new UBI package Docker image to file system
@@ -91,7 +99,7 @@ jobs:
         with:
           context: ./ubi-hardening-extras/${{ matrix.package }}
           build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
-          outputs: type=local,dest=/tmp/new/
+          outputs: type=tar,dest=/tmp/new/${{ matrix.package }}.tar
           push: false
 
       - name: Login to GitHub Container registry
@@ -107,14 +115,14 @@ jobs:
         id: pull_latest
         continue-on-error: true
         run: |
-          docker pull ${{ env.IMAGE_NAME }}:${{ env.OS_TAG }}
+          docker pull ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
 
       - name: Extract signature and version from latest Docker image
         id: extract
         run: |
           # Extract signature and version files from latest docker image if pull was succesful.
           if [[ ${{ steps.pull_latest.outcome }} == 'success' ]]; then
-            VERSION=$(bash ./ubi-hardening-extras/workflow/extract_metadata.sh ${{ env.IMAGE_NAME }}:${{ env.OS_TAG }})
+            VERSION=$(bash ./ubi-hardening-extras/workflow/extract_metadata.sh ${{ env.IMAGE_NAME }}:${{ matrix.tag }})
             echo -e "${{ env.GREEN }}>> Found ${{ env.IMAGE_NAME }} version ${VERSION}.${{ env.NC }}"
             NEXT_VERSION=$(bash ./ubi-hardening-extras/workflow/increment_version.sh ${VERSION})
           else
@@ -127,7 +135,8 @@ jobs:
         id: check
         run: |
           # Compare the SHA-256 signature of the latest published package versus the new build
-          STATUS=$(cmp --silent /tmp/latest/*.sha256 /tmp/new/*.sha256; echo $?)
+          (cd /tmp/new && mkdir image-layers && tar -xf ${{ matrix.package }}.tar -C image-layers)
+          STATUS=$(cmp --silent /tmp/latest/*.sha256 /tmp/new/image-layers/*.sha256; echo $?)
           if [[ "${STATUS}" == '0' ]]; then
             echo -e "${{ env.GREEN }}>> ${{ matrix.package }} has not changed, nothing to do.${{ env.NC }}"
           else
@@ -147,8 +156,8 @@ jobs:
             BASE_IMAGE=${{ env.BASE_IMAGE }}
             VERSION=${{ steps.extract.outputs.next_version }}
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ env.OS_TAG }}
-            ${{ env.IMAGE_NAME }}:${{ steps.extract.outputs.next_version }}-${{ env.OS_TAG }}
+            ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
+            ${{ env.IMAGE_NAME }}:${{ steps.extract.outputs.next_version }}-${{ matrix.tag }}
 
       - name: Set up Python 3
         if: ${{ steps.check.outputs.is_identical != '0' }}
@@ -167,7 +176,7 @@ jobs:
         if: ${{ steps.check.outputs.is_identical != '0' }}
         working-directory: ubi-hardening-extras/tests
         env:
-          IMAGE_UNDER_TEST: ${{ env.IMAGE_NAME }}:${{ env.OS_TAG }}
+          IMAGE_UNDER_TEST: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
         run: python -m unittest ${{ matrix.package }}/*.py
 
       # Push the package Docker image built in the "Build Docker image for UBI packages" step to GHCR 
