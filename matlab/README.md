@@ -202,7 +202,7 @@ This container includes commercial software products of The MathWorks, Inc. ("Ma
 
 To learn more about MATLAB containers, see [MATLAB Container on Docker Hub](https://www.mathworks.com/help/cloudcenter/ug/matlab-container-on-docker-hub.html).
 
-To see the source files used to build this Docker image, see the [MATLAB Container Images on GitHub](https://github.com/mathworks-ref-arch/container-images/matlab-dockerhub).
+To see the source files used to build this Docker image, see the [MATLAB Container Images on GitHub](https://github.com/mathworks-ref-arch/container-images/tree/main/matlab).
 
 To provide suggestions for additional features or capabilities, [contact us](https://www.mathworks.com/solutions/cloud.html).
 
