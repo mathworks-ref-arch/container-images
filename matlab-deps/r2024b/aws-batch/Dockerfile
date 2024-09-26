@@ -4,8 +4,6 @@ FROM nvidia/cuda:12.2.2-base-ubuntu22.04
 
 LABEL maintainer="The MathWorks, Inc."
 
-ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
-
 # base-dependencies.txt lists libraries required by MATLAB, except for:
 # csh                  - Support MATLAB's Engine API for C and Fortran. See https://www.mathworks.com/help/matlab/matlab_external/introducing-matlab-engine.html
 # gcc, g++, gfortran   - Support Simulink code generation and mex with gcc, g++, or gfortran.
@@ -14,8 +12,11 @@ ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 # unzip, zip           - Used to stage input/output data.
 COPY base-dependencies.txt /tmp/base-dependencies.txt
 
-RUN apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
-    && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
+    && apt-get clean && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /
 
