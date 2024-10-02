@@ -9,6 +9,7 @@ This container includes the dependencies required to run MATLAB®, Simulink®, a
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |----------- | ----------- |
 |[`latest`, `r2024b`, `r2024b-ubuntu22.04`, `R2024b`, `R2024b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubuntu22.04/Dockerfile) | R2024b | Ubuntu 22.04 | ubuntu:22.04 | |
+|[`r2024b-ubuntu24.04`, `R2024b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubuntu24.04/Dockerfile) | R2024b | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2024b-ubuntu20.04`, `R2024b-ubuntu20.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubuntu20.04/Dockerfile) | R2024b | Ubuntu 20.04 | ubuntu:20.04 | |
 |[`r2024b-ubi9`, `R2024b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubi9/Dockerfile) | R2024b | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
 |[`r2024b-ubi8`, `R2024b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024b/ubi8/Dockerfile) | R2024b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
