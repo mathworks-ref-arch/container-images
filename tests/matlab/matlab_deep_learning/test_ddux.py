@@ -4,7 +4,7 @@
 
 import unittest
 
-from shared import test_ddux
+from ..shared import test_ddux
 
 
 class TestDDUX(test_ddux.TestDDUX):

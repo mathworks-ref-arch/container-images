@@ -1,5 +1,5 @@
 # Copyright 2024 The MathWorks, Inc.
-# Build & Publish matlab-deps/r2024a/aws-batch
+# Build, Test & Publish matlab-deps/r2024a/aws-batch
 name: matlab-deps-r2024a-aws-batch
 
 # Define when builds will occur:
@@ -10,6 +10,8 @@ on:
       - 'main'
     paths:
       - 'matlab-deps/r2024a/aws-batch/**'
+      - '/tests/matlab-deps/**'
+      - 'tests/pytools/**'
 
   # Run at 00:00 on every Monday (1st Day of the Week) (See: crontab.guru)
   schedule:
@@ -18,8 +20,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-publish-docker-image:
-    uses: ./.github/workflows/build-and-publish-docker-image.yml
+  build-test-and-publish-image:
+    uses: ./.github/workflows/build-test-and-publish-dependencies-image.yml
     secrets: inherit
     with:
         docker_build_context: './matlab-deps/r2024a/aws-batch'
@@ -28,3 +30,4 @@ jobs:
         os_info_tag: 'aws-batch'
         is_default_os: false
         should_add_latest_tag: false
+        test_file_path: 'tests/matlab-deps/test_awsbatch.py'

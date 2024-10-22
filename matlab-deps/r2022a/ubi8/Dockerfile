@@ -1,4 +1,4 @@
-# Copyright 2022 The MathWorks, Inc.
+# Copyright 2022-2024 The MathWorks, Inc.
 FROM registry.access.redhat.com/ubi8/ubi:8.5-226
 
 LABEL maintainer="The MathWorks, Inc."
@@ -6,7 +6,8 @@ LABEL maintainer="The MathWorks, Inc."
 COPY base-dependencies.txt /tmp/base-dependencies.txt
 
 RUN yum update --disableplugin=subscription-manager -y \
-    && yum install --disableplugin=subscription-manager -y `cat /tmp/base-dependencies.txt`
+    && yum install --disableplugin=subscription-manager -y `cat /tmp/base-dependencies.txt` \
+    && yum --disableplugin=subscription-manager clean all -y
 
 ENV LANG C
 RUN [ -s /etc/machine-id ] || dbus-uuidgen > /etc/machine-id

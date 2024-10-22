@@ -3,6 +3,7 @@
 # Copyright 2021-2024 The MathWorks, Inc.
 
 import os
+import re
 import time
 
 #########################################################
@@ -13,11 +14,6 @@ import time
 def get_image_name():
     """Get the name of the Docker image from the environment"""
     return _get_env("IMAGE_NAME")
-
-
-def get_install_dir():
-    """Get the MATLAB install path from the environment"""
-    return _get_env("MW_INSTALL")
 
 
 def get_license_filepath():
@@ -89,6 +85,25 @@ def get_process_env_variables(host, pid):
                 var_name, var_val = env_var.split("=", 1)
                 envs[var_name] = var_val
     return envs
+
+
+def parse_file_to_list(filepath):
+    list = []
+    with open(filepath) as file:
+        for line in file:
+            list.extend(line.split())
+    return list
+
+
+release_re = re.compile("R20[0-9]{2}[ab]", re.IGNORECASE)
+
+
+def is_valid_release(str):
+    match = release_re.fullmatch(str)
+    if match:
+        return True
+    else:
+        return False
 
 
 ## Wait functions ##

@@ -5,7 +5,7 @@ This repository uses workflows to build the Dockerfiles hosted in this repositor
 ## Overview
 
 There are 2 kinds of YML files used here:
-1. `build-and-publish-docker-image.yml`, which specifies a reusable workflow, which MUST be called from a workflow configuration file.
+1. `build-test-and-publish-dependencies-image.yml`, which specifies a reusable workflow, which MUST be called from a workflow configuration file.
 2. Other YML files in the `.github/workflows` directory call this reusable-workflow.
 
 Each of these workflows:
@@ -120,5 +120,5 @@ Each `reusable-workflow` job consists of the following steps:
 1. If the variable "should_add_latest_tag" is present that an additional "latest" tag is added to the image.
 
 ----
-Copyright 2023 The MathWorks, Inc.
+Copyright 2023-2024 The MathWorks, Inc.
 ----

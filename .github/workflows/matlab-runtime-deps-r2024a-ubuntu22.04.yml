@@ -18,8 +18,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-publish-docker-image:
-    uses: ./.github/workflows/build-and-publish-docker-image.yml
+  build-and-publish-image:
+    uses: ./.github/workflows/build-test-and-publish-dependencies-image.yml
     secrets: inherit
     with:
         docker_build_context: './matlab-runtime-deps/r2024a/ubuntu22.04'

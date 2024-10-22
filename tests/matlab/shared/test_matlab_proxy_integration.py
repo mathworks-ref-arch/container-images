@@ -123,7 +123,11 @@ class TestMatlabProxyInteg(unittest.TestCase):
     def test_matlab_proxy_version(self):
         """Test that the matlab-proxy module in the container has the latest version"""
         cmd = self.host.run("pipx upgrade matlab-proxy")
-        self.assertIn("matlab-proxy is already at latest version", cmd.stdout)
+        self.assertIn(
+            "matlab-proxy is already at latest version",
+            cmd.stdout,
+            "matlab-proxy is not at the latest version:\n\n\t" + cmd.stdout,
+        )
 
     def test_matlab_proxy_app_installed(self):
         """Test that the executable matlab_proxy_app is located on PATH and executable"""

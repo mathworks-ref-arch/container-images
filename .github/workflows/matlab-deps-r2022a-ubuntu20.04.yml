@@ -1,5 +1,5 @@
-# Copyright 2023 The MathWorks, Inc.
-# Build & Publish matlab-deps/r2022a/ubuntu20.04
+# Copyright 2023-2024 The MathWorks, Inc.
+# Build, Test & Publish matlab-deps/r2022a/ubuntu20.04
 name: matlab-deps-r2022a-ubuntu20.04
 
 # Define when builds will occur:
@@ -10,6 +10,8 @@ on:
       - 'main'
     paths:
       - 'matlab-deps/r2022a/ubuntu20.04/**'
+      - '/tests/matlab-deps/**'
+      - 'tests/pytools/**'
 
   # Run at 00:00 on every Monday (1st Day of the Week) (See: crontab.guru)
   schedule:
@@ -18,8 +20,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-publish-docker-image:
-    uses: ./.github/workflows/build-and-publish-docker-image.yml
+  build-test-and-publish-image:
+    uses: ./.github/workflows/build-test-and-publish-dependencies-image.yml
     secrets: inherit
     with:
         docker_build_context: './matlab-deps/r2022a/ubuntu20.04'
@@ -28,3 +30,4 @@ jobs:
         os_info_tag: 'ubuntu20.04'
         is_default_os: true
         should_add_latest_tag: false
+        test_file_path: 'tests/matlab-deps/test_ubuntu2004.py'

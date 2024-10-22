@@ -1,4 +1,4 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2024 The MathWorks, Inc.
 # Build & Publish matlab-runtime-deps/r2023b/ubuntu22.04
 name: matlab-runtime-deps-r2023b-ubuntu22.04
 
@@ -18,8 +18,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-publish-docker-image:
-    uses: ./.github/workflows/build-and-publish-docker-image.yml
+  build-and-publish-image:
+    uses: ./.github/workflows/build-test-and-publish-dependencies-image.yml
     secrets: inherit
     with:
         docker_build_context: './matlab-runtime-deps/r2023b/ubuntu22.04'

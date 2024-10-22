@@ -15,7 +15,7 @@ inputs:
     required: true
   test_dir:
     required: false
-    default: "./tests/matlab"
+    default: "./tests"
   license_file_path:
     required: false
     default: "${{ github.workspace }}/tests/licenses/license.dat"
@@ -35,7 +35,7 @@ runs:
         workdir: matlab
         files: |
           ./docker-bake.hcl
-          ./release-config/${{ matrix.matlab_release }}.env.hcl
+          ./release-config/${{ inputs.matlab_release }}.env.hcl
         targets: ${{ inputs.variant }}
         set: |
           *.cache-from=type=local,src=/tmp/.buildx-cache
@@ -70,7 +70,7 @@ runs:
         LICENSE_FILE_PATH: ${{ inputs.license_file_path }}
       working-directory: ${{ inputs.test_dir }}
       run: |
-        python -m unittest "test_${{ inputs.variant }}.py"
+        python -m unittest "matlab/test_${{ inputs.variant }}.py"
 
     - name: Publish images
       shell: bash
