@@ -18,8 +18,9 @@ ARG MATLAB_DEPS_IMAGE=""
 # Specify the URL of the managed version of MathWorks Service Host.
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 
-# Specify any additional packages to install via apt-ge.
+# Specify any additional packages to install via apt-get.
 ARG APT_ADDITIONAL_PACKAGES=""
+ARG APT_ADDITIONAL_PACKAGES_VNC=""
 
 # Specify MATLAB Install Location.
 ARG MATLAB_INSTALL_LOCATION="/opt/matlab/${MATLAB_RELEASE}"
@@ -33,11 +34,12 @@ ARG MATLAB_INSTALL_LOCATION
 ARG MPM_ADDITIONAL_FLAGS
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL
 ARG APT_ADDITIONAL_PACKAGES
+ARG APT_ADDITIONAL_PACKAGES_VNC
 
 # Install extra tools not included in `matlab-deps`.
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \
-    && apt-get -qq install --yes \
+    && apt-get -qq install --yes --no-install-recommends \
     apt-utils \
     # Requirements for mpm
     ca-certificates \
@@ -76,9 +78,11 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -qq update \
-    && apt-get -qq install --yes \
+    && apt-get -qq install --yes --no-install-recommends \
     tigervnc-standalone-server \
     tigervnc-common \
+    dbus-x11 \
+    ${APT_ADDITIONAL_PACKAGES_VNC} \
     && apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
