@@ -20,6 +20,7 @@ libgstreamer1.0-0
 libgtk-3-0t64
 libice6
 libltdl7
+libmd0
 libnettle8t64
 libnspr4
 libnss3
