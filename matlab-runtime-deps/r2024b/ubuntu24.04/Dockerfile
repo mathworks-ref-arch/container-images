@@ -1,6 +1,6 @@
 # Copyright 2024 The MathWorks, Inc.
 
-FROM mw-docker.repositories.mathworks.com/ubuntu:24.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Etc/UTC"
 
