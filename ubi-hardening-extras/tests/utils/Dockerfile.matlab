@@ -13,7 +13,7 @@ ARG MATLAB_INSTALL_LOCATION=/opt/matlab
 
 COPY --from=image-under-test / /matlab-archive
 
-RUN /matlab-archive/mpm install \
+RUN /matlab-archive/mpm/glnxa64/mpm install \
     --source=/matlab-archive/archives \
     --destination=${MATLAB_INSTALL_LOCATION} \
     --products MATLAB \

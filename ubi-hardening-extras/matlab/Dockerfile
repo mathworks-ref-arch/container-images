@@ -23,6 +23,7 @@ RUN wget -q https://www.mathworks.com/mpm/glnxa64/mpm && \
     --release=${MATLAB_RELEASE} \
     --destination=${MPM_DOWNLOAD_DESTINATION} \
     --products MATLAB \
+    && chmod +x ${MPM_DOWNLOAD_DESTINATION}/mpm/glnxa64/mpm \
     || (echo "MPM Download Failure. See below for more information:" && cat /tmp/mathworks_root.log && false)
 
 ARG VERSION=v1.x
@@ -41,6 +42,5 @@ ARG MPM_DOWNLOAD_DESTINATION
 ARG LOCATION_ROOT
 
 COPY --from=matlab-download ${MPM_DOWNLOAD_DESTINATION} /
-COPY --from=matlab-download mpm /mpm
 COPY --from=matlab-download ${LOCATION_ROOT}/*.sha256 /
 COPY --from=matlab-download ${LOCATION_ROOT}/*.version /
