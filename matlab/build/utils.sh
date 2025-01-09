@@ -223,7 +223,7 @@ startContainer() {
 
         # Always want everything to start in the user home folder
         cd ~/Documents/MATLAB/ || exit 1
-        exec /bin/bash
+        exec bash
 
     # In browser mode, print the web message and start matlab-proxy
     elif [ "${BROWSER}" = true ]; then

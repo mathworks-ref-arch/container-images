@@ -90,13 +90,13 @@ teardown_file() {
     local message="this is a fake readme!"
     create_file_with_content "${README_FILE}" "${message}"
 
-    create_mock "bash" "/bin"
+    create_mock "bash"
     create_mock_df
 
     run "${SRCDIR}/run.sh" -vnc
 
     # teardown - delete files
-    remove_mock "bash" "/bin"
+    remove_mock "bash"
     remove_mock_df
     rm $README_FILE
 

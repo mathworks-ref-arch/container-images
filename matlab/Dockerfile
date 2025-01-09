@@ -43,6 +43,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     apt-utils \
     # Requirements for mpm
     ca-certificates \
+    # Requirements for mex generation
+    gcc \
+    g++ \
     # Requirements for VNC
     libglu1-mesa \
     libosmesa6 \
