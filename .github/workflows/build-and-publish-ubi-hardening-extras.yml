@@ -1,4 +1,4 @@
-# Copyright 2023-2024 The MathWorks, Inc.
+# Copyright 2023-2025 The MathWorks, Inc.
 
 name: Build and Publish Extra UBI Packages for Hardening
 
@@ -57,7 +57,7 @@ jobs:
       fail-fast: false
       matrix:
         package: [icewm, novnc, tigervnc, xterm]
-        tag: [ubi9.4]
+        tag: [ubi9.5]
         include:
           - package: matlab
             tag: R2024b
