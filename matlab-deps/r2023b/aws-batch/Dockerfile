@@ -1,4 +1,4 @@
-# Copyright 2023-2024 The MathWorks, Inc.
+# Copyright 2023-2025 The MathWorks, Inc.
 
 FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
@@ -14,6 +14,7 @@ COPY base-dependencies.txt /tmp/base-dependencies.txt
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
     && apt-get clean && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
