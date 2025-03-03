@@ -209,4 +209,4 @@ To provide suggestions for additional features or capabilities, [contact us](htt
 ## Technical support
 If you require assistance or have a request for additional features or capabilities, contact [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
 
-Copyright 2020-2024 The MathWorks, Inc.
+Copyright 2020-2025 The MathWorks, Inc.

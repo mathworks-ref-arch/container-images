@@ -133,7 +133,7 @@ To modify the behavior of MATLAB when launched with `-browser` flag, pass enviro
 Some browsers may not support this workflow. For more information, see [Cloud Solutions Browser Requirements](https://www.mathworks.com/support/requirements/browser-requirements.html).
 
 **NOTE:** The `-browser` flag is supported by Docker&reg; images starting from MATLAB `R2022a`.
-To access MATLAB in a web browser in custom Docker images with MATLAB or older MATLAB Docker images, for example `R2021b`, see [examples](https://github.com/mathworks/matlab-proxy/blob/main/examples/Dockerfile)
+To access MATLAB in a web browser in custom Docker images with MATLAB or older MATLAB Docker images, for example `R2021b`, see [examples](https://github.com/mathworks/matlab-proxy/blob/main/examples/Dockerfile).
 
 
 ### Run MATLAB in desktop mode and interact with it via VNC
@@ -227,4 +227,4 @@ To provide suggestions for additional features or capabilities, [contact us](htt
 ## Technical support
 If you require assistance or have a request for additional features or capabilities, contact [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
 
-Copyright 2021-2024 The MathWorks, Inc.
+Copyright 2021-2025 The MathWorks, Inc.
