@@ -1,0 +1,149 @@
+# Copyright 2025 The MathWorks, Inc.
+
+# This file builds, tests & publishes the mathworks/matlab-deps Docker Images to DockerHub.
+
+name: Build, Test and Publish multiple MATLAB Dependencies images
+
+
+on:
+  workflow_dispatch:
+
+  # Runs at 02:00 every Monday
+  schedule:
+    - cron: "0 2 * * 1"
+
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/build-test-and-publish-matlab-deps.yml"
+      - ".github/actions/build-test-and-publish-matlab-deps/action.yml"
+      - "matlab-deps/**"
+      - "tests/matlab-deps/**"
+
+env:
+  image_name: mathworks/matlab-deps
+  latest_release: r2024b
+  releases: '[
+    { "release": "r2019b", "default_os": "ubuntu18.04", "supported_os": ["aws-batch", "ubuntu18.04"] },
+    { "release": "r2020a", "default_os": "ubuntu18.04", "supported_os": ["aws-batch", "ubuntu18.04"] },
+    { "release": "r2020b", "default_os": "ubuntu20.04", "supported_os": ["aws-batch", "ubuntu20.04"] },
+    { "release": "r2021a", "default_os": "ubuntu20.04", "supported_os": ["aws-batch", "ubuntu20.04"] },
+    { "release": "r2021b", "default_os": "ubuntu20.04", "supported_os": ["aws-batch", "ubi8", "ubuntu20.04"] },
+    { "release": "r2022a", "default_os": "ubuntu20.04", "supported_os": ["aws-batch", "ubi8", "ubuntu20.04"] },
+    { "release": "r2022b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
+    { "release": "r2023a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
+    { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
+    { "release": "r2024a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
+    { "release": "r2024b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] }
+    ]'
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+
+    steps:
+      - name: Generate matrix
+        id: generate-matrix
+        env:
+          releases: ${{ env.releases }}
+        # The script below takes the releases JSON as input and generates a (JSON-formatted) list of inputs for the build-test-and-publish job.
+        # The input JSON has a list of supported OSes for each release, and the script generates an entry for each release-OS combination.
+        # Each of the objects in the output JSON array contains:
+        #   - release_tag: The MATLAB release version
+        #   - os_info_tag: The operating system tag
+        #   - default_os: The default operating system for the release
+        #   - test_file_name: The name of the test file, derived from the os_info_tag
+        #
+        # The expected structure of the input JSON is:
+        #  [
+        #    {
+        #      "release": "r2019b",
+        #      "default_os": "ubuntu18.04",
+        #      "supported_os": [
+        #        "aws-batch",
+        #        "ubuntu18.04"
+        #      ]
+        #    },
+        #    ...
+        #    {
+        #      "release": "r2024b",
+        #      "default_os": "ubuntu22.04",
+        #      "supported_os": [
+        #        "aws-batch",
+        #        ...
+        #        "ubuntu24.04"
+        #      ]
+        #    }
+        #  ]
+        #
+        # The expected structure of the output JSON is:
+        #  [
+        #    {
+        #      "release_tag": "r2019b",
+        #      "os_info_tag": "aws-batch",
+        #      "default_os": "ubuntu18.04",
+        #      "test_file_name": "test_awsbatch.py"
+        #    },
+        #    {
+        #      "release_tag": "r2019b",
+        #      "os_info_tag": "ubuntu18.04",
+        #      "default_os": "ubuntu18.04",
+        #      "test_file_name": "test_ubuntu1804.py"
+        #    },
+        #    ...
+        #    {
+        #      "release_tag": "r2024b",
+        #      "os_info_tag": "aws-batch",
+        #      "default_os": "ubuntu22.04",
+        #      "test_file_name": "test_awsbatch.py"
+        #    },
+        #    ...
+        #    {
+        #      "release_tag": "r2024b",
+        #      "os_info_tag": "ubuntu24.04",
+        #      "default_os": "ubuntu22.04",
+        #      "test_file_name": "test_ubuntu2404.py"
+        #    }
+        #  ]
+        #
+        # \($os | gsub("-|\\.";"")) removes all hyphens (-) and dots (.) in $os. gsub is a jq function for global substitution.
+        run: |
+          matrix=$(echo ${releases} | jq -c '[.[] | .supported_os[] as $os | {
+            release_tag: .release,
+            os_info_tag: $os,
+            default_os: .default_os,
+            test_file_name: "test_\($os | gsub("-|\\.";"")).py"
+          }]')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+
+  build-test-and-publish:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        input: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build, Test, and Publish MATLAB Dependencies
+        uses: ./.github/actions/build-test-and-publish-matlab-deps
+        with:
+          docker_build_context: './matlab-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}'
+          image_name: ${{ env.image_name }}
+          matlab_release_tag: ${{ matrix.input.release_tag }}
+          os_info_tag: ${{ matrix.input.os_info_tag }}
+          is_default_os: ${{ matrix.input.os_info_tag == matrix.input.default_os }}
+          should_add_latest_tag: ${{ (matrix.input.os_info_tag == matrix.input.default_os) && (matrix.input.release_tag == github.env.latest_release) }}
+          test_file_path: tests/matlab-deps/${{ matrix.input.test_file_name }}

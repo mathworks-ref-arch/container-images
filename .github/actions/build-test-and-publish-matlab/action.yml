@@ -1,24 +1,31 @@
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2025 The MathWorks, Inc.
 
 # This file tests & publishes the Docker Images to DockerHub.
 
 name: Test and Publish MATLAB Image
+description: This action tests and publishes a MATLAB Docker image to DockerHub.
 
 inputs:
   variant:
+    description: "Variant of the MATLAB image. It can be either 'matlab' or 'matlab-deep-learning'."
     required: true
   matlab_release:
+    description: "MATLAB release version. Example: r2023a"
     required: true
   matlab_license_file:
+    description: "Content of MATLAB license file."
     required: true
-  base_image_name:
+  image_name:
+    description: "Name of image, without tag. Example: mathworks/matlab"
     required: true
   test_dir:
     required: false
     default: "./tests"
+    description: "directory containing the test files."
   license_file_path:
     required: false
     default: "${{ github.workspace }}/tests/licenses/license.dat"
+    description: "path of the MATLAB license file."
 
 runs:
   using: "composite"
@@ -66,7 +73,7 @@ runs:
     - name: Test container
       shell: bash
       env:
-        IMAGE_NAME: "${{ inputs.base_image_name }}:${{ inputs.matlab_release }}"
+        IMAGE_NAME: "${{ inputs.image_name }}:${{ inputs.matlab_release }}"
         LICENSE_FILE_PATH: ${{ inputs.license_file_path }}
       working-directory: ${{ inputs.test_dir }}
       run: |
@@ -75,4 +82,4 @@ runs:
     - name: Publish images
       shell: bash
       run: |
-        docker push --all-tags ${{ inputs.base_image_name }}
+        docker push --all-tags ${{ inputs.image_name }}

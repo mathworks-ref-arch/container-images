@@ -3,3 +3,4 @@ logs/*
 licenses/*
 **/license.dat
 tmp/**
+.venv/**

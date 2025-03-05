@@ -1,0 +1,65 @@
+# Copyright 2024-2025 The MathWorks, Inc.
+
+name: Build Test and Publish a Matlab-Deps Image
+
+# images build with this workflow are created with the following naming conventions:
+# ${image_name}:${matlab_release}-${os}
+
+# built images are pushed to DockerHub. Note: Both camel & Pascal case versions of tags are generated and published
+
+# This workflow is only be triggered when called from another workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      docker_build_context:
+        description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu20.04"
+        required: true
+        type: string
+      image_name:
+        description: "Name of image, without tag. Example: mathworks/matlab-deps"
+        required: true
+        type: string
+      matlab_release_tag:
+        description: "Name of the MATLAB release. Example: r2023a"
+        required: true
+        type: string
+      os_info_tag:
+        description: "Allowed values: aws-batch, ubi8, ubi9, ubuntu20.04 ubuntu22.04"
+        required: true
+        type: string
+      is_default_os:
+        description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu20.04"
+        required: true
+        type: boolean
+      should_add_latest_tag:
+        description: "Specify if this image should also be tagged as latest"
+        required: true
+        type: boolean
+      test_file_path:
+        description: "Relative path to the root directory. Ex: ./tests/matlab-deps/test_ubuntu2204.py"
+        required: false
+        type: string
+
+jobs:
+  build-push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build, Test, and Publish MATLAB-Deps
+        uses: ./.github/actions/build-test-and-publish-matlab-deps
+        with:
+          docker_build_context: ${{ inputs.docker_build_context }}
+          image_name: ${{ inputs.image_name }}
+          matlab_release_tag: ${{ inputs.matlab_release_tag }}
+          os_info_tag: ${{ inputs.os_info_tag }}
+          is_default_os: ${{ inputs.is_default_os }}
+          should_add_latest_tag: ${{ inputs.should_add_latest_tag }}
+          test_file_path: ${{ inputs.test_file_path }}
