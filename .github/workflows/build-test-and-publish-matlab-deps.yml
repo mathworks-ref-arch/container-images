@@ -22,7 +22,7 @@ on:
 
 env:
   image_name: mathworks/matlab-deps
-  latest_release: r2024b
+  latest_release: r2025a
   releases: '[
     { "release": "r2019b", "default_os": "ubuntu18.04", "supported_os": ["aws-batch", "ubuntu18.04"] },
     { "release": "r2020a", "default_os": "ubuntu18.04", "supported_os": ["aws-batch", "ubuntu18.04"] },
@@ -34,7 +34,8 @@ env:
     { "release": "r2023a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
     { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
     { "release": "r2024a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04"] },
-    { "release": "r2024b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] }
+    { "release": "r2024b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
     ]'
 
 jobs:
