@@ -1,4 +1,4 @@
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2025 The MathWorks, Inc.
 
 # This Dockerfile allows you to build either the MATLAB Container image or the MATLAB Deep Learning Container image.
 
@@ -15,6 +15,11 @@ ARG MPM_ADDITIONAL_FLAGS=""
 # Specify the base repository to pull MATLAB dependencies from.
 ARG MATLAB_DEPS_IMAGE=""
 
+# Pin to a specific Ubuntu version to ensure images can be updated independently of defaults for matlab-deps.
+# Should be a ubuntu-based image e.g. `ubuntu20.04`
+# Leave blank to use the default OS
+ARG MATLAB_DEPS_OS=""
+
 # Specify the URL of the managed version of MathWorks Service Host.
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 
@@ -22,19 +27,23 @@ ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 ARG APT_ADDITIONAL_PACKAGES=""
 ARG APT_ADDITIONAL_PACKAGES_VNC=""
 
+ARG GCC=""
+ARG GPP=""
+
 # Specify MATLAB Install Location.
 ARG MATLAB_INSTALL_LOCATION="/opt/matlab/${MATLAB_RELEASE}"
 
 # When you start the build stage, this Dockerfile by default uses the Ubuntu-based matlab-deps image.
 # To check the available matlab-deps images, see: https://hub.docker.com/r/mathworks/matlab-deps
-FROM ${MATLAB_DEPS_IMAGE}:${MATLAB_RELEASE} AS build
-
+FROM ${MATLAB_DEPS_IMAGE}:${MATLAB_RELEASE}${MATLAB_DEPS_OS:+-$MATLAB_DEPS_OS} AS build
 ARG MATLAB_RELEASE
 ARG MATLAB_INSTALL_LOCATION
 ARG MPM_ADDITIONAL_FLAGS
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL
 ARG APT_ADDITIONAL_PACKAGES
 ARG APT_ADDITIONAL_PACKAGES_VNC
+ARG GCC
+ARG GPP
 
 # Install extra tools not included in `matlab-deps`.
 RUN export DEBIAN_FRONTEND=noninteractive \
@@ -44,8 +53,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     # Requirements for mpm
     ca-certificates \
     # Requirements for mex generation
-    gcc \
-    g++ \
+    ${GCC} \
+    ${GPP} \
     # Requirements for VNC
     libglu1-mesa \
     libosmesa6 \
@@ -74,6 +83,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
+
+# Set the gcc and g++ soft links
+RUN ln -s $(which ${GCC}) /usr/bin/gcc && \
+    ln -s $(which ${GPP}) /usr/bin/g++
 
 ################################################################################
 # Setup VNC

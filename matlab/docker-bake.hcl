@@ -1,4 +1,4 @@
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2025 The MathWorks, Inc.
 
 # General Configuration variables
 
@@ -8,6 +8,10 @@ variable "LATEST_RELEASE" {
 
 variable "MATLAB_RELEASE" {
   default = "${LATEST_RELEASE}"
+}
+
+variable "MATLAB_DEPS_OS" {
+  default = "ubuntu22.04"
 }
 
 variable "MPM_ADDITIONAL_FLAGS" {
@@ -28,6 +32,16 @@ variable "APT_ADDITIONAL_PACKAGES_VNC" {
   default = "tigervnc-tools"
 }
 
+variable "GCC" {
+  # By default, this should match the version of gcc required by the latest MATLAB release.
+  default = "gcc-12"
+}
+
+variable "GPP" {
+  # By default, this should match the version of g++ required by the latest MATLAB release.
+  default = "g++-12"
+}
+
 variable "MATHWORKS_SERVICE_HOST_INSTALL_URL" {
   default = "https://www.mathworks.com/MathWorksServiceHost/glnxa64/install_managed_msh.sh"
 }
@@ -35,10 +49,13 @@ variable "MATHWORKS_SERVICE_HOST_INSTALL_URL" {
 variable "common_args" {
   default = {
     MATLAB_DEPS_IMAGE = "${MATLAB_DEPS_IMAGE}"
+    MATLAB_DEPS_OS = "${MATLAB_DEPS_OS}"
     MATLAB_RELEASE = "${MATLAB_RELEASE}"
     MPM_ADDITIONAL_FLAGS = "${MPM_ADDITIONAL_FLAGS}"
     APT_ADDITIONAL_PACKAGES = "${APT_ADDITIONAL_PACKAGES}"
     APT_ADDITIONAL_PACKAGES_VNC = "${APT_ADDITIONAL_PACKAGES_VNC}"
+    GCC = "${GCC}"
+    GPP = "${GPP}"
     MATHWORKS_SERVICE_HOST_INSTALL_URL = "${MATHWORKS_SERVICE_HOST_INSTALL_URL}"
   }
 }
