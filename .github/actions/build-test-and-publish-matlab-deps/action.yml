@@ -31,7 +31,7 @@ runs:
   steps:
     # Invalid combination would error out.
     - name: Invalid combination of should_add_latest_tag set to true and is_default_os set to false
-      if: ${{ inputs.should_add_latest_tag == true && inputs.is_default_os == false }}
+      if: ${{ inputs.should_add_latest_tag == 'true' && inputs.is_default_os == 'false' }}
       shell: bash
       run: |
         echo "Invalid situation detected. A workflow marked as latest must also set the default os to be true. "
@@ -56,7 +56,7 @@ runs:
 
     # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04
     - name: Build Image
-      if: ${{ inputs.should_add_latest_tag == false && inputs.is_default_os == false }}
+      if: ${{ inputs.should_add_latest_tag == 'false' && inputs.is_default_os == 'false' }}
       uses: docker/build-push-action@v6
       with:
         context: ${{ inputs.docker_build_context }}
@@ -68,7 +68,7 @@ runs:
 
     # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04, r2023a, R2023a
     - name: Build Image for latest OS
-      if: ${{ inputs.should_add_latest_tag == false && inputs.is_default_os == true }}
+      if: ${{ inputs.should_add_latest_tag == 'false' && inputs.is_default_os == 'true' }}
       uses: docker/build-push-action@v6
       with:
         context: ${{ inputs.docker_build_context }}
@@ -82,7 +82,7 @@ runs:
 
     # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04, r2023a, R2023a, latest
     - name: Build Image with latest Tag for latest OS
-      if: ${{ inputs.should_add_latest_tag == true && inputs.is_default_os == true }}
+      if: ${{ inputs.should_add_latest_tag == 'true' && inputs.is_default_os == 'true' }}
       uses: docker/build-push-action@v6
       with:
         context: ${{ inputs.docker_build_context }}

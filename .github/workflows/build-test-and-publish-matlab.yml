@@ -80,7 +80,7 @@ jobs:
           variant: matlab
           matlab_release: ${{ matrix.matlab_release }}
           matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
-          base_image_name: "mathworks/matlab"
+          image_name: "mathworks/matlab"
 
       - name: Build, Test, and Publish MATLAB Deep Learning
         # Run this step even if the previous step failed
@@ -90,7 +90,7 @@ jobs:
           variant: matlab-deep-learning
           matlab_release: ${{ matrix.matlab_release }}
           matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
-          base_image_name: "mathworks/matlab-deep-learning"
+          image_name: "mathworks/matlab-deep-learning"
 
       - name: Fail job if any tests failed
         if: steps.build-test-and-publish-matlab-to-dockerhub.outcome == 'failure'

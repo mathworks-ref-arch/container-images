@@ -71,7 +71,7 @@ For example:
 ...
     with:
         docker_build_context: './matlab-deps/r2023a/ubuntu20.04'
-        base_image_name: mathworks/matlab-deps
+        image_name: mathworks/matlab-deps
         matlab_release_tag: 'r2023a'
         os_info_tag: 'ubuntu20.04'
         should_add_latest_tag: true
@@ -92,7 +92,7 @@ Each workflow must set the following `inputs` to the `reusable-workflow`:
         description: 'Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu20.04 '
         required: true
         type: string
-      base_image_name:
+      image_name:
         description: 'Name of base image. Example: mathworks/matlab-deps'
         required: true
         type: string

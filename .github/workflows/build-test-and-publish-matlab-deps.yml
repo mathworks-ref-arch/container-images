@@ -146,5 +146,5 @@ jobs:
           matlab_release_tag: ${{ matrix.input.release_tag }}
           os_info_tag: ${{ matrix.input.os_info_tag }}
           is_default_os: ${{ matrix.input.os_info_tag == matrix.input.default_os }}
-          should_add_latest_tag: ${{ (matrix.input.os_info_tag == matrix.input.default_os) && (matrix.input.release_tag == github.env.latest_release) }}
+          should_add_latest_tag: ${{ matrix.input.os_info_tag == matrix.input.default_os && matrix.input.release_tag == env.latest_release }}
           test_file_path: tests/matlab-deps/${{ matrix.input.test_file_name }}

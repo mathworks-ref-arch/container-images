@@ -23,7 +23,7 @@ BASE_PLATFORM_DICT = {
     "r2023b": "ubuntu22.04",
     "r2024a": "ubuntu22.04",
     "r2024b": "ubuntu22.04",
-    "r2025a": "ubuntu24.04",
+    "r2025a": "ubuntu22.04",
 }
 
 
