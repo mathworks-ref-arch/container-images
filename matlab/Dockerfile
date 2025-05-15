@@ -255,6 +255,7 @@ FROM build AS matlab-deep-learning
 ARG MATLAB_RELEASE
 ARG MATLAB_INSTALL_LOCATION
 ARG ADDITIONAL_PRODUCTS
+ARG MPM_ADDITIONAL_FLAGS
 
 # Run mpm to install MATLAB in the target location and delete the mpm installation afterwards.
 # If mpm fails to install successfully, then print the logfile in the terminal, otherwise clean up.

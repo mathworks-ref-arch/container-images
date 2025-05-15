@@ -22,6 +22,23 @@ classdef DeepLearningAddonsTests < matlab.unittest.TestCase
                 "TA",... % Text Analytics Toolbox
                 "VP"];   % Computer Vision Toolbox
             
+            if string(version('-release')) >= "2025a"
+                expectedIdentifier = [expectedIdentifier, ...
+                    "INCEPTIONRESNETV2", ... % "Deep Learning Toolbox Model for Inception-ResNet-v2 Network"
+                    "CAFFEIMPORTER", ... % "Deep Learning Toolbox Importer for Caffe Models"
+                    "INCEPTIONV3", ... % "Deep Learning Toolbox Model for Inception-v3 Network"
+                    "RESNET101", ... % "Deep Learning Toolbox Model for ResNet-101 Network"
+                    "ONNXCONVERTER", ... % "Deep Learning Toolbox Converter for ONNX Model Format"
+                    "KERASIMPORTER", ... % "Deep Learning Toolbox Converter for TensorFlow models"
+                    "GOOGLENET", ... % "Deep Learning Toolbox Model for GoogLeNet Network"
+                    "ALEXNET", ... % "Deep Learning Toolbox Model for AlexNet Network"
+                    "GPU_DEEPLEARNING_LIB", ... % "GPU Coder Interface for Deep Learning Libraries"
+                    "RESNET18", ... % "Deep Learning Toolbox Model for ResNet-18 Network"
+                    "RESNET50", ... % "Deep Learning Toolbox Model for ResNet-50 Network"
+                    "ML_DEEPLEARNING_LIB", ... % "MATLAB Coder Interface for Deep Learning Libraries"
+                    "AIVNV"]; % "Deep Learning Toolbox Verification Library"
+            end
+
             installedToolboxIdentifiers = matlab.addons.installedAddons().Identifier;
             testCase.verifyThat(installedToolboxIdentifiers, IsSameSetAs(expectedIdentifier));
         end % testDesiredToolboxesAreInstalled

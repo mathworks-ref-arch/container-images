@@ -3,7 +3,7 @@
 # General Configuration variables
 
 variable "LATEST_RELEASE" {
-  default = "R2024b"
+  default = "R2025a"
 }
 
 variable "MATLAB_RELEASE" {
@@ -11,7 +11,7 @@ variable "MATLAB_RELEASE" {
 }
 
 variable "MATLAB_DEPS_OS" {
-  default = "ubuntu22.04"
+  default = "ubuntu24.04"
 }
 
 variable "MPM_ADDITIONAL_FLAGS" {

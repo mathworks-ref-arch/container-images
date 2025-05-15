@@ -6,7 +6,8 @@ Speed up your deep learning applications by training neural networks in the MATL
 
 | Tags | MATLAB Version | Operating System | Base Image |
 | ---- |:--------------:| ---------------- | ---------- |
-| `latest`, `R2024b`, `r2024b` | R2024b | Ubuntu&reg; 22.04 | ubuntu:22.04 |
+| `latest`, `R2025a`, `r2025a` | R2025a | Ubuntu&reg; 24.04 | ubuntu:24.04 |
+| `R2024b`, `r2024b` | R2024b | Ubuntu 22.04 | ubuntu:22.04 |
 | `R2024a`, `r2024a` | R2024a | Ubuntu 22.04 | ubuntu:22.04 |
 | `R2023b`, `r2023b` | R2023b | Ubuntu 22.04 | ubuntu:22.04 |
 | `R2023a`, `r2023a` | R2023a | Ubuntu 20.04 | ubuntu:20.04 |
@@ -15,16 +16,16 @@ Speed up your deep learning applications by training neural networks in the MATL
 | `R2021b`, `r2021b` | R2021b | Ubuntu 20.04 | ubuntu:20.04 |
 
 ## Quick Launch Instructions
-This section describes an example workflow to pull the R2024b MATLAB Deep Learning image and launch an interactive MATLAB session from the image.
+This section describes an example workflow to pull the R2025a MATLAB Deep Learning image and launch an interactive MATLAB session from the image.
 
-To pull the R2024b MATLAB image to your machine, execute:
+To pull the R2025a MATLAB image to your machine, execute:
 ```console
-docker pull mathworks/matlab-deep-learning:r2024b
+docker pull mathworks/matlab-deep-learning:r2025a
 ```
 
 To launch the container with the `-browser` option, execute:
 ```console
-docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab-deep-learning:r2024b -browser
+docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab-deep-learning:r2025a -browser
 ```
 
 Executing this command will display a URL on which you can access MATLAB, for example:
@@ -83,7 +84,7 @@ Before you start the container, check that your graphics driver is up to date. S
 To start the container and run MATLAB with GPUs on your host machine, execute:
 
 ```console
-$ docker run --gpus all -it --rm --shm-size=512M mathworks/matlab-deep-learning:r2024b
+$ docker run --gpus all -it --rm --shm-size=512M mathworks/matlab-deep-learning:r2025a
 ```
 
 By default, a container does not have access to hardware resources of its host. To enable the container to access the GPUs of the host system, use the `--gpus` flag when you execute the `docker run` command. Set this flag to `all` if you want the container to have access to all the GPUs of the host machine.
@@ -95,19 +96,19 @@ For more information, see [Access an NVIDIA GPU](https://docs.docker.com/engine/
 To start the container and run MATLAB in an interactive command prompt, execute:
 
 ```console
-$ docker run -it --rm mathworks/matlab-deep-learning:r2024b
+$ docker run -it --rm mathworks/matlab-deep-learning:r2025a
 ```
 
 ### Run MATLAB non-interactively in batch mode
 To start the container and run the MATLAB command `RAND`, execute:
 ```console
-$ docker run --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab-deep-learning:r2024b -batch rand
+$ docker run --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab-deep-learning:r2025a -batch rand
 ```
 where you must replace `27000@MyLicenseServer` with the correct port number and DNS address for your network license manager.
 
 Alternatively, if your system administrator provides you with a license file, you can mount the license file to the container and point `MLM_LICENSE_FILE` to the license file path in the container. For example, to start the container and run the MATLAB command `RAND` with a license file, execute:
 ```console
-$ docker run --rm -v /path/to/local/license/file:/licenses/license.lic -e MLM_LICENSE_FILE=/licenses/license.lic mathworks/matlab-deep-learning:r2024b -batch rand
+$ docker run --rm -v /path/to/local/license/file:/licenses/license.lic -e MLM_LICENSE_FILE=/licenses/license.lic mathworks/matlab-deep-learning:r2025a -batch rand
 ```
 
 If a valid license file is provided, the container runs the command `RAND` in MATLAB and exits. For more information on using the network license manager, see [Use the Network License Manager](https://github.com/mathworks-ref-arch/matlab-dockerfile#use-the-network-license-manager).
@@ -116,7 +117,7 @@ If a valid license file is provided, the container runs the command `RAND` in MA
 
 To start the container, execute:
 ```console
-$ docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2024b -browser
+$ docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2025a -browser
 ```
 
 Running the above command prints text to your terminal containing the URL to access MATLAB. For example:
@@ -141,7 +142,7 @@ To access MATLAB in a web browser in custom Docker images with MATLAB or older M
 To start the MATLAB desktop, execute:
 
 ```console
-$ docker run -it --rm -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab-deep-learning:r2024b -vnc
+$ docker run -it --rm -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab-deep-learning:r2025a -vnc
 ```
 
 To connect to the MATLAB desktop, either:
@@ -157,7 +158,7 @@ To start the container and run MATLAB desktop using X11, execute:
 
 ```console
 $ xhost +
-$ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab-deep-learning:r2024b
+$ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab-deep-learning:r2025a
 ```
 
 The MATLAB desktop window will open on your machine. Note that the command above works only on a Linux operating system with ```X11``` and its dependencies installed.
@@ -168,7 +169,7 @@ The MATLAB desktop window will open on your machine. Note that the command above
 To override the default behavior of the container and run MATLAB with any set of arguments, such as `-logfile`, execute:
 
 ```console
-$ docker run -it --rm mathworks/matlab-deep-learning:r2024b -logfile "logfilename.log"
+$ docker run -it --rm mathworks/matlab-deep-learning:r2025a -logfile "logfilename.log"
 ```
 
 ## Environment variables
@@ -179,17 +180,17 @@ Use this environment variable when you want to use either a license file or a ne
 
 <i>Example:</i>
 
-`docker run -it --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab-deep-learning:r2024b`
+`docker run -it --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab-deep-learning:r2025a`
 <br />
 
-`docker run -it --rm -e MLM_LICENSE_FILE=/license.dat mathworks/matlab-deep-learning:r2024b`
+`docker run -it --rm -e MLM_LICENSE_FILE=/license.dat mathworks/matlab-deep-learning:r2025a`
 
 #### ```PROXY_SETTINGS```
 Use this environment variable when you want to use a proxy server to connect to the MathWorks licensing servers.
 
 <i>Example:</i>
 
-`docker run -it --rm -e PROXY_SETTINGS=<proxy-server-address> mathworks/matlab-deep-learning:r2024b`
+`docker run -it --rm -e PROXY_SETTINGS=<proxy-server-address> mathworks/matlab-deep-learning:r2025a`
 
 You can specify the proxy server address using any of the following forms:
 
@@ -206,7 +207,7 @@ Use this environment variable when you want to change the password used to acces
 
 <i>Example:</i>
 
-`docker run -it --rm -e PASSWORD=ILoveMATLAB -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab-deep-learning:r2024b -vnc`
+`docker run -it --rm -e PASSWORD=ILoveMATLAB -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab-deep-learning:r2025a -vnc`
 
 ### Install updates, toolboxes, add-ons in the container and save changes
 
