@@ -1,7 +1,7 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2025 The MathWorks, Inc.
 ARG BASE_IMAGE
 
-FROM ${BASE_IMAGE} as base
+FROM ${BASE_IMAGE} AS base
 
 FROM scratch AS extract-stage
 

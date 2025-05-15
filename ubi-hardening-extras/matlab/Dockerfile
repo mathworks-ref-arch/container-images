@@ -1,13 +1,13 @@
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2025 The MathWorks, Inc.
 ARG BASE_IMAGE
 
 ARG MPM_DOWNLOAD_DESTINATION="/usr/local/src"
 
-ARG MATLAB_RELEASE=R2024b
+ARG MATLAB_RELEASE=R2025a
 
 ARG LOCATION_ROOT=/tmp/deps
 
-FROM ${BASE_IMAGE} as matlab-download
+FROM ${BASE_IMAGE} AS matlab-download
 
 ARG LOCATION_ROOT
 ARG MATLAB_RELEASE

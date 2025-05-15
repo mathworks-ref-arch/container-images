@@ -1,9 +1,9 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2025 The MathWorks, Inc.
 ARG BASE_IMAGE
 
 ARG LOCATION_ROOT=/tmp/deps
 
-FROM ${BASE_IMAGE} as rpm-install
+FROM ${BASE_IMAGE} AS rpm-install
 ARG LOCATION_ROOT
 
 # Package tiger-vnc dependencies
