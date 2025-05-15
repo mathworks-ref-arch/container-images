@@ -60,7 +60,7 @@ jobs:
         tag: [ubi9.5]
         include:
           - package: matlab
-            tag: R2024b
+            tag: R2025a
 
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository }}/ubi-hardening-extras/${{ matrix.package }}
