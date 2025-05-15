@@ -37,7 +37,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        matlab_release: [R2024b, R2024a, R2023b, R2023a]
+        matlab_release:
+          - R2025a
+          - R2024b
+          - R2024a
+          - R2023b
+          - R2023a
 
     runs-on: ubuntu-latest-m
 
