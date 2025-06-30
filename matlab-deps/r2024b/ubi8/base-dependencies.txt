@@ -44,5 +44,6 @@ procps-ng.x86_64
 sudo.x86_64
 systemd-libs.x86_64
 unzip.x86_64
+wget.x86_64
 which.x86_64
 zlib.x86_64

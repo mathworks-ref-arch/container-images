@@ -41,4 +41,5 @@ net-tools
 procps
 sudo
 unzip
+wget
 zlib1g

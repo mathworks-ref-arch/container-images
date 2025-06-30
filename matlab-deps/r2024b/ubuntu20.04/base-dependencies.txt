@@ -50,7 +50,7 @@ net-tools
 procps
 sudo
 unzip
-zlib1g
 wget
+zlib1g
 libcrypt-dev
 linux-libc-dev

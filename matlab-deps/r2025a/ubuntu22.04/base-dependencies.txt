@@ -54,5 +54,6 @@ net-tools
 procps
 sudo
 unzip
+wget
 x11-xkb-utils
 zlib1g
