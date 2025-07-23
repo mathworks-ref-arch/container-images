@@ -2,7 +2,7 @@
 
 MATLAB_RELEASE="R2023b"
 
-MATLAB_DEPS_OS="ubuntu22.04"
+MATLAB_DEPS_OS="ubuntu24.04"
 
 GCC="gcc-11"
 GPP="g++-11"

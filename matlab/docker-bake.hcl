@@ -22,16 +22,6 @@ variable "MATLAB_DEPS_IMAGE" {
   default = "mathworks/matlab-deps"
 }
 
-variable "APT_ADDITIONAL_PACKAGES" {
-  default = ""
-}
-
-# This package is not available for Ubuntu 20.04 but is needed for later versions.
-# Once we don't support 20.04 this can be added to the Dockerfile rather than being set here
-variable "APT_ADDITIONAL_PACKAGES_VNC" {
-  default = "tigervnc-tools"
-}
-
 variable "GCC" {
   # By default, this should match the version of gcc required by the latest MATLAB release.
   default = "gcc-12"
@@ -52,8 +42,6 @@ variable "common_args" {
     MATLAB_DEPS_OS = "${MATLAB_DEPS_OS}"
     MATLAB_RELEASE = "${MATLAB_RELEASE}"
     MPM_ADDITIONAL_FLAGS = "${MPM_ADDITIONAL_FLAGS}"
-    APT_ADDITIONAL_PACKAGES = "${APT_ADDITIONAL_PACKAGES}"
-    APT_ADDITIONAL_PACKAGES_VNC = "${APT_ADDITIONAL_PACKAGES_VNC}"
     GCC = "${GCC}"
     GPP = "${GPP}"
     MATHWORKS_SERVICE_HOST_INSTALL_URL = "${MATHWORKS_SERVICE_HOST_INSTALL_URL}"

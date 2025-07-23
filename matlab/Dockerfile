@@ -23,10 +23,6 @@ ARG MATLAB_DEPS_OS=""
 # Specify the URL of the managed version of MathWorks Service Host.
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 
-# Specify any additional packages to install via apt-get.
-ARG APT_ADDITIONAL_PACKAGES=""
-ARG APT_ADDITIONAL_PACKAGES_VNC=""
-
 ARG GCC=""
 ARG GPP=""
 
@@ -40,8 +36,6 @@ ARG MATLAB_RELEASE
 ARG MATLAB_INSTALL_LOCATION
 ARG MPM_ADDITIONAL_FLAGS
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL
-ARG APT_ADDITIONAL_PACKAGES
-ARG APT_ADDITIONAL_PACKAGES_VNC
 ARG GCC
 ARG GPP
 
@@ -74,7 +68,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     xfce4-terminal \
     psmisc \
     less \
-    ${APT_ADDITIONAL_PACKAGES} \
     && apt-get remove -y \
     tumbler \
     pulseaudio \
@@ -98,7 +91,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     tigervnc-standalone-server \
     tigervnc-common \
     dbus-x11 \
-    ${APT_ADDITIONAL_PACKAGES_VNC} \
+    tigervnc-tools \
     && apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*

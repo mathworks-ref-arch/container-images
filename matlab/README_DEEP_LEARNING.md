@@ -7,10 +7,10 @@ Speed up your deep learning applications by training neural networks in the MATL
 | Tags | MATLAB Version | Operating System | Base Image |
 | ---- |:--------------:| ---------------- | ---------- |
 | `latest`, `R2025a`, `r2025a` | R2025a | Ubuntu&reg; 24.04 | ubuntu:24.04 |
-| `R2024b`, `r2024b` | R2024b | Ubuntu 22.04 | ubuntu:22.04 |
-| `R2024a`, `r2024a` | R2024a | Ubuntu 22.04 | ubuntu:22.04 |
-| `R2023b`, `r2023b` | R2023b | Ubuntu 22.04 | ubuntu:22.04 |
-| `R2023a`, `r2023a` | R2023a | Ubuntu 20.04 | ubuntu:20.04 |
+| `R2024b`, `r2024b` | R2024b | Ubuntu 24.04 | ubuntu:24.04 |
+| `R2024a`, `r2024a` | R2024a | Ubuntu 24.04 | ubuntu:24.04 |
+| `R2023b`, `r2023b` | R2023b | Ubuntu 24.04 | ubuntu:24.04 |
+| `R2023a`, `r2023a` | R2023a | Ubuntu 24.04 | ubuntu:24.04 |
 | `R2022b`, `r2022b` | R2022b | Ubuntu 20.04 | ubuntu:20.04 |
 | `R2022a`, `r2022a` | R2022a | Ubuntu 20.04 | ubuntu:20.04 |
 | `R2021b`, `r2021b` | R2021b | Ubuntu 20.04 | ubuntu:20.04 |
