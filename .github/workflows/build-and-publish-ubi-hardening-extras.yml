@@ -57,7 +57,7 @@ jobs:
       fail-fast: false
       matrix:
         package: [icewm, novnc, tigervnc, xterm]
-        tag: [ubi9.5]
+        tag: [ubi9.6]
         include:
           - package: matlab
             tag: R2025a
