@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_build_context:
-        description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu20.04"
+        description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu24.04"
         required: true
         type: string
       image_name:
@@ -24,11 +24,11 @@ on:
         required: true
         type: string
       os_info_tag:
-        description: "Allowed values: aws-batch, ubi8, ubi9, ubuntu20.04 ubuntu22.04"
+        description: "Allowed values: aws-batch, ubi8, ubi9, ubuntu22.04, ubuntu24.04"
         required: true
         type: string
       is_default_os:
-        description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu20.04"
+        description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu24.04"
         required: true
         type: boolean
       should_add_latest_tag:

@@ -5,7 +5,7 @@ description: This action builds, tests, and publishes a MATLAB-Deps Docker image
 
 inputs:
   docker_build_context:
-    description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu20.04"
+    description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu24.04"
     required: true
   image_name:
     description: "Name of image, without tag. Example: mathworks/matlab-deps"
@@ -14,10 +14,10 @@ inputs:
     description: "Name of the MATLAB release. Example: r2023a"
     required: true
   os_info_tag:
-    description: "Allowed values: aws-batch, ubi8, ubi9, ubuntu20.04 ubuntu22.04"
+    description: "Allowed values: aws-batch, ubi8, ubi9, ubuntu22.04, ubuntu24.04"
     required: true
   is_default_os:
-    description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu20.04"
+    description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu24.04"
     required: true
   should_add_latest_tag:
     description: "Specify if this image should also be tagged as latest"
@@ -54,7 +54,7 @@ runs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04
+    # Example tags: r2023a-ubuntu24.04, R2023a-ubuntu24.04
     - name: Build Image
       if: ${{ inputs.should_add_latest_tag == 'false' && inputs.is_default_os == 'false' }}
       uses: docker/build-push-action@v6
@@ -66,7 +66,7 @@ runs:
           ${{ inputs.image_name }}:${{ steps.setup_image_tags.outputs.TAG_RELEASE_AND_OS_CAMEL_CASE }}
           ${{ inputs.image_name }}:${{ steps.setup_image_tags.outputs.TAG_RELEASE_AND_OS_PASCAL_CASE }}
 
-    # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04, r2023a, R2023a
+    # Example tags: r2023a-ubuntu24.04, R2023a-ubuntu24.04, r2023a, R2023a
     - name: Build Image for latest OS
       if: ${{ inputs.should_add_latest_tag == 'false' && inputs.is_default_os == 'true' }}
       uses: docker/build-push-action@v6
@@ -80,7 +80,7 @@ runs:
           ${{ inputs.image_name }}:${{ steps.setup_image_tags.outputs.TAG_RELEASE_AND_OS_CAMEL_CASE }}
           ${{ inputs.image_name }}:${{ steps.setup_image_tags.outputs.TAG_RELEASE_AND_OS_PASCAL_CASE }}
 
-    # Example tags: r2023a-ubuntu20.04, R2023a-ubuntu20.04, r2023a, R2023a, latest
+    # Example tags: r2023a-ubuntu24.04, R2023a-ubuntu24.04, r2023a, R2023a, latest
     - name: Build Image with latest Tag for latest OS
       if: ${{ inputs.should_add_latest_tag == 'true' && inputs.is_default_os == 'true' }}
       uses: docker/build-push-action@v6

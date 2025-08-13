@@ -9,7 +9,7 @@ There are 2 kinds of YML files used here:
 2. Other YML files in the `.github/workflows` directory call this reusable-workflow.
 
 Each of these workflows:
-  a. Monitors a specific directory. For example, the file `matlab-deps-r2023a-ubuntu20.04.yml` monitors the directory `container-images/matlab-deps/r2023a/ubuntu20.04`
+  a. Monitors a specific directory. For example, the file `matlab-deps-r2023a-ubuntu24.04.yml` monitors the directory `container-images/matlab-deps/r2023a/ubuntu24.04`
   b. Is triggered when changes are made to the directory it monitors. This should build and publish to the configured registries.
 
 ## Triggers and Scheduled Jobs
@@ -36,7 +36,7 @@ These folders list various releases of MATLAB, each of which is called the `MATL
 Each folder may list one or more OS flavours, each of which is called the `OS`:
 1. aws-batch
 2. ubi8 / ubi9
-3. ubuntu20.04 / ubuntu22.04
+3. ubuntu22.04 / ubuntu24.04
 
 Each of these folders should have a `Dockerfile` and some accompanying files:
 
@@ -67,21 +67,21 @@ Setting the `should_add_latest_tag` field to `true` in a workflow will push imag
 
 For example: 
 ```yml
-#matlab-deps-r2023a-ubuntu20.04.yml
+#matlab-deps-r2023a-ubuntu24.04.yml
 ...
     with:
-        docker_build_context: './matlab-deps/r2023a/ubuntu20.04'
+        docker_build_context: './matlab-deps/r2023a/ubuntu24.04'
         image_name: mathworks/matlab-deps
         matlab_release_tag: 'r2023a'
-        os_info_tag: 'ubuntu20.04'
+        os_info_tag: 'ubuntu24.04'
         should_add_latest_tag: true
 ...
 ```
 Will generate the following tags:
 1. r2023a
 1. R2023a
-1. r2023a-ubuntu20.04
-1. R2023a-ubuntu20.04
+1. r2023a-ubuntu24.04
+1. R2023a-ubuntu24.04
 1. latest
 
 ## Workflow Description
@@ -89,7 +89,7 @@ Will generate the following tags:
 Each workflow must set the following `inputs` to the `reusable-workflow`:
 ```YML
       docker_build_context:
-        description: 'Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu20.04 '
+        description: 'Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu24.04 '
         required: true
         type: string
       image_name:
@@ -101,7 +101,7 @@ Each workflow must set the following `inputs` to the `reusable-workflow`:
         required: true
         type: string
       os_info_tag:
-        description: 'Allowed values: aws-batch, ubi8, ubi9, ubuntu20.04 ubuntu22.04'
+        description: 'Allowed values: aws-batch, ubi8, ubi9, ubuntu22.04, ubuntu24.04'
         required: true
         type: string
       should_add_latest_tag:

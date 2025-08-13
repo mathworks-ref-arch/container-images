@@ -24,17 +24,17 @@ env:
   image_name: mathworks/matlab-deps
   latest_release: r2025a
   releases: '[
-    { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu18.04", "ubuntu24.04"] },
-    { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu18.04", "ubuntu24.04"] },
-    { "release": "r2020b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu20.04", "ubuntu24.04"] },
-    { "release": "r2021a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu20.04", "ubuntu24.04"] },
-    { "release": "r2021b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu20.04", "ubuntu24.04"] },
-    { "release": "r2022a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu20.04", "ubuntu24.04"] },
-    { "release": "r2022b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu20.04", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
+    { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
+    { "release": "r2020b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
+    { "release": "r2021a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
+    { "release": "r2021b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
+    { "release": "r2022a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
+    { "release": "r2022b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2023a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2023b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
     ]'
 
@@ -61,10 +61,10 @@ jobs:
         #  [
         #    {
         #      "release": "r2019b",
-        #      "default_os": "ubuntu18.04",
+        #      "default_os": "ubuntu24.04",
         #      "supported_os": [
         #        "aws-batch",
-        #        "ubuntu18.04"
+        #        "ubuntu24.04"
         #      ]
         #    },
         #    ...
@@ -84,14 +84,14 @@ jobs:
         #    {
         #      "release_tag": "r2019b",
         #      "os_info_tag": "aws-batch",
-        #      "default_os": "ubuntu18.04",
+        #      "default_os": "ubuntu24.04",
         #      "test_file_name": "test_awsbatch.py"
         #    },
         #    {
         #      "release_tag": "r2019b",
-        #      "os_info_tag": "ubuntu18.04",
-        #      "default_os": "ubuntu18.04",
-        #      "test_file_name": "test_ubuntu1804.py"
+        #      "os_info_tag": "ubuntu24.04",
+        #      "default_os": "ubuntu24.04",
+        #      "test_file_name": "test_ubuntu2404.py"
         #    },
         #    ...
         #    {
@@ -103,9 +103,9 @@ jobs:
         #    ...
         #    {
         #      "release_tag": "r2024b",
-        #      "os_info_tag": "ubuntu24.04",
-        #      "default_os": "ubuntu22.04",
-        #      "test_file_name": "test_ubuntu2404.py"
+        #      "os_info_tag": "ubuntu22.04",
+        #      "default_os": "ubuntu24.04",
+        #      "test_file_name": "test_ubuntu2204.py"
         #    }
         #  ]
         #
