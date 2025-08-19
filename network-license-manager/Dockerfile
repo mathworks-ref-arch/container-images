@@ -1,9 +1,9 @@
-# Copyright 2024 The MathWorks, Inc.
-FROM registry.access.redhat.com/ubi9/ubi:latest 
+# Copyright 2024-2025 The MathWorks, Inc.
+FROM rockylinux/rockylinux:9-ubi
 
-RUN yum update --disableplugin=subscription-manager -y \
-    && yum install --disableplugin=subscription-manager -y unzip \
-    && yum --disableplugin=subscription-manager clean all -y
+RUN yum update -y \
+    && yum install -y unzip \
+    && yum clean all -y
 
 # Get license manager directly from the mathworks website
 ARG MATLAB_RELEASE=R2025a
