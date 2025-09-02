@@ -14,8 +14,14 @@ When a base image is no longer supported by Ubuntu, the 'matlab-deps' image base
 ## Supported Tags
 
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
-| ------------ | -------------- | ---------------- |----------- | ----------- |
-|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025a/ubuntu24.04/Dockerfile) | R2025a | Ubuntu 24.04 | ubuntu:24.04 | |
+| ------------ |:--------------:| ---------------- |----------- | ----------- |
+|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubuntu24.04/Dockerfile) | R2025b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2025b`, `R2025b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubuntu24.04/Dockerfile) | R2025b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2025b-ubuntu24.04`, `R2025b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubuntu24.04/Dockerfile) | R2025b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2025b-ubuntu22.04`, `R2025b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubuntu22.04/Dockerfile) | R2025b | Ubuntu 22.04 | ubuntu:22.04 | |
+|[`r2025b-ubi9`, `R2025b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubi9/Dockerfile) | R2025b | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
+|[`r2025b-ubi8`, `R2025b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/ubi8/Dockerfile) | R2025b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
+|[`r2025b-aws-batch`, `R2025b-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025b/aws-batch/Dockerfile) | R2025b | Ubuntu 22.04 | nvidia/cuda:12.2.2-base-ubuntu22.04 | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
 |[`r2025a`, `R2025a`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025a/ubuntu24.04/Dockerfile) | R2025a | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2025a-ubuntu24.04`, `R2025a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025a/ubuntu24.04/Dockerfile) | R2025a | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2025a-ubuntu22.04`, `R2025a-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2025a/ubuntu22.04/Dockerfile) | R2025a | Ubuntu 22.04 | ubuntu:22.04 | |

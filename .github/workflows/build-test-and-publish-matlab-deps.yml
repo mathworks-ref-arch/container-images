@@ -22,7 +22,7 @@ on:
 
 env:
   image_name: mathworks/matlab-deps
-  latest_release: r2025a
+  latest_release: r2025b
   releases: '[
     { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
     { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
@@ -35,7 +35,8 @@ env:
     { "release": "r2023b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
+    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
     ]'
 
 jobs:
