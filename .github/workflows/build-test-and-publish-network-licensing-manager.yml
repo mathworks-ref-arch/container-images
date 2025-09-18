@@ -65,7 +65,7 @@ jobs:
 
       - name: Generate license file
         env:
-          MATLAB_LICENSE_FILE: ${{ secrets.MATLAB_LICENSE_FILE_R2025A }}
+          MATLAB_LICENSE_FILE: ${{ secrets.MATLAB_LICENSE_FILE }}
         working-directory: ./network-license-manager/tests
         run: ./setup_gen_licfile.sh
 
