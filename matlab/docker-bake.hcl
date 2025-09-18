@@ -3,7 +3,7 @@
 # General Configuration variables
 
 variable "LATEST_RELEASE" {
-  default = "R2025a"
+  default = "R2025b"
 }
 
 variable "MATLAB_RELEASE" {

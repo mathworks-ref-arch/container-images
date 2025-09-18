@@ -38,6 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         matlab_release:
+          - R2025b
           - R2025a
           - R2024b
           - R2024a
@@ -84,7 +85,7 @@ jobs:
         with:
           variant: matlab
           matlab_release: ${{ matrix.matlab_release }}
-          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE }}
           image_name: "mathworks/matlab"
 
       - name: Build, Test, and Publish MATLAB Deep Learning
@@ -94,7 +95,7 @@ jobs:
         with:
           variant: matlab-deep-learning
           matlab_release: ${{ matrix.matlab_release }}
-          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE_R2024B }}
+          matlab_license_file: ${{ secrets.MATLAB_LICENSE_FILE }}
           image_name: "mathworks/matlab-deep-learning"
 
       - name: Fail job if any tests failed
