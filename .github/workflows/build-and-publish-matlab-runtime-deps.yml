@@ -1,0 +1,80 @@
+# Copyright 2025 The MathWorks, Inc.
+
+# This file builds and publishes the mathworks/matlab-runtime-deps Docker Images to DockerHub.
+
+name: Build and Publish multiple MATLAB Runtime Dependencies images
+
+
+on:
+  workflow_dispatch:
+
+  # Runs at 02:00 every Monday
+  schedule:
+    - cron: "0 2 * * 1"
+
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/build-test-and-publish-matlab-runtime-deps.yml"
+      - ".github/actions/build-test-and-publish-matlab-deps/action.yml"
+      - "matlab-runtime-deps/**"
+
+env:
+  image_name: mathworks/matlab-runtime-deps
+  latest_release: r2025b
+  releases: '[
+    { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["ubuntu22.04"] },
+    { "release": "r2024a", "default_os": "ubuntu22.04", "supported_os": ["ubuntu22.04"] },
+    { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] },
+    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] },
+    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] }
+    ]'
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+
+    steps:
+      - name: Generate matrix
+        id: generate-matrix
+        env:
+          releases: ${{ env.releases }}
+        run: |
+          matrix=$(echo ${releases} | jq -c '[.[] | .supported_os[] as $os | {
+            release_tag: .release,
+            os_info_tag: $os,
+            default_os: .default_os,
+            test_file_name: "test_\($os | gsub("-|\\.";"")).py"
+          }]')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+
+  build-test-and-publish:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        input: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build, Test, and Publish MATLAB Dependencies
+        uses: ./.github/actions/build-test-and-publish-matlab-deps
+        with:
+          docker_build_context: './matlab-runtime-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}'
+          image_name: ${{ env.image_name }}
+          matlab_release_tag: ${{ matrix.input.release_tag }}
+          os_info_tag: ${{ matrix.input.os_info_tag }}
+          is_default_os: ${{ matrix.input.os_info_tag == matrix.input.default_os }}
+          should_add_latest_tag: ${{ matrix.input.os_info_tag == matrix.input.default_os && matrix.input.release_tag == env.latest_release }}
