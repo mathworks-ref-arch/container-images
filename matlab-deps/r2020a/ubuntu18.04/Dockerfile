@@ -12,6 +12,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
 
+# To make sure non-ASCII data processed in UTF-8
+ENV LANG=en_US.UTF-8
+
 # Uncomment the following RUN apt-get statement to install extended locale support for MATLAB
 #RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y locales locales-all
 

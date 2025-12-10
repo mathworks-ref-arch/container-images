@@ -35,4 +35,8 @@ WORKDIR ${JOB_STORAGE_LOCATION}
 
 COPY stageDataAndRunJob.sh /usr/local/stageDataAndRunJob.sh
 RUN chmod +x /usr/local/stageDataAndRunJob.sh
+
+# To make sure non-ASCII data processed in UTF-8
+ENV LANG=en_US.UTF-8
+
 ENTRYPOINT ["/usr/local/stageDataAndRunJob.sh"]

@@ -13,6 +13,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
 
+# To make sure non-ASCII data processed in UTF-8
+ENV LANG=en_US.UTF-8
+
 # Install patched glibc - See https://github.com/mathworks/build-glibc-bz-19329-patch
 # Note: base-dependencies.txt includes libcrypt-dev and linux-libc-dev to enable installation of patched -dev packages
 WORKDIR /packages

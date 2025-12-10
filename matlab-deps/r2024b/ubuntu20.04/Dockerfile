@@ -25,6 +25,9 @@ RUN export DEBIAN_FRONTEND=noninteractive &&\
     rm -fr /packages
 WORKDIR /
 
+# To make sure non-ASCII data processed in UTF-8
+ENV LANG=en_US.UTF-8
+
 # Uncomment the following RUN apt-get statement if you will be using Simulink 
 # code generation capabilities, or if you will be compiling your own mex files
 # with gcc, g++, or gfortran.

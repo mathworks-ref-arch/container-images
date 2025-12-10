@@ -46,8 +46,6 @@ libxt6
 libxtst6
 libxxf86vm1
 locales
-locales
-locales-all
 locales-all
 procps
 python3

@@ -40,6 +40,17 @@ class TestUbi(base.TestCase):
                         f"{fullname} is not empty",
                     )
 
+    def test_lang_env(self):
+        """Test that the LANG environment variable is set to en_US.UTF-8"""
+        expected_lang="en_US.UTF-8"
+        env=self.host.environment()
+        self.assertIn("LANG", env.keys(), "LANG environment variable is not set")
+        self.assertEqual(
+            env.get("LANG"),
+            expected_lang,
+            f"The LANG environment variable is not set to {expected_lang}, it is set to {env['LANG']}",
+        )
+
 
 ######################################################################
 
