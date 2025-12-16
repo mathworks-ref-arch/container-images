@@ -23,6 +23,10 @@ ARG MATLAB_DEPS_OS=""
 # Specify the URL of the managed version of MathWorks Service Host.
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 
+# Specify the URL to override the pip package index URL.
+# Leave blank to use the default PyPi repository.
+ARG PIP_INDEX_URL=""
+
 ARG GCC=""
 ARG GPP=""
 
@@ -36,6 +40,7 @@ ARG MATLAB_RELEASE
 ARG MATLAB_INSTALL_LOCATION
 ARG MPM_ADDITIONAL_FLAGS
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL
+ARG PIP_INDEX_URL
 ARG GCC
 ARG GPP
 
@@ -181,7 +186,7 @@ RUN wget -O "${MSH_TMP}" "${MATHWORKS_SERVICE_HOST_INSTALL_URL}" \
 RUN mkdir -p ${HOME}/Documents/MATLAB/Add-Ons \
     && touch ${HOME}/Documents/MATLAB/Add-Ons/.toolboxFolders \
     && touch ${HOME}/Documents/MATLAB/Add-Ons/.zipFolders \
-    && python3 -m pipx install matlab-proxy
+    && PIP_INDEX_URL=${PIP_INDEX_URL} python3 -m pipx install matlab-proxy
 
 ENV PATH=${HOME}/.local/bin:${PATH}
 

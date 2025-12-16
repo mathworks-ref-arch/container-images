@@ -22,6 +22,11 @@ variable "MATLAB_DEPS_IMAGE" {
   default = "mathworks/matlab-deps"
 }
 
+variable "PIP_INDEX_URL" {
+  # Default to using the global PyPI index
+  default = ""
+}
+
 variable "GCC" {
   # By default, this should match the version of gcc required by the latest MATLAB release.
   default = "gcc-12"
@@ -42,6 +47,7 @@ variable "common_args" {
     MATLAB_DEPS_OS = "${MATLAB_DEPS_OS}"
     MATLAB_RELEASE = "${MATLAB_RELEASE}"
     MPM_ADDITIONAL_FLAGS = "${MPM_ADDITIONAL_FLAGS}"
+    PIP_INDEX_URL = "${PIP_INDEX_URL}"
     GCC = "${GCC}"
     GPP = "${GPP}"
     MATHWORKS_SERVICE_HOST_INSTALL_URL = "${MATHWORKS_SERVICE_HOST_INSTALL_URL}"
