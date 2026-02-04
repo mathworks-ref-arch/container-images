@@ -13,4 +13,3 @@ RUN yum update --disableplugin=subscription-manager -y \
 ENV LANG=en_US.UTF-8
 
 RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
-RUN [ -d /usr/share/X11/xkb ] || mkdir -p /usr/share/X11/xkb
