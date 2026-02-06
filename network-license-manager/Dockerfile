@@ -1,4 +1,4 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 FROM rockylinux/rockylinux:9-ubi
 
 RUN yum update -y \
@@ -6,7 +6,7 @@ RUN yum update -y \
     && yum clean all -y
 
 # Get license manager directly from the mathworks website
-ARG MATLAB_RELEASE=R2025b
+ARG MATLAB_RELEASE=R2026a
 RUN cd /tmp && \
     curl https://ssd.mathworks.com/supportfiles/downloads/${MATLAB_RELEASE}/license_manager/${MATLAB_RELEASE}/daemons/glnxa64/mathworks_network_license_manager_glnxa64.zip --output mathworks_network_license_manager_glnxa64.zip && \
     unzip mathworks_network_license_manager_glnxa64.zip -d /nlm/ && \
