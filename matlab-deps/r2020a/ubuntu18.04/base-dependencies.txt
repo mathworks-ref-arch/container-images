@@ -49,3 +49,4 @@ unzip
 wget
 xkb-data
 zlib1g
+libatomic1

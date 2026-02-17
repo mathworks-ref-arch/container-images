@@ -46,3 +46,4 @@ sudo
 unzip
 wget
 zlib1g
+libatomic1

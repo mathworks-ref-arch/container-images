@@ -51,3 +51,4 @@ tzdata
 unzip
 wget
 zlib1g
+libatomic1

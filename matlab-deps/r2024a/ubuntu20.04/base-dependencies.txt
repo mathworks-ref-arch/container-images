@@ -47,3 +47,4 @@ wget
 zlib1g
 libcrypt-dev
 linux-libc-dev
+libatomic1

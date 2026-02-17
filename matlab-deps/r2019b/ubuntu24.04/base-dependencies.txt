@@ -50,3 +50,4 @@ sudo
 unzip
 wget
 x11-xkb-utils
+libatomic1
