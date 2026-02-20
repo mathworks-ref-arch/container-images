@@ -1,4 +1,4 @@
-# Copyright 2025 The MathWorks, Inc.
+# Copyright 2025-2026 The MathWorks, Inc.
 
 # This file builds, tests & publishes the mathworks/matlab-deps Docker Images to DockerHub.
 
@@ -30,9 +30,9 @@ env:
     { "release": "r2021a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
     { "release": "r2021b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
     { "release": "r2022a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
-    { "release": "r2022b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2022b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2023a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },

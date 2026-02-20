@@ -5,7 +5,7 @@ These images include the dependencies required to run MATLAB®, Simulink®, and 
 **Note: These images do not include MATLAB. To use a prebuild MATLAB container image, see the [MATLAB Container Image](https://hub.docker.com/r/mathworks/matlab) on Docker Hub. To build your own MATLAB container image, follow [these instructions](https://github.com/mathworks-ref-arch/matlab-dockerfile).**
 
 ## Base Operating System Update Policy
-The default image for each MATLAB release is based on the latest Ubuntu Long Term Support base image.
+The default image for each MATLAB release is based on the latest Ubuntu Long Term Support base image that is supported by that release. To see the supported Ubuntu versions, see the [MATLAB and Simulink Requirements](https://www.mathworks.com/support/requirements/previous-releases.html) page for the Linux system requirements of that MATLAB release.
 
 To use an image based on a fixed Ubuntu base image instead, use the appropriate tag by referring to the table.
 
@@ -40,20 +40,17 @@ When a base image is no longer supported by Ubuntu, the 'matlab-deps' image base
 |[`r2024a-ubi9`, `R2024a-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubi9/Dockerfile) | R2024a | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
 |[`r2024a-ubi8`, `R2024a-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/ubi8/Dockerfile) | R2024a | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
 |[`r2024a-aws-batch`, `R2024a-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2024a/aws-batch/Dockerfile) | R2024a | Ubuntu 22.04 | nvidia/cuda:12.2.2-base-ubuntu22.04 | Use this image with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch). |
-|[`r2023b`, `R2023b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubuntu24.04/Dockerfile) | R2023b | Ubuntu 24.04 | ubuntu:24.04 | |
-|[`r2023b-ubuntu24.04`, `R2023b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubuntu24.04/Dockerfile) | R2023b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2023b`, `R2023b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubuntu22.04/Dockerfile) | R2023b | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2023b-ubuntu22.04`, `R2023b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubuntu22.04/Dockerfile) | R2023b | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2023b-ubi9`, `R2023b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubi9/Dockerfile) | R2023b | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
 |[`r2023b-ubi8`, `R2023b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/ubi8/Dockerfile) | R2023b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
 |[`r2023b-aws-batch`, `R2023b-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023b/aws-batch/Dockerfile) | R2023b | Ubuntu 22.04 | nvidia/cuda:11.8.0-base-ubuntu22.04 | Use this image with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch). |
-|[`r2023a`, `R2023a`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubuntu24.04/Dockerfile) | R2023a | Ubuntu 24.04 | ubuntu:24.04 | |
-|[`r2023a-ubuntu24.04`, `R2023a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubuntu24.04/Dockerfile) | R2023a | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2023a`, `R2023a`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubuntu22.04/Dockerfile) | R2023a | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2023a-ubuntu22.04`, `R2023a-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubuntu22.04/Dockerfile) | R2023a | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2023a-ubi8`, `R2023a-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubi8/Dockerfile) | R2023a | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
 |[`r2023a-ubi9`, `R2023a-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/ubi8/Dockerfile) | R2023a | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
 |[`r2023a-aws-batch`, `R2023a-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2023a/aws-batch/Dockerfile) | R2023a | Ubuntu 20.04 | nvidia/cuda:11.8.0-base-ubuntu20.04 | Use this image with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch). |
-|[`r2022b`, `R2022b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubuntu24.04/Dockerfile) | R2022b | Ubuntu 24.04 | ubuntu:24.04 | |
-|[`r2022b-ubuntu24.04`, `R2022b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubuntu24.04/Dockerfile) | R2022b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2022b`, `R2022b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubuntu22.04/Dockerfile) | R2022b | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2022b-ubuntu22.04`, `R2022b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubuntu22.04/Dockerfile) | R2022b | Ubuntu 22.04 | ubuntu:22.04 | |
 |[`r2022b-ubi8`, `R2022b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubi8/Dockerfile) | R2022b | Red Hat UBI 8 | registry.access.redhat.​com/ubi8/ubi:latest | |
 |[`r2022b-ubi9`, `R2022b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2022b/ubi9/Dockerfile) | R2022b | Red Hat UBI 9 | registry.access.redhat.​com/ubi9/ubi:latest | |
@@ -90,6 +87,6 @@ If you require assistance or have a request for additional features or capabilit
 
 ----
 
-Copyright 2019-2025 The MathWorks, Inc.
+Copyright 2019-2026 The MathWorks, Inc.
 
 ----
