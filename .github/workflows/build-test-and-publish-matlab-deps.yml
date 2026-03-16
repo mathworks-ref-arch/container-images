@@ -4,7 +4,6 @@
 
 name: Build, Test and Publish multiple MATLAB Dependencies images
 
-
 on:
   workflow_dispatch:
 
@@ -22,7 +21,7 @@ on:
 
 env:
   image_name: mathworks/matlab-deps
-  latest_release: r2025b
+  latest_release: r2026a
   releases: '[
     { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
     { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
@@ -36,7 +35,8 @@ env:
     { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
+    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
     ]'
 
 jobs:
@@ -120,7 +120,6 @@ jobs:
           }]')
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
-
   build-test-and-publish:
     needs: generate-matrix
     runs-on: ubuntu-latest
@@ -142,7 +141,7 @@ jobs:
       - name: Build, Test, and Publish MATLAB Dependencies
         uses: ./.github/actions/build-test-and-publish-matlab-deps
         with:
-          docker_build_context: './matlab-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}'
+          docker_build_context: "./matlab-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}"
           image_name: ${{ env.image_name }}
           matlab_release_tag: ${{ matrix.input.release_tag }}
           os_info_tag: ${{ matrix.input.os_info_tag }}

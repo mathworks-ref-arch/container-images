@@ -1,6 +1,6 @@
 """Test class for matlab-deps:aws-batch Docker images."""
 
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 from pytools import helper
 import unittest
@@ -25,6 +25,7 @@ BASE_PLATFORM_DICT = {
     "r2024b": "ubuntu22.04",
     "r2025a": "ubuntu22.04",
     "r2025b": "ubuntu22.04",
+    "r2026a": "ubuntu24.04",
 }
 
 
