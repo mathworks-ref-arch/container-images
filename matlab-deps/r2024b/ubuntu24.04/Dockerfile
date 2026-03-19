@@ -1,7 +1,7 @@
 # Copyright 2024 The MathWorks, Inc.
 FROM ubuntu:24.04
 
-LABEL maintainer="The MathWorks"
+LABEL maintainer="The MathWorks, Inc."
 
 COPY base-dependencies.txt /tmp/base-dependencies.txt
 
