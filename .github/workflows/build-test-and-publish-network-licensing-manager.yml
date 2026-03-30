@@ -9,9 +9,9 @@ on:
   # Run workflow when there is a push to the 'main' branch & push includes changes to any files in described path
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - 'network-license-manager/**'
+      - "network-license-manager/**"
   schedule:
     # Run at 00:00 on every Monday (1st Day of the Week)
     - cron: "0 0 * * 1"
@@ -24,10 +24,13 @@ env:
   PORT: 27012
   MATLAB_RELEASE: latest
 
-
 jobs:
   build-test-push-image:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repo

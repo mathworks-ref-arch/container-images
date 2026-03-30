@@ -8,10 +8,10 @@ on:
     branches:
       - main
     paths:
-      - 'ubi-hardening-extras/**'
+      - "ubi-hardening-extras/**"
       - "!ubi-hardening-extras/**.md"
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 env:
   BASE_IMAGE: almalinux-base
@@ -19,6 +19,10 @@ env:
 jobs:
   build-base-image:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      artifact-metadata: write
 
     # This job builds the base image and uploads it to the artifacts.
     # The following jobs all build from this base image.
@@ -42,7 +46,6 @@ jobs:
           name: ${{ env.BASE_IMAGE }}
           path: /tmp/${{ env.BASE_IMAGE }}.tar
           retention-days: 1
-
 
   build-and-publish-ubi-hardening-extras:
     runs-on: ubuntu-latest
@@ -109,7 +112,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Try to retrieve the latest package pushed to GHCR. 
+      # Try to retrieve the latest package pushed to GHCR.
       # This will error when running this action for the first time.
       - name: Pull latest UBI package Docker image from ghcr
         id: pull_latest
@@ -179,8 +182,8 @@ jobs:
           IMAGE_UNDER_TEST: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
         run: python -m unittest ${{ matrix.package }}/*.py
 
-      # Push the package Docker image built in the "Build Docker image for UBI packages" step to GHCR 
-      # (since we now know if something has changed). 
+      # Push the package Docker image built in the "Build Docker image for UBI packages" step to GHCR
+      # (since we now know if something has changed).
       - name: Push to GitHub Container Registry if package has changed
         if: ${{ steps.check.outputs.is_identical != '0' }}
         run: docker push --all-tags ${{ env.IMAGE_NAME }}
