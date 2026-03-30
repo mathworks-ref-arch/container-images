@@ -8,7 +8,7 @@ LABEL maintainer="The MathWorks, Inc."
 # csh                  - Support MATLAB's Engine API for C and Fortran. See https://www.mathworks.com/help/matlab/matlab_external/introducing-matlab-engine.html
 # gcc, g++, gfortran   - Support Simulink code generation and mex with gcc, g++, or gfortran.
 # locales, locales-all - Provide extended locales support
-# python3, python3-pip - Python and pip are to run/install the AWS CLI.
+# python3, python3-pip - Python and pip are to run the AWS CLI.
 # unzip, zip           - Used to stage input/output data.
 COPY base-dependencies.txt /tmp/base-dependencies.txt
 
