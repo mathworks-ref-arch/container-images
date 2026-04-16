@@ -21,13 +21,14 @@ on:
 
 env:
   image_name: mathworks/matlab-runtime-deps
-  latest_release: r2025b
+  latest_release: r2026a
   releases: '[
     { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["ubuntu22.04"] },
     { "release": "r2024a", "default_os": "ubuntu22.04", "supported_os": ["ubuntu22.04"] },
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] },
-    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] }
+    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] },
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["ubuntu24.04"] }
     ]'
 
 jobs:
