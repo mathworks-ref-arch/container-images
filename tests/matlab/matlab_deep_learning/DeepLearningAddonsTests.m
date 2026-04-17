@@ -22,7 +22,22 @@ classdef DeepLearningAddonsTests < matlab.unittest.TestCase
                 "TA",... % Text Analytics Toolbox
                 "VP"];   % Computer Vision Toolbox
             
-            if string(version('-release')) >= "2025a"
+            if string(version('-release')) >= "2026a"
+                expectedIdentifier = [expectedIdentifier, ...
+                    "INCEPTIONRESNETV2", ... % "Deep Learning Toolbox Model for Inception-ResNet-v2 Network"
+                    "CAFFEIMPORTER", ... % "Deep Learning Toolbox Importer for Caffe Models"
+                    "INCEPTIONV3", ... % "Deep Learning Toolbox Model for Inception-v3 Network"
+                    "RESNET101", ... % "Deep Learning Toolbox Model for ResNet-101 Network"
+                    "ONNXCONVERTER", ... % "Deep Learning Toolbox Converter for ONNX Model Format"
+                    "KERASIMPORTER", ... % "Deep Learning Toolbox Converter for TensorFlow models"
+                    "GOOGLENET", ... % "Deep Learning Toolbox Model for GoogLeNet Network"
+                    "ALEXNET", ... % "Deep Learning Toolbox Model for AlexNet Network"
+                    "GPU_DEEPLEARNING_LIB", ... % "GPU Coder Interface for Deep Learning"
+                    "RESNET18", ... % "Deep Learning Toolbox Model for ResNet-18 Network"
+                    "RESNET50", ... % "Deep Learning Toolbox Model for ResNet-50 Network"
+                    "ML_DEEPLEARNING_LIB", ... % "MATLAB Coder Interface for Deep Learning"
+                    "AIVNV"]; % "AI Verification Library for Deep Learning Toolbox"
+            elseif string(version('-release')) >= "2025a"
                 expectedIdentifier = [expectedIdentifier, ...
                     "INCEPTIONRESNETV2", ... % "Deep Learning Toolbox Model for Inception-ResNet-v2 Network"
                     "CAFFEIMPORTER", ... % "Deep Learning Toolbox Importer for Caffe Models"
@@ -46,21 +61,39 @@ classdef DeepLearningAddonsTests < matlab.unittest.TestCase
         function testInstalledSupportPackagesMatchExpected( testCase )
             import matlab.unittest.constraints.IsSameSetAs
             
-            expectedSupportPackage = {
-                'Deep Learning Toolbox Model for Inception-ResNet-v2 Network', ... % "INCEPTIONRESNETV2"
-                'Deep Learning Toolbox Importer for Caffe Models', ... % "CAFFEIMPORTER"
-                'Deep Learning Toolbox Model for Inception-v3 Network', ... % "INCEPTIONV3"
-                'Deep Learning Toolbox Model for ResNet-101 Network', ... % "RESNET101"
-                'Deep Learning Toolbox Converter for ONNX Model Format', ... % "ONNXCONVERTER"
-                'Deep Learning Toolbox Converter for TensorFlow models', ... % "KERASIMPORTER"
-                'Deep Learning Toolbox Model for GoogLeNet Network', ... % "GOOGLENET"
-                'Deep Learning Toolbox Model for AlexNet Network', ... % "ALEXNET"
-                'GPU Coder Interface for Deep Learning Libraries', ... % "GPU_DEEPLEARNING_LIB"
-                'Deep Learning Toolbox Model for ResNet-18 Network', ... % "RESNET18"
-                'Deep Learning Toolbox Model for ResNet-50 Network', ... % "RESNET50"
-                'MATLAB Coder Interface for Deep Learning Libraries', ... % "ML_DEEPLEARNING_LIB"
-                'Deep Learning Toolbox Verification Library', ... % "AIVNV"
-                };
+            if string(version('-release')) >= "2026a"
+                expectedSupportPackage = {
+                    'Deep Learning Toolbox Model for Inception-ResNet-v2 Network', ... % "INCEPTIONRESNETV2"
+                    'Deep Learning Toolbox Importer for Caffe Models', ... % "CAFFEIMPORTER"
+                    'Deep Learning Toolbox Model for Inception-v3 Network', ... % "INCEPTIONV3"
+                    'Deep Learning Toolbox Model for ResNet-101 Network', ... % "RESNET101"
+                    'Deep Learning Toolbox Converter for ONNX Model Format', ... % "ONNXCONVERTER"
+                    'Deep Learning Toolbox Converter for TensorFlow models', ... % "KERASIMPORTER"
+                    'Deep Learning Toolbox Model for GoogLeNet Network', ... % "GOOGLENET"
+                    'Deep Learning Toolbox Model for AlexNet Network', ... % "ALEXNET"
+                    'GPU Coder Interface for Deep Learning', ... % "GPU_DEEPLEARNING_LIB"
+                    'Deep Learning Toolbox Model for ResNet-18 Network', ... % "RESNET18"
+                    'Deep Learning Toolbox Model for ResNet-50 Network', ... % "RESNET50"
+                    'MATLAB Coder Interface for Deep Learning', ... % "ML_DEEPLEARNING_LIB"
+                    'AI Verification Library for Deep Learning Toolbox', ... % "AIVNV"
+                    };
+            else
+                expectedSupportPackage = {
+                    'Deep Learning Toolbox Model for Inception-ResNet-v2 Network', ... % "INCEPTIONRESNETV2"
+                    'Deep Learning Toolbox Importer for Caffe Models', ... % "CAFFEIMPORTER"
+                    'Deep Learning Toolbox Model for Inception-v3 Network', ... % "INCEPTIONV3"
+                    'Deep Learning Toolbox Model for ResNet-101 Network', ... % "RESNET101"
+                    'Deep Learning Toolbox Converter for ONNX Model Format', ... % "ONNXCONVERTER"
+                    'Deep Learning Toolbox Converter for TensorFlow models', ... % "KERASIMPORTER"
+                    'Deep Learning Toolbox Model for GoogLeNet Network', ... % "GOOGLENET"
+                    'Deep Learning Toolbox Model for AlexNet Network', ... % "ALEXNET"
+                    'GPU Coder Interface for Deep Learning Libraries', ... % "GPU_DEEPLEARNING_LIB"
+                    'Deep Learning Toolbox Model for ResNet-18 Network', ... % "RESNET18"
+                    'Deep Learning Toolbox Model for ResNet-50 Network', ... % "RESNET50"
+                    'MATLAB Coder Interface for Deep Learning Libraries', ... % "ML_DEEPLEARNING_LIB"
+                    'Deep Learning Toolbox Verification Library', ... % "AIVNV"
+                    };
+            end
             
             installedSupportPackages = matlabshared.supportpkg.getInstalled();
             testCase.assertNotEmpty(installedSupportPackages)

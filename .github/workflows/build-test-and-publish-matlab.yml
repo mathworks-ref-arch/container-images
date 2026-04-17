@@ -1,4 +1,4 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 # This file builds, tests & publishes the mathworks/matlab and mathworks/matlab-deep-learning Docker Images to DockerHub.
 # Both images are built during a single job to optimise caching and final storage size for the images.
@@ -41,6 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         matlab_release:
+          - R2026a
           - R2025b
           - R2025a
           - R2024b

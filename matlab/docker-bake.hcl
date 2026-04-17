@@ -3,7 +3,7 @@
 # General Configuration variables
 
 variable "LATEST_RELEASE" {
-  default = "R2025b"
+  default = "R2026a"
 }
 
 variable "MATLAB_RELEASE" {
@@ -57,11 +57,35 @@ variable "common_args" {
 # Deep learning specific configuration
 
 variable "DEEP_LEARNING_TOOLBOXES" {
-  default = "Computer_Vision_Toolbox GPU_Coder Image_Processing_Toolbox MATLAB_Coder Deep_Learning_Toolbox Parallel_Computing_Toolbox Signal_Processing_Toolbox Statistics_and_Machine_Learning_Toolbox Text_Analytics_Toolbox"
+  default = join(" ", [
+    "Computer_Vision_Toolbox",
+    "GPU_Coder",
+    "Image_Processing_Toolbox",
+    "MATLAB_Coder",
+    "Deep_Learning_Toolbox",
+    "Parallel_Computing_Toolbox",
+    "Signal_Processing_Toolbox",
+    "Statistics_and_Machine_Learning_Toolbox",
+    "Text_Analytics_Toolbox",
+  ])
 }
 
 variable "DEEP_LEARNING_SPKGS" {
-  default = "Deep_Learning_Toolbox_Model_for_AlexNet_Network Deep_Learning_Toolbox_Model_for_GoogLeNet_Network Deep_Learning_Toolbox_Model_for_Inception-ResNet-v2_Network Deep_Learning_Toolbox_Model_for_Inception-v3_Network Deep_Learning_Toolbox_Model_for_ResNet-101_Network Deep_Learning_Toolbox_Model_for_ResNet-18_Network Deep_Learning_Toolbox_Model_for_ResNet-50_Network Deep_Learning_Toolbox_Verification_Library Deep_Learning_Toolbox_Importer_for_Caffe_Models Deep_Learning_Toolbox_Converter_for_TensorFlow_models GPU_Coder_Interface_for_Deep_Learning_Libraries MATLAB_Coder_Interface_for_Deep_Learning_Libraries Deep_Learning_Toolbox_Converter_for_ONNX_Model_Format"
+  default = join(" ", [
+    "Deep_Learning_Toolbox_Model_for_AlexNet_Network",
+    "Deep_Learning_Toolbox_Model_for_GoogLeNet_Network",
+    "Deep_Learning_Toolbox_Model_for_Inception-ResNet-v2_Network",
+    "Deep_Learning_Toolbox_Model_for_Inception-v3_Network",
+    "Deep_Learning_Toolbox_Model_for_ResNet-101_Network",
+    "Deep_Learning_Toolbox_Model_for_ResNet-18_Network",
+    "Deep_Learning_Toolbox_Model_for_ResNet-50_Network",
+    "AI_Verification_Library_for_Deep_Learning_Toolbox",
+    "Deep_Learning_Toolbox_Importer_for_Caffe_Models",
+    "Deep_Learning_Toolbox_Converter_for_TensorFlow_models",
+    "GPU_Coder_Interface_for_Deep_Learning",
+    "MATLAB_Coder_Interface_for_Deep_Learning",
+    "Deep_Learning_Toolbox_Converter_for_ONNX_Model_Format",
+  ])
 }
 
 # Metadata overrides

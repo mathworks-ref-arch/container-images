@@ -7,7 +7,8 @@ Access MATLAB&reg; in the cloud or in server environments by using the prebuilt 
 
 | Tags | MATLAB Version | Operating System | Base Image |
 | ---- |:--------------:| ---------------- | ---------- |
-| `latest`, `R2025b`, `r2025b` | R2025b | Ubuntu&reg; 24.04 | ubuntu:24.04 |
+| `latest`, `R2026a`, `r2026a` | R2026a | Ubuntu&reg; 24.04 | ubuntu:24.04 |
+| `R2025b`, `r2025b` | R2025b | Ubuntu 24.04 | ubuntu:24.04 |
 | `R2025a`, `r2025a` | R2025a | Ubuntu 24.04 | ubuntu:24.04 |
 | `R2024b`, `r2024b` | R2024b | Ubuntu 24.04 | ubuntu:24.04 |
 | `R2024a`, `r2024a` | R2024a | Ubuntu 24.04 | ubuntu:24.04 |
@@ -20,16 +21,16 @@ Access MATLAB&reg; in the cloud or in server environments by using the prebuilt 
 | `R2020b`, `r2020b` | R2020b | Ubuntu 20.04 | ubuntu:20.04 |
 
 ## Quick Launch Instructions
-This section describes an example workflow to pull the R2025b MATLAB image and launch an interactive MATLAB session from the image.
+This section describes an example workflow to pull the R2026a MATLAB image and launch an interactive MATLAB session from the image.
 
-To pull the R2025b MATLAB image to your machine, execute:
+To pull the R2026a MATLAB image to your machine, execute:
 ```console
-docker pull mathworks/matlab:r2025b
+docker pull mathworks/matlab:r2026a
 ```
 
 To launch the container with the `-browser` option, execute:
 ```console
-docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2025b -browser
+docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2026a -browser
 ```
 You will be provided with a URL for accessing MATLAB in a web browser.
 
@@ -54,20 +55,20 @@ This section describes the different options you can use to run the container, d
 To start the container and run MATLAB in an interactive command prompt, execute:
 
 ```console
-$ docker run -it --rm --shm-size=512M mathworks/matlab:r2025b
+$ docker run -it --rm --shm-size=512M mathworks/matlab:r2026a
 ```
 
 ### Run MATLAB non-interactively in batch mode
 
 To start the container and run the MATLAB command `RAND`, execute:
 ```console
-$ docker run --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab:r2025b -batch rand
+$ docker run --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer mathworks/matlab:r2026a -batch rand
 ```
 where you must replace `27000@MyLicenseServer` with the correct port number and DNS address for your network license manager.
 
 Alternatively, if your system administrator provides you with a license file, you can mount the license file to the container and point `MLM_LICENSE_FILE` to the license file path in the container. For example, to start the container and run the MATLAB command `RAND` with a license file, execute:
 ```console
-$ docker run --rm -v /path/to/local/license/file:/licenses/license.lic -e MLM_LICENSE_FILE=/licenses/license.lic mathworks/matlab:r2025b -batch rand
+$ docker run --rm -v /path/to/local/license/file:/licenses/license.lic -e MLM_LICENSE_FILE=/licenses/license.lic mathworks/matlab:r2026a -batch rand
 ```
 
 If a valid license file is provided, the container runs the command `RAND` in MATLAB and exits. For more information on using the network license manager, see [Use the Network License Manager](https://github.com/mathworks-ref-arch/matlab-dockerfile#use-the-network-license-manager).
@@ -76,7 +77,7 @@ If a valid license file is provided, the container runs the command `RAND` in MA
 
 To start the container, execute:
 ```console
-$ docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2025b -browser
+$ docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab:r2026a -browser
 ```
 
 Running the above command prints text to your terminal containing the URL to access MATLAB. For example:
@@ -100,7 +101,7 @@ To access MATLAB in a web browser in custom Docker images or older MATLAB Docker
 To start the MATLAB desktop, execute:
 
 ```console
-$ docker run -it --rm -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab:r2025b -vnc
+$ docker run -it --rm -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab:r2026a -vnc
 ```
 
 To connect to the MATLAB desktop, either:
@@ -116,7 +117,7 @@ To start the container and run MATLAB desktop using `X11`, execute:
 
 ```console
 $ xhost +
-$ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2025b
+$ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2026a
 ```
 
 The MATLAB desktop window will open on your machine.
@@ -127,7 +128,7 @@ Note that the command above works only on a Linux&reg; operating system with `X1
 To override the default behavior of the container and run MATLAB with any set of arguments, such as `-logfile`, execute:
 
 ```console
-$ docker run -it --rm --shm-size=512M mathworks/matlab:r2025b -logfile "logfilename.log"
+$ docker run -it --rm --shm-size=512M mathworks/matlab:r2026a -logfile "logfilename.log"
 ```
 
 ### Environment variables
@@ -139,10 +140,10 @@ Use this environment variable when you want to use either a license file or a ne
 
 <i>Example:</i>
 
-`docker run -it --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer --shm-size=512M mathworks/matlab:r2025b`
+`docker run -it --rm -e MLM_LICENSE_FILE=27000@MyLicenseServer --shm-size=512M mathworks/matlab:r2026a`
 <br />
 
-`docker run -it --rm -e MLM_LICENSE_FILE=/license.dat --shm-size=512M mathworks/matlab:r2025b`
+`docker run -it --rm -e MLM_LICENSE_FILE=/license.dat --shm-size=512M mathworks/matlab:r2026a`
 
 #### `PROXY_SETTINGS`
 
@@ -150,7 +151,7 @@ Use this environment variable when you want to use a proxy server to connect to 
 
 <i>Example:</i>
 
-`docker run -it --rm -e PROXY_SETTINGS=<proxy-server-address> --shm-size=512M mathworks/matlab:r2025b`
+`docker run -it --rm -e PROXY_SETTINGS=<proxy-server-address> --shm-size=512M mathworks/matlab:r2026a`
 
 You can specify the proxy server address using any of the following forms:
 
@@ -168,7 +169,7 @@ Use this environment variable when you want to change the password used to acces
 
 <i>Example:</i>
 
-`docker run -it --rm -e PASSWORD=ILoveMATLAB -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab:r2025b -vnc`
+`docker run -it --rm -e PASSWORD=ILoveMATLAB -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab:r2026a -vnc`
 
 ### Create a custom Docker image from the MATLAB container base image
 
@@ -176,7 +177,7 @@ Create a file named `Dockerfile` with the following content:
 
 ```dockerfile
 ## Build from the MATLAB base image
-FROM mathworks/matlab:r2025b
+FROM mathworks/matlab:r2026a
 
 ## Copy your script/function to be executed.
 COPY myscript.m ./
@@ -211,4 +212,4 @@ To provide suggestions for additional features or capabilities, [contact us](htt
 ## Technical support
 If you require assistance or have a request for additional features or capabilities, contact [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
 
-Copyright 2020-2025 The MathWorks, Inc.
+Copyright 2020-2026 The MathWorks, Inc.
