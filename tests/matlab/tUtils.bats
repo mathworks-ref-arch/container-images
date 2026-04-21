@@ -1,4 +1,6 @@
-# Copyright 2024 The MathWorks, Inc.
+#!/usr/bin/env bash
+
+# Copyright 2024-2026 The MathWorks, Inc.
 
 load common_setup.sh
 common_setup
@@ -13,12 +15,16 @@ setup_file() {
 
     # Create a mock for sudo
     create_mock "sudo"
+
+    # Create mock noVNC files for checkEnvironmentVariables tests
+    create_mock_vnc_novnc
 }
 
 teardown_file() {
     # remove all mocks setup for this test file
     remove_mock_matlab
-    remove_default_mocks
+    remove_mock_vnc_novnc
+    remove_all_default_mocks
 }
 
 #--- TESTS

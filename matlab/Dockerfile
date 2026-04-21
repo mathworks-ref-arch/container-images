@@ -1,4 +1,4 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 # This Dockerfile allows you to build either the MATLAB Container image or the MATLAB Deep Learning Container image.
 
@@ -101,17 +101,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-ARG NOVNC=/opt/noVNC
 
-# Clone noVNC and websockify.
-RUN mkdir -p ${NOVNC}/utils/websockify \
-    && curl -sSfL 'https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz' | sudo tar -zxf - -C ${NOVNC} --strip=1 \
-    && curl -sSfL 'https://github.com/novnc/websockify/archive/v0.10.0.tar.gz' | sudo tar -zxf - -C ${NOVNC}/utils/websockify --strip=1 \
-    && find ${NOVNC} -name ".git*" | sudo xargs rm -rf \
-    && ln -s /usr/bin/python3 /usr/bin/python \
-    && ln -s $NOVNC/vnc.html $NOVNC/index.html
-
-EXPOSE 5901 6080
+EXPOSE 5901
 
 ################################################################################
 # Add predefined configuration
@@ -119,6 +110,7 @@ EXPOSE 5901 6080
 
 COPY build/config/localsudo       /etc/sudoers.d/
 COPY build/run.sh                 /bin/run.sh
+COPY build/setup_session.sh       /bin/setup_session.sh
 COPY build/utils.sh               /bin/utils.sh
 COPY build/readmes/welcome_readme /etc/welcome_readme
 COPY build/readmes/help_readme    /etc/help_readme
@@ -143,7 +135,7 @@ RUN adduser --home ${HOME} --shell /bin/bash --disabled-password --gecos "" matl
 
 # Set user and work directory.
 USER matlab
-WORKDIR /home/matlab
+WORKDIR ${HOME}
 
 ################################################################################
 # Install MATLAB
@@ -178,6 +170,23 @@ RUN wget -O "${MSH_TMP}" "${MATHWORKS_SERVICE_HOST_INSTALL_URL}" \
     && chmod +x "${MSH_TMP}" \
     && sudo ${MSH_TMP} --destination ${MSH_ROOT} \
     && rm "${MSH_TMP}"
+
+
+################################################################################
+# Setup noVNC
+################################################################################
+
+ARG NOVNC=${HOME}/apps/noVNC
+
+# Clone noVNC and websockify.
+RUN mkdir -p ${NOVNC}/utils/websockify \
+    && curl -sSfL 'https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz' | sudo tar -zxf - -C ${NOVNC} --strip=1 \
+    && curl -sSfL 'https://github.com/novnc/websockify/archive/v0.10.0.tar.gz' | sudo tar -zxf - -C ${NOVNC}/utils/websockify --strip=1 \
+    && find ${NOVNC} -name ".git*" | sudo xargs rm -rf \
+    && sudo ln -s /usr/bin/python3 /usr/bin/python \
+    && ln -s ${NOVNC}/vnc.html ${NOVNC}/index.html
+
+EXPOSE 6080
 
 ################################################################################
 # Setup matlab-proxy
@@ -234,7 +243,6 @@ RUN sudo chown -R matlab:matlab ${HOME} \
     && sed -i "s/{{MATLAB_RELEASE}}/${MATLAB_RELEASE}/g" ${HOME}/Desktop/MATLAB.desktop
 
 COPY build/config/novnc_login_redirect.html ${NOVNC}/redirect.html
-
 
 ARG DEFAULT_VNC_PASSWORD=matlab
 

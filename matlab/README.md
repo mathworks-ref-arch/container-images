@@ -111,6 +111,16 @@ To connect to the MATLAB desktop, either:
 
 The VNC password is `matlab` by default. Use the `PASSWORD` environment variable to change it.
 
+### Run MATLAB with a different username, user ID (UID), or group ID (GID)
+
+To run the container with a custom username, UID, or GID, use the `--user root` flag and set the corresponding environment variable `USER_NAME`, `USER_UID`, or `USER_GID`. If you have a Network Named User license, you must set the `USER_NAME` to your computer’s hostname. This allows MathWorks to identify the licensed user. For example, use this command to set `USER_NAME` to your computer’s hostname.
+
+```console
+$ docker run -it --rm --user root -e USER_NAME=$(whoami) -e USER_UID=$(id -u) -e USER_GID=$(id -g) --shm-size=512M mathworks/matlab:r2026a -shell
+```
+
+This example also sets `USER_UID` and `USER_GID` to your host UID and host GID. This allows you to read and write files in mounted volumes without permission issues.
+
 ### Run MATLAB desktop using X11
 
 To start the container and run MATLAB desktop using `X11`, execute:
@@ -170,6 +180,31 @@ Use this environment variable when you want to change the password used to acces
 <i>Example:</i>
 
 `docker run -it --rm -e PASSWORD=ILoveMATLAB -p 5901:5901 -p 6080:6080 --shm-size=512M mathworks/matlab:r2026a -vnc`
+
+#### `USER_NAME`
+
+Use this environment variable with the `--user root` flag to change the username of the default user in the container. If you have a Network Named User license, you must set the `USER_NAME` to your computer’s hostname. This allows MathWorks to identify the licensed user.
+
+<i>Example:</i>
+
+`docker run -it --rm --user root -e USER_NAME=$(whoami) --shm-size=512M mathworks/matlab:r2026a -shell`
+
+#### `USER_UID`
+
+Use this environment variable with the `--user root` flag to change the UID of the default user in the container. To read and write files in mounted volumes without permission issues, set `USER_UID` to your host UID.
+
+<i>Example:</i>
+
+`docker run -it --rm --user root -e USER_UID=$(id -u) --shm-size=512M mathworks/matlab:r2026a -shell`
+
+#### `USER_GID`
+
+Use this environment variable with the `--user root` flag to change the GID of the default user in the container. To read and write files with group-write permissions in mounted volumes, set `USER_GID` to your host GID.
+
+<i>Example:</i>
+
+`docker run -it --rm --user root -e USER_GID=$(id -g) --shm-size=512M mathworks/matlab:r2026a -shell`
+
 
 ### Create a custom Docker image from the MATLAB container base image
 

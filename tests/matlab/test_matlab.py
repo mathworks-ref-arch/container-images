@@ -1,4 +1,4 @@
-# Copyright 2021-2024 The MathWorks, Inc.
+# Copyright 2021-2026 The MathWorks, Inc.
 
 """Run the tests for the mathworks/matlab image"""
 
@@ -14,6 +14,10 @@ from .shared.test_matlab_proxy_integration import (
     TestMatlabProxyIntegNoLic,
 )
 from .shared.test_msh_integration import TestMSHIntegration
+from .shared.test_matlab_docker_custom_user import (
+    TestCustomUser,
+    TestCustomUserErrors,
+)
 from pytools.test_suite_launcher import TestSuite
 
 ################################################################################
@@ -28,6 +32,8 @@ if __name__ == "__main__":
         TestMatlabProxyInteg,
         TestMatlabProxyIntegAdvanced,
         TestMatlabProxyIntegNoLic,
+        TestCustomUser,
+        TestCustomUserErrors,
         Run_AvailableProductsTest,
         Run_Startup_Test,
     ).run()

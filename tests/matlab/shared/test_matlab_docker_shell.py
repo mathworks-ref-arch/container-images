@@ -1,4 +1,4 @@
-# Copyright 2021-2024 The MathWorks, Inc.
+# Copyright 2021-2026 The MathWorks, Inc.
 
 """Run the tests for Docker images when they run in standard mode."""
 
@@ -149,9 +149,9 @@ class TestBasicFeatures(unittest.TestCase):
             ("/etc/sudoers.d", "localsudo"),
             ("/bin", "run.sh"),
             ("/home/matlab/Documents/MATLAB", "startup.m"),
-            ("/opt/noVNC", "redirect.html"),
-            ("/opt", "noVNC"),
-            ("/opt/noVNC/utils", "websockify"),
+            ("/home/matlab/apps/noVNC", "redirect.html"),
+            ("/home/matlab/apps", "noVNC"),
+            ("/home/matlab/apps/noVNC/utils", "websockify"),
             ("/etc", "help_readme"),
             ("/etc", "vnc_readme"),
         ]

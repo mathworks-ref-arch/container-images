@@ -1,44 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Copyright 2022-2024 The MathWorks, Inc.
+# Copyright 2022-2026 The MathWorks, Inc.
 
-set -e
+set -eu -o pipefail
 
-#=======================================================================
-build_cmd() { # Takes the cmd input string and outputs the same
-    # string correctly quoted to be evaluated again.
-    #
-    # Always returns a 0
-    #
-    # usage: build_cmd
-    #
-
-    # Use version of echo here that will preserve
-    # backslashes within $cmd.
-
-    echo "$1" | awk '
-#----------------------------------------------------------------------------
-        BEGIN { squote = sprintf ("%c", 39)   # set single quote
-                dquote = sprintf ("%c", 34)   # set double quote
-              }
-          NF != 0 { newarg=dquote             # initialize output string to
-                                              # double quote
-          lookquote=dquote                    # look for double quote
-          oldarg = $0
-          while ((i = index (oldarg, lookquote))) {
-             newarg = newarg substr (oldarg, 1, i - 1) lookquote
-             oldarg = substr (oldarg, i, length (oldarg) - i + 1)
-             if (lookquote == dquote)
-                lookquote = squote
-             else
-                lookquote = dquote
-             newarg = newarg lookquote
-          }
-          printf " %s", newarg oldarg lookquote }
-#----------------------------------------------------------------------------
-        '
-    return 0
-}
+ARGLIST=""
+LICENSE_MESSAGE=""
 
 exportInBashrc() {
     # There are some environment variables that we want to ensure are available
@@ -70,10 +37,27 @@ startVNCServer() {
     # run a second time and the temp .X files will exist. This code also allows for an
     # install into a running container / docker commit workflow to expand the capabilities
     # of this container.
-    sudo rm -rf /tmp/.X*
+    rm -rf /tmp/.X*
+
+    # VNC password and xstartup are configured for the matlab user at build time.
+    # When running as a different user (e.g. root without user customisation),
+    # $HOME/.vnc/ does not exist. Without a password file, TigerVNC silently waits
+    # for the user to type a new password on stdin — with stdout redirected to
+    # /dev/null the prompt is invisible and the process hangs indefinitely.
+    if [ ! -d "${HOME}/.vnc" ]; then
+        mkdir -p "${HOME}/.vnc"
+        cp /home/matlab/.vnc/passwd   "${HOME}/.vnc/passwd"
+        chmod 0600 "${HOME}/.vnc/passwd"
+        cp /home/matlab/.vnc/xstartup "${HOME}/.vnc/xstartup"
+        chmod +x   "${HOME}/.vnc/xstartup"
+    fi
 
     /usr/bin/vncserver -localhost no >/dev/null 2>&1
-    /opt/noVNC/utils/launch.sh --vnc localhost:5901 >/dev/null 2>&1 &
+    # noVNC is installed to /home/matlab/apps/noVNC at image build time (as the
+    # matlab user). Use the absolute path rather than $HOME or ~ because this
+    # script may run as root (when --user root is passed), which would expand
+    # both to /root — a directory that does not contain noVNC.
+    /home/matlab/apps/noVNC/utils/launch.sh --vnc localhost:5901 >/dev/null 2>&1 &
 }
 
 validateInput() {
@@ -88,7 +72,7 @@ validateInput() {
 
 checkLicensing() {
     # Check for the existence of a MATLAB licensing environment variable
-    if [ -n "${MLM_LICENSE_FILE}" ]; then
+    if [ -n "${MLM_LICENSE_FILE:-}" ]; then
         # if it is present then lets assume we are trying to run on-prem.
         export USAGE=onprem
     else
@@ -99,7 +83,7 @@ checkLicensing() {
 
     # Check for the format of the license file variable.
     # If the format is port@hostname, export it. Otherwise, assume the user has mounted a folder and copy the specified file to the right place.
-    if [ -n "${MLM_LICENSE_FILE}" ]; then
+    if [ -n "${MLM_LICENSE_FILE:-}" ]; then
         if echo "${MLM_LICENSE_FILE}" | grep -qEo "[0-9]+@.+"; then
             exportInBashrc MLM_LICENSE_FILE
             LICENSE_MESSAGE="Licensing MATLAB using the license manager $MLM_LICENSE_FILE."
@@ -119,12 +103,12 @@ checkLicensing() {
     # Alias `matlab` to append ARGLIST to implement the startup logic. This allows the automatic
     # inclusion of MATLAB configuration such as licensing arguments. For example:
     # `matlab -licmode online`
-    echo "alias matlab=\"matlab ${ARGLIST}\"" >>~/.bashrc
+    echo "alias matlab=\"matlab ${ARGLIST:-}\"" >>~/.bashrc
 }
 
 checkSharedMemorySpace() {
     # Only print the warning if a display will be used
-    if [ "${VNC}" = true ] || [ "${SHELL}" = true ] || [ "${BROWSER}" = true ]; then
+    if [ "${VNC}" = true ] || [ "${SHELL_MODE}" = true ] || [ "${BROWSER}" = true ]; then
 
         # Find the size of your shared memory space by calling df on the /dev/shm directory
         # Take the second line of output (the size) and extract the numeric value.
@@ -148,7 +132,7 @@ checkSharedMemorySpace() {
 checkEnvironmentVariables() {
     # If there is an environment variable called PASSWORD (expected to be set on the
     # command line of docker) then use it to set the VNC password
-    if [ -n "${PASSWORD}" ]; then
+    if [ -n "${PASSWORD:-}" ]; then
         if [ "$(echo "${PASSWORD}" | grep -Eo '.{6,}')" ]; then
             printf "%s\n%s\n\n" "${PASSWORD}" "${PASSWORD}" | vncpasswd >/dev/null 2>&1
             touch "$HOME/.Xresources" &
@@ -158,12 +142,12 @@ checkEnvironmentVariables() {
         fi
     else
         # Assume default password so make browser VNC auto connect
-        sudo rm /opt/noVNC/index.html
-        sudo ln -s /opt/noVNC/redirect.html /opt/noVNC/index.html
+        rm -f /home/matlab/apps/noVNC/index.html
+        ln -s /home/matlab/apps/noVNC/redirect.html /home/matlab/apps/noVNC/index.html
     fi
 
     # Test and expand up proxy settings for MathWorks Service Host and MATLAB itself.
-    if [ -n "${PROXY_SETTINGS}" ]; then
+    if [ -n "${PROXY_SETTINGS:-}" ]; then
 
         # The input PROXY_SETTINGS could be a string of ANY of the following forms:
         #   1) proxy.fqdn.com:12345
@@ -216,29 +200,31 @@ startContainer() {
         printMessage help_readme
 
     # In desktop mode, print vnc message and start the VNC server in the background
-    elif [ "${VNC}" = true ] || [ "${SHELL}" = true ]; then
+    elif [ "${VNC}" = true ] || [ "${SHELL_MODE}" = true ]; then
 
         printMessage vnc_readme
         startVNCServer
 
-        # Always want everything to start in the user home folder
-        cd ~/Documents/MATLAB/ || exit 1
-        exec bash
+        # Always want everything to start in the user home folder.
+        # Use 2>/dev/null fallback because ~/Documents/MATLAB does not exist when
+        # running as root without user customisation (~ resolves to /root, not /home/matlab).
+        cd ~/Documents/MATLAB/ 2>/dev/null || cd /home/matlab/Documents/MATLAB 
+        exec /bin/bash
 
     # In browser mode, print the web message and start matlab-proxy
     elif [ "${BROWSER}" = true ]; then
 
         printMessage browser_readme
-        eval exec "matlab-proxy-app ${CUSTOM_COMMAND}"
+        matlab-proxy-app "${CUSTOM_ARGS[@]}"
 
     # Otherwise, run MATLAB
     else
 
-        if [ -z "${LICENCE_MESSAGE}" ]; then
+        if [ -n "${LICENSE_MESSAGE}" ]; then
             echo "${LICENSE_MESSAGE}"
         fi
 
         cd ~/Documents/MATLAB/ || exit 1
-        eval exec "matlab ${ARGLIST} ${CUSTOM_COMMAND}"
+        exec matlab ${ARGLIST} "${CUSTOM_ARGS[@]}"
     fi
 }
