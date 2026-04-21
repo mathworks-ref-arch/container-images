@@ -1,0 +1,87 @@
+# Copyright 2026 The MathWorks, Inc.
+
+# This file builds and publishes the matlab-deps-arm64 images to the GitHub Container Registry.
+
+name: Build and Publish MATLAB Dependencies images for ARM64
+
+on:
+  workflow_dispatch:
+
+  # Runs at 02:00 every Monday
+  schedule:
+    - cron: "0 2 * * 1"
+
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/publish-matlab-deps-arm64.yml"
+      - "matlab-deps/r2026a/**"
+
+env:
+  image_name: ghcr.io/${{ github.repository }}/matlab-deps-arm64
+  release: r2026a
+  default_os: ubuntu24.04
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu24.04, ubuntu22.04]
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Setup Image Tags
+        id: setup_image_tags
+        shell: bash
+        run: |
+          RAW_RELEASE=${{ env.release }} \
+          && LOWER_CASE_RELEASE=${RAW_RELEASE,,} \
+          && UPPER_CASE_RELEASE=${LOWER_CASE_RELEASE^} \
+          && echo "UPPER_CASE_RELEASE=${UPPER_CASE_RELEASE}" >> "${GITHUB_OUTPUT}" \
+          && echo "LOWER_CASE_RELEASE=${LOWER_CASE_RELEASE}" >> "${GITHUB_OUTPUT}" \
+          && echo "UPPER_CASE_RELEASE_AND_OS=${UPPER_CASE_RELEASE}-${{ matrix.os }}" >> "${GITHUB_OUTPUT}" \
+          && echo "LOWER_CASE_RELEASE_AND_OS=${LOWER_CASE_RELEASE}-${{ matrix.os }}" >> "${GITHUB_OUTPUT}"
+    
+      
+      - name: Push Default OS Image
+        if: ${{ matrix.os == env.default_os }}
+        uses: docker/build-push-action@v7
+        with:
+          context: matlab-deps/${{ env.release }}/${{ matrix.os }}
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE_AND_OS }}
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE_AND_OS }}
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE }}
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE }}
+
+      
+      - name: Push non-Default OS Image
+        if: ${{ matrix.os != env.default_os }}
+        uses: docker/build-push-action@v7
+        with:
+          context: matlab-deps/${{ env.release }}/${{ matrix.os }}
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE_AND_OS }}
+            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE_AND_OS }}

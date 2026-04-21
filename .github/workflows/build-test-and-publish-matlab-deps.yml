@@ -23,20 +23,20 @@ env:
   image_name: mathworks/matlab-deps
   latest_release: r2026a
   releases: '[
-    { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
-    { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
-    { "release": "r2020b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
-    { "release": "r2021a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"] },
-    { "release": "r2021b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
-    { "release": "r2022a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"] },
-    { "release": "r2022b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] },
-    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"] }
+    { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2020b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2021a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2021b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2022a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2022b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2023a", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2023b", "default_os": "ubuntu22.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2024a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" }
     ]'
 
 jobs:
@@ -60,6 +60,7 @@ jobs:
         #   - os_info_tag: The operating system tag
         #   - default_os: The default operating system for the release
         #   - test_file_name: The name of the test file, derived from the os_info_tag
+        #   - platforms: The set of platforms that the image will be built for
         #
         # The expected structure of the input JSON is:
         #  [
@@ -89,27 +90,31 @@ jobs:
         #      "release_tag": "r2019b",
         #      "os_info_tag": "aws-batch",
         #      "default_os": "ubuntu24.04",
+        #      "platforms": "linux/amd64"
         #      "test_file_name": "test_awsbatch.py"
         #    },
         #    {
         #      "release_tag": "r2019b",
         #      "os_info_tag": "ubuntu24.04",
         #      "default_os": "ubuntu24.04",
+        #      "platforms": "linux/amd64"
         #      "test_file_name": "test_ubuntu2404.py"
         #    },
         #    ...
         #    {
-        #      "release_tag": "r2024b",
+        #      "release_tag": "r2026a",
         #      "os_info_tag": "aws-batch",
-        #      "default_os": "ubuntu22.04",
+        #      "default_os": "ubuntu24.04",
+        #      "platforms": "linux/amd64,linux/arm64"
         #      "test_file_name": "test_awsbatch.py"
         #    },
         #    ...
         #    {
-        #      "release_tag": "r2024b",
-        #      "os_info_tag": "ubuntu22.04",
+        #      "release_tag": "r2026a",
+        #      "os_info_tag": "ubuntu24.04",
         #      "default_os": "ubuntu24.04",
-        #      "test_file_name": "test_ubuntu2204.py"
+        #      "platforms": "linux/amd64,linux/arm64"
+        #      "test_file_name": "test_ubuntu2404.py"
         #    }
         #  ]
         #
@@ -119,6 +124,7 @@ jobs:
             release_tag: .release,
             os_info_tag: $os,
             default_os: .default_os,
+            platforms: .platforms,
             test_file_name: "test_\($os | gsub("-|\\.";"")).py"
           }]')
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
@@ -136,10 +142,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}

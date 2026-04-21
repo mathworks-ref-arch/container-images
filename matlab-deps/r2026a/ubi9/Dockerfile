@@ -3,7 +3,7 @@ FROM registry.access.redhat.com/ubi9/ubi:latest
 
 LABEL maintainer="The MathWorks, Inc."
 
-COPY base-dependencies.txt /tmp/base-dependencies.txt
+COPY base-dependencies-amd64.txt /tmp/base-dependencies.txt
 
 RUN yum update --disableplugin=subscription-manager -y \
     && yum install --disableplugin=subscription-manager -y `cat /tmp/base-dependencies.txt` \

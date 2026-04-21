@@ -10,7 +10,7 @@ LABEL maintainer="The MathWorks, Inc."
 # locales, locales-all - Provide extended locales support
 # python3, python3-pip - Python and pip are to run the AWS CLI.
 # unzip, zip           - Used to stage input/output data.
-COPY base-dependencies.txt /tmp/base-dependencies.txt
+COPY base-dependencies-amd64.txt /tmp/base-dependencies.txt
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
