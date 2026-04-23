@@ -1,6 +1,6 @@
-"""Test class for matlab-deps:ubuntu24.04 Docker images."""
+"""Test class for matlab-deps:debian13 Docker images."""
 
-# Copyright 2024-2026 The MathWorks, Inc.
+# Copyright 2026 The MathWorks, Inc.
 
 import unittest
 import importlib
@@ -8,12 +8,12 @@ import importlib
 test_apt = importlib.import_module("matlab-deps.utils.test_apt")
 
 
-PLATFORM = "ubuntu24.04"
+PLATFORM = "debian13"
 
 
-class TestUbuntu2404(test_apt.TestApt):
+class TestDebian13(test_apt.TestApt):
     def setUp(self):
-        """Skip this test class unless the platform is 'ubuntu24.04'"""
+        """Skip this test class unless the platform is 'debian13'"""
         if not PLATFORM in self.platform:
             self.skipTest(
                 f"skipping matlab-deps:{PLATFORM} test suite for {self.container.image.tags}"

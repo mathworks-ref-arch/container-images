@@ -11,8 +11,9 @@ DEPENDENCIES_LIST_FILENAME = "base-dependencies.txt"
 
 ubuntu_re = re.compile("ubuntu[0-9]{2}.[0-9]{2}")
 ubi_re = re.compile("ubi[0-9]")
+debian_re = re.compile("debian[0-9]{2}")
 aws_re = re.compile("aws-batch")
-platform_re = re.compile(f"({ubuntu_re.pattern})|({ubi_re.pattern})|({aws_re.pattern})")
+platform_re = re.compile(f"({ubuntu_re.pattern})|({ubi_re.pattern})|({debian_re.pattern})|({aws_re.pattern})")
 
 release_re = re.compile("R20[0-9]{2}[ab]", re.IGNORECASE)
 

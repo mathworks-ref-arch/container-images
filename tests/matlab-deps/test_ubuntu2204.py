@@ -1,17 +1,17 @@
 """Test class for matlab-deps:ubuntu22.04 Docker images."""
 
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 import unittest
 import importlib
 
-test_ubuntu = importlib.import_module("matlab-deps.utils.test_ubuntu")
+test_apt = importlib.import_module("matlab-deps.utils.test_apt")
 
 
 PLATFORM = "ubuntu22.04"
 
 
-class TestUbuntu2204(test_ubuntu.TestUbuntu):
+class TestUbuntu2204(test_apt.TestApt):
     def setUp(self):
         """Skip this test class unless the platform is 'ubuntu22.04'"""
         if not PLATFORM in self.platform:

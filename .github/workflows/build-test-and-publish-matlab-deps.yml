@@ -36,7 +36,7 @@ env:
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
     { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
-    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" }
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "debian12", "debian13"], "platforms": "linux/amd64" }
     ]'
 
 jobs:

@@ -1,6 +1,6 @@
 """Base test class for matlab-deps Docker images."""
 
-# Copyright 2021-2024 The MathWorks, Inc.
+# Copyright 2021-2026 The MathWorks, Inc.
 
 import unittest
 import docker
@@ -59,6 +59,17 @@ class TestCase(unittest.TestCase):
             with self.subTest(env=env):
                 val = self.host.environment().get(env)
                 self.assertIsNone(val, f"{env} was expected to be unset but got {val}")
+
+    def test_lang_env(self):
+        """Test that the LANG environment variable is set to en_US.UTF-8"""
+        expected_lang="en_US.UTF-8"
+        env=self.host.environment()
+        self.assertIn("LANG", env.keys(), "LANG environment variable is not set")
+        self.assertEqual(
+            env.get("LANG"),
+            expected_lang,
+            f"The LANG environment variable is not set to {expected_lang}, it is set to {env['LANG']}",
+        )
 
 
 ######################################################################

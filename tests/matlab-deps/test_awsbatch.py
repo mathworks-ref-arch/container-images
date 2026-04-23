@@ -7,7 +7,7 @@ import unittest
 import importlib
 
 release_platform = importlib.import_module("matlab-deps.utils.release_platform")
-test_ubuntu = importlib.import_module("matlab-deps.utils.test_ubuntu")
+test_apt = importlib.import_module("matlab-deps.utils.test_apt")
 
 PLATFORM = "aws-batch"
 
@@ -29,7 +29,7 @@ BASE_PLATFORM_DICT = {
 }
 
 
-class TestAWSBatch(test_ubuntu.TestUbuntu):
+class TestAWSBatch(test_apt.TestApt):
 
     def setUp(self):
         """Skip this test class unless the platform contains 'aws-batch'"""

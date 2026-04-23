@@ -1,6 +1,6 @@
 """Test class for matlab-deps:ubi* Docker images."""
 
-# Copyright 2023-2024 The MathWorks, Inc.
+# Copyright 2023-2026 The MathWorks, Inc.
 
 import unittest
 from . import base
@@ -8,7 +8,7 @@ from . import base
 UBI = "ubi"
 
 
-class TestUbi(base.TestCase):
+class TestYum(base.TestCase):
 
     def test_packages_are_upgraded(self):
         """Test that the packages installed in the container are updated to the latest version"""
@@ -39,18 +39,6 @@ class TestUbi(base.TestCase):
                         0,
                         f"{fullname} is not empty",
                     )
-
-    def test_lang_env(self):
-        """Test that the LANG environment variable is set to en_US.UTF-8"""
-        expected_lang="en_US.UTF-8"
-        env=self.host.environment()
-        self.assertIn("LANG", env.keys(), "LANG environment variable is not set")
-        self.assertEqual(
-            env.get("LANG"),
-            expected_lang,
-            f"The LANG environment variable is not set to {expected_lang}, it is set to {env['LANG']}",
-        )
-
 
 ######################################################################
 

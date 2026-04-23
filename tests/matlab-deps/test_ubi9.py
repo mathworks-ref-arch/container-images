@@ -1,15 +1,15 @@
 """Test class for matlab-deps:ubi9 Docker images."""
 
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 import unittest
 import importlib
 
-test_ubi = importlib.import_module("matlab-deps.utils.test_ubi")
+test_yum = importlib.import_module("matlab-deps.utils.test_yum")
 PLATFORM = "ubi9"
 
 
-class TestUbi9(test_ubi.TestUbi):
+class TestUbi9(test_yum.TestYum):
     def setUp(self):
         """Skip this test class unless the platform is 'ubi9'"""
         if not PLATFORM in self.platform:
