@@ -1,9 +1,9 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 ARG BASE_IMAGE
 
 ARG MPM_DOWNLOAD_DESTINATION="/usr/local/src"
 
-ARG MATLAB_RELEASE=R2025b
+ARG MATLAB_RELEASE=R2026a
 
 ARG LOCATION_ROOT=/tmp/deps
 
