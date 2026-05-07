@@ -6,12 +6,12 @@ from pytools import helper
 import unittest
 import importlib
 
-release_platform = importlib.import_module("matlab-deps.utils.release_platform")
+release_os = importlib.import_module("matlab-deps.utils.release_os")
 test_apt = importlib.import_module("matlab-deps.utils.test_apt")
 
-PLATFORM = "aws-batch"
+OS_TAG = "aws-batch"
 
-BASE_PLATFORM_DICT = {
+BASE_OS_DICT = {
     "r2019b": "ubuntu18.04",
     "r2020a": "ubuntu18.04",
     "r2020b": "ubuntu20.04",
@@ -28,15 +28,15 @@ BASE_PLATFORM_DICT = {
     "r2026a": "ubuntu24.04",
 }
 
-
 class TestAWSBatch(test_apt.TestApt):
-
+    
     def setUp(self):
-        """Skip this test class unless the platform contains 'aws-batch'"""
-        if not PLATFORM in self.platform:
+        """Skip this test class unless the os tag contains 'aws-batch'"""
+        if not OS_TAG in self.os_tag:
             self.skipTest(
-                f"skipping matlab-deps:{PLATFORM} test suite for {self.container.image.tags}"
+                f"skipping matlab-deps:{OS_TAG} test suite for {self.container.image.tags}"
             )
+        
 
     def test_additional_packages_installed(self):
         """Test that the software packages listed below are installed in the container"""
@@ -69,10 +69,12 @@ class TestAWSBatch(test_apt.TestApt):
         self.assertEqual(cmd.rc, 0)
 
     def test_same_packages_as_base_image(self):
-        """Test that each package installed in matlab-deps is also present in aws-batch"""
+        """Test that each package installed in matlab-deps for ubuntuXX.04 is also present in aws-batch"""
         base_platform_deps_list = helper.parse_file_to_list(
-            release_platform.get_deps_list_filepath(
-                self.release, BASE_PLATFORM_DICT[self.release]
+            release_os.build_deps_list_filepath(
+                release=self.release.lower(), 
+                os=BASE_OS_DICT.get(self.release.lower()),
+                arch=self.arch
             )
         )
         for name in base_platform_deps_list:

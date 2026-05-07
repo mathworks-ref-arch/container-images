@@ -1,0 +1,60 @@
+# Copyright 2026 The MathWorks, Inc.
+
+name: Generates Image Tags
+description: This action generates the image name and tags for the Docker images based on MATLAB release and OS information.
+
+inputs:
+  image_name:
+    description: "Name of image, without tag. Example: mathworks/matlab-deps"
+    required: true
+  release_tag:
+    description: "Name of the MATLAB release. Example: r2023a"
+    required: true
+  os_info_tag:
+    description: "OS tag to be included in the image tag. Example: ubuntu24.04"
+    required: true
+  is_default_os:
+    description: "Specify whether the OS being tagged is desired default OS. For example, this field is used to configure that mathworks/matlab-deps:r2023a should point to mathworks/matlab-deps:r2023a-ubuntu24.04"
+    required: true
+  should_add_latest_tag:
+    description: "Specify if this image should also be tagged as latest"
+    required: true
+
+outputs:
+  image_name_tags:
+    description: "CSV list of image name and tags"
+    value: ${{ steps.export_tags.outputs.image_name_tags }}
+
+runs:
+  using: "composite"
+  steps:
+    # Invalid combination would error out.
+    - name: Invalid combination of should_add_latest_tag set to true and is_default_os set to false
+      if: ${{ inputs.should_add_latest_tag == 'true' && inputs.is_default_os == 'false' }}
+      shell: bash
+      run: |
+        echo "Invalid situation detected. A workflow marked as latest must also set the default os to be true. "
+        exit 1
+
+    - name: Export Image Tags
+      id: export_tags
+      shell: bash
+      run: |
+        RAW_MATLAB_RELEASE=${{ inputs.release_tag }}
+        LOWER_CASE_MATLAB_RELEASE=${RAW_MATLAB_RELEASE,,}
+
+        TAG_RELEASE_ONLY_CAMEL_CASE=${LOWER_CASE_MATLAB_RELEASE}
+        TAG_RELEASE_ONLY_PASCAL_CASE=${LOWER_CASE_MATLAB_RELEASE^}
+        TAG_RELEASE_AND_OS_CAMEL_CASE=${LOWER_CASE_MATLAB_RELEASE}-${{ inputs.os_info_tag }}
+        TAG_RELEASE_AND_OS_PASCAL_CASE=${LOWER_CASE_MATLAB_RELEASE^}-${{ inputs.os_info_tag }}
+
+        IMAGE_TAGS="${{ inputs.image_name }}:${TAG_RELEASE_AND_OS_CAMEL_CASE}"
+        IMAGE_TAGS="${IMAGE_TAGS},${{ inputs.image_name }}:${TAG_RELEASE_AND_OS_PASCAL_CASE}"
+        if [[ ${{ inputs.is_default_os }} == 'true' ]]; then
+          IMAGE_TAGS="${IMAGE_TAGS},${{ inputs.image_name }}:${TAG_RELEASE_ONLY_CAMEL_CASE}"
+          IMAGE_TAGS="${IMAGE_TAGS},${{ inputs.image_name }}:${TAG_RELEASE_ONLY_PASCAL_CASE}"
+          if [[ ${{ inputs.should_add_latest_tag }} == 'true' ]]; then
+            IMAGE_TAGS="${IMAGE_TAGS},${{ inputs.image_name }}:latest"
+          fi
+        fi
+        echo "image_name_tags=${IMAGE_TAGS}" >> "${GITHUB_OUTPUT}"

@@ -1,4 +1,4 @@
-# Copyright 2023-2024 The MathWorks, Inc.
+# Copyright 2023-2026 The MathWorks, Inc.
 # Build & Publish polyspace-deps/r2023b/ubuntu22.04
 name: polyspace-deps-r2023b-ubuntu22.04
 
@@ -30,12 +30,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
     
-      - name: Build, and Publish Polyspace Dependencies
-        uses: ./.github/actions/build-test-and-publish-matlab-deps
+      - name: Generate Image Tags
+        id: image_name_tags
+        uses: ./.github/actions/gen-image-tags
         with:
-          docker_build_context: './polyspace-deps/r2023b/ubuntu22.04'
           image_name: mathworks/polyspace-deps
-          matlab_release_tag: 'r2023b'
+          release_tag: 'r2023b'
           os_info_tag: 'ubuntu22.04'
           is_default_os: true
           should_add_latest_tag: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build and Push Polyspace Dependencies Image
+        uses: docker/build-push-action@v7
+        with:
+          context: './polyspace-deps/r2023b/ubuntu22.04'
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.image_name_tags.outputs.image_name_tags }}

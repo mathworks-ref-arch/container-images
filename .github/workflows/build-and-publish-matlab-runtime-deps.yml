@@ -1,4 +1,4 @@
-# Copyright 2025 The MathWorks, Inc.
+# Copyright 2025-2026 The MathWorks, Inc.
 
 # This file builds and publishes the mathworks/matlab-runtime-deps Docker Images to DockerHub.
 
@@ -62,20 +62,31 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build, Test, and Publish MATLAB Dependencies
-        uses: ./.github/actions/build-test-and-publish-matlab-deps
+      - name: Generate Image Tags
+        id: image_name_tags
+        uses: ./.github/actions/gen-image-tags
         with:
-          docker_build_context: './matlab-runtime-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}'
           image_name: ${{ env.image_name }}
-          matlab_release_tag: ${{ matrix.input.release_tag }}
+          release_tag: ${{ matrix.input.release_tag }}
           os_info_tag: ${{ matrix.input.os_info_tag }}
           is_default_os: ${{ matrix.input.os_info_tag == matrix.input.default_os }}
           should_add_latest_tag: ${{ matrix.input.os_info_tag == matrix.input.default_os && matrix.input.release_tag == env.latest_release }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build and Push MATLAB Runtime Dependencies Image
+        uses: docker/build-push-action@v7
+        with:
+          context: './matlab-runtime-deps/${{ matrix.input.release_tag }}/${{ matrix.input.os_info_tag }}'
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.image_name_tags.outputs.image_name_tags }}

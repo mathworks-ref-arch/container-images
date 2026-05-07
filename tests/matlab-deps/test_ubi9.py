@@ -6,17 +6,16 @@ import unittest
 import importlib
 
 test_yum = importlib.import_module("matlab-deps.utils.test_yum")
-PLATFORM = "ubi9"
 
+OS_TAG = "ubi9"
 
 class TestUbi9(test_yum.TestYum):
     def setUp(self):
-        """Skip this test class unless the platform is 'ubi9'"""
-        if not PLATFORM in self.platform:
+        """Skip this test class unless the os tag contains 'ubi9'"""
+        if not OS_TAG in self.os_tag:
             self.skipTest(
-                f"skipping matlab-deps:{PLATFORM} test suite for {self.container.image.tags}"
+                f"skipping matlab-deps:{OS_TAG} test suite for {self.container.image.tags}"
             )
-
 
 ######################################################################
 

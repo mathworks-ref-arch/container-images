@@ -7,18 +7,15 @@ import importlib
 
 test_apt = importlib.import_module("matlab-deps.utils.test_apt")
 
-
-PLATFORM = "ubuntu22.04"
-
+OS_TAG = "ubuntu22.04"
 
 class TestUbuntu2204(test_apt.TestApt):
     def setUp(self):
-        """Skip this test class unless the platform is 'ubuntu22.04'"""
-        if not PLATFORM in self.platform:
+        """Skip this test class unless the os tag contains 'ubuntu22.04'"""
+        if not OS_TAG in self.os_tag:
             self.skipTest(
-                f"skipping matlab-deps:{PLATFORM} test suite for {self.container.image.tags}"
+                f"skipping matlab-deps:{OS_TAG} test suite for {self.container.image.tags}"
             )
-
 
 ######################################################################
 

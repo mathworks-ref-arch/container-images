@@ -5,26 +5,31 @@
 import unittest
 import docker
 import testinfra
-from . import release_platform
+from . import release_os
 from pytools import helper
-
 
 class TestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        image_name = helper.get_image_name()
-        getter = release_platform.Getter(image_name)
+        try:
+            image_id = helper.get_image_id()
+        except ValueError:
+            image_id = helper.get_image_name()
 
-        cls.dependencies_list = helper.parse_file_to_list(getter.deps_list_filepath)
-        cls.release = getter.release
-        cls.platform = getter.platform
-        cls.client = docker.from_env()
+        cls.client = docker.from_env()  
         cls.container = cls.client.containers.run(
-            image=image_name,
+            image=image_id,
             detach=True,
             stdin_open=True,
             entrypoint="/bin/bash",
         )
+
+        getter = release_os.Getter(cls.container.image)
+        cls.dependencies_list = helper.parse_file_to_list(getter.deps_list_filepath)
+        cls.release = getter.release
+        cls.os_tag = getter.os_tag
+        cls.arch = getter.arch
+
         cls.host = testinfra.get_host("docker://" + cls.container.id)
 
     @classmethod

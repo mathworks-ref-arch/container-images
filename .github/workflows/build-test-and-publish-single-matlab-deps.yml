@@ -11,20 +11,12 @@ name: Build Test and Publish a Matlab-Deps Image
 on:
   workflow_dispatch:
     inputs:
-      docker_build_context:
-        description: "Relative path to folder with Dockerfile. Ex: ./matlab-deps/r2023a/ubuntu24.04"
-        required: true
-        type: string
-      image_name:
-        description: "Name of image, without tag. Example: mathworks/matlab-deps"
-        required: true
-        type: string
       matlab_release_tag:
         description: "Name of the MATLAB release. Example: r2023a"
         required: true
         type: string
       os_info_tag:
-        description: "MATLAB Deps os info tag. Allowed values: aws-batch, ubi8, ubi9, ubuntu22.04, ubuntu24.04"
+        description: "MATLAB Deps os info tag. For example: aws-batch, debian13, ubi9, ubuntu24.04"
         required: true
         type: string
       is_default_os:
@@ -39,9 +31,42 @@ on:
         description: "Relative path to the root directory. Ex: ./tests/matlab-deps/test_ubuntu2204.py"
         required: false
         type: string
+  
+  workflow_call:
+    inputs:
+      matlab_release_tag:
+        description: "Name of the MATLAB release. Example: r2023a"
+        required: true
+        type: string
+      os_info_tag:
+        description: "MATLAB Deps os info tag. For example: aws-batch, debian13, ubi9, ubuntu24.04"
+        required: true
+        type: string
+      is_default_os:
+        description: "Specify whether the OS being tagged is desired default OS. For example, This field is used to configure that matlab-deps/r2023a should point to matlab-deps/r2023a-ubuntu24.04"
+        required: true
+        type: boolean
+      should_add_latest_tag:
+        description: "Specify if this image should also be tagged as latest"
+        required: true
+        type: boolean
+      test_file_path:
+        description: "Relative path to the root directory. Ex: ./tests/matlab-deps/test_ubuntu2204.py"
+        required: false
+        type: string
+    secrets:
+      DOCKERHUB_USERNAME:
+        description: "DockerHub username with permissions to push the image"
+        required: true
+      DOCKERHUB_TOKEN:
+        description: "DockerHub token with permissions to push the image"
+        required: true
+
+env:
+  image_name: mathworks/matlab-deps
 
 jobs:
-  build-push-image:
+  build-test-push-image:
     runs-on: ubuntu-latest
 
     permissions:
@@ -57,13 +82,36 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build, Test, and Publish MATLAB-Deps
-        uses: ./.github/actions/build-test-and-publish-matlab-deps
+      - name: Generate Image Tags
+        id: image_name_tags
+        uses: ./.github/actions/gen-image-tags
         with:
-          docker_build_context: ${{ inputs.docker_build_context }}
-          image_name: ${{ inputs.image_name }}
-          matlab_release_tag: ${{ inputs.matlab_release_tag }}
+          image_name: ${{ env.image_name }}
+          release_tag: ${{ inputs.matlab_release_tag }}
           os_info_tag: ${{ inputs.os_info_tag }}
           is_default_os: ${{ inputs.is_default_os }}
           should_add_latest_tag: ${{ inputs.should_add_latest_tag }}
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Image
+        id: build-image
+        uses: docker/build-push-action@v7
+        with:
+          context: "./matlab-deps/${{ inputs.matlab_release_tag }}/${{ inputs.os_info_tag }}"
+          platforms: linux/amd64
+          load: true
+          tags: ${{ steps.image_name_tags.outputs.image_name_tags }}
+
+      - name: Test Image
+        uses: ./.github/actions/test-matlab-deps
+        if: ${{ inputs.test_file_path != '' }}
+        with:
+          image_id: ${{ steps.build-image.outputs.imageid }}
           test_file_path: ${{ inputs.test_file_path }}
+      
+      - name: Push Image
+        shell: bash
+        run: docker push --all-tags ${{ env.image_name }}
+

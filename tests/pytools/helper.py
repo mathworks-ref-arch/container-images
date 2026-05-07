@@ -1,6 +1,6 @@
 """Helper functions for testing cloud platforms"""
 
-# Copyright 2021-2024 The MathWorks, Inc.
+# Copyright 2021-2026 The MathWorks, Inc.
 
 import os
 import re
@@ -15,6 +15,9 @@ def get_image_name():
     """Get the name of the Docker image from the environment"""
     return _get_env("IMAGE_NAME")
 
+def get_image_id():
+    """Get the ID of the Docker image from the environment"""
+    return _get_env("IMAGE_ID")
 
 def get_license_filepath():
     """Get the path of the license file from the environment"""
@@ -41,7 +44,6 @@ def _get_env(env):
 #####################################
 
 ## Get functions ##
-
 
 def get_release_from_dir(host, base_dir="/opt/matlab"):
     """MATLAB in the Docker container images is installed under /opt/matlab/r20xyz.
@@ -93,17 +95,6 @@ def parse_file_to_list(filepath):
         for line in file:
             list.extend(line.split())
     return list
-
-
-release_re = re.compile("R20[0-9]{2}[ab]", re.IGNORECASE)
-
-
-def is_valid_release(str):
-    match = release_re.fullmatch(str)
-    if match:
-        return True
-    else:
-        return False
 
 
 ## Wait functions ##
