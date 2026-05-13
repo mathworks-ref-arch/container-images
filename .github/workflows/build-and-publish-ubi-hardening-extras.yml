@@ -28,20 +28,20 @@ jobs:
     # The following jobs all build from this base image.
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Build base image and save as tar archive
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./ubi-hardening-extras/${{ env.BASE_IMAGE }}
           tags: ${{ env.BASE_IMAGE }}:latest
           outputs: type=docker,dest=/tmp/${{ env.BASE_IMAGE }}.tar
 
       - name: Upload base image archive to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.BASE_IMAGE }}
           path: /tmp/${{ env.BASE_IMAGE }}.tar
@@ -78,10 +78,10 @@ jobs:
     # This runs for all packages in the matrix.
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download base image archive from artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.BASE_IMAGE }}
           path: /tmp
@@ -98,7 +98,7 @@ jobs:
       # Build the package Docker image locally to retrieve the new signature.
       # We will only push to GHCR if the new package SHA-256 is different from the latest one.
       - name: Build new UBI package Docker image to file system
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./ubi-hardening-extras/${{ matrix.package }}
           build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
@@ -106,7 +106,7 @@ jobs:
           push: false
 
       - name: Login to GitHub Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -151,7 +151,7 @@ jobs:
       # this time build locally storing the new version number.
       # The build relies on the docker build cache to simply update the version and push.
       - name: Build Docker image for UBI packages
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         if: ${{ steps.check.outputs.is_identical != '0' }}
         with:
           context: ./ubi-hardening-extras/${{ matrix.package }}
@@ -164,7 +164,7 @@ jobs:
 
       - name: Set up Python 3
         if: ${{ steps.check.outputs.is_identical != '0' }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
 
