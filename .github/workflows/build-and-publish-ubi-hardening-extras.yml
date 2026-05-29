@@ -79,6 +79,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        
+      - name: Cleanup
+        uses: ./.github/actions/cleanup-runner
 
       - name: Download base image archive from artifacts
         uses: actions/download-artifact@v8
@@ -179,6 +182,7 @@ jobs:
         if: ${{ steps.check.outputs.is_identical != '0' }}
         working-directory: ubi-hardening-extras/tests
         env:
+          BASE_IMAGE: ${{ env.BASE_IMAGE }}
           IMAGE_UNDER_TEST: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
         run: python -m unittest ${{ matrix.package }}/*.py
 

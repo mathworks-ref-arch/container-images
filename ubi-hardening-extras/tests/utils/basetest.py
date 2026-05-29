@@ -1,4 +1,4 @@
-# Copyright 2023 The MathWorks, Inc.
+# Copyright 2023-2026 The MathWorks, Inc.
 
 import testinfra
 import docker
@@ -11,7 +11,10 @@ class TestCase(unittest.TestCase):
     """Base test class"""
 
     # default parameters (can be overridden in derived test classes)
-    buildargs = {"IMAGE_UNDER_TEST": os.getenv("IMAGE_UNDER_TEST")}
+    buildargs = {
+        "IMAGE_UNDER_TEST": os.getenv("IMAGE_UNDER_TEST"),
+        "BASE_IMAGE": os.getenv("BASE_IMAGE"),
+    }
     dockerfile = "Dockerfile"
 
     @classmethod
@@ -21,12 +24,18 @@ class TestCase(unittest.TestCase):
         To choose which image use as a base image, set the buildargs "IMAGE_UNDER_TEST"
         """
         cls.client = docker.from_env()
-        cls.image, _ = cls.client.images.build(
-            path=str(pathlib.Path(__file__).parent.resolve()),
-            buildargs=cls.buildargs,
-            dockerfile=cls.dockerfile,
-            rm=True,
-        )
+        try:
+            cls.image, _ = cls.client.images.build(
+                path=str(pathlib.Path(__file__).parent.resolve()),
+                buildargs=cls.buildargs,
+                dockerfile=cls.dockerfile,
+                rm=True,
+            )
+        except docker.errors.BuildError as e:
+            for log in e.build_log:
+                if "stream" in log:
+                    print(log["stream"], end="")
+            raise
 
     def setUp(self):
         """Run the docker container. Equivalent to

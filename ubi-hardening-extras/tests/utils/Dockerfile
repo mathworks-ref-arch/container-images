@@ -1,15 +1,13 @@
-# Copyright 2023-2025 The MathWorks, Inc.
+# Copyright 2023-2026 The MathWorks, Inc.
 
-ARG BASE_REGISTRY=redhat
-ARG BASE_IMAGE=ubi9
-ARG BASE_TAG=9.7
+ARG BASE_IMAGE
 ARG IMAGE_UNDER_TEST
 
 FROM ${IMAGE_UNDER_TEST} AS image-under-test
 
 # install the RPM packages contained in the $TAR_IMAGE into a redhat-ubi image
 
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
+FROM ${BASE_IMAGE}
 
 ARG RPM_INSTALL=/tmp
 

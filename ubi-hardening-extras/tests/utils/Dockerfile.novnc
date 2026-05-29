@@ -1,13 +1,11 @@
-# Copyright 2023-2025 The MathWorks, Inc.
+# Copyright 2023-2026 The MathWorks, Inc.
 
-ARG BASE_REGISTRY=redhat
-ARG BASE_IMAGE=ubi9
-ARG BASE_TAG=9.7
-ARG IMAGE_UNDER_TEST=novnc
+ARG BASE_IMAGE
+ARG IMAGE_UNDER_TEST
 
 FROM ${IMAGE_UNDER_TEST} AS image-under-test
 
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
+FROM ${BASE_IMAGE}
 
 COPY --from=image-under-test *.tar.gz /tmp
 
