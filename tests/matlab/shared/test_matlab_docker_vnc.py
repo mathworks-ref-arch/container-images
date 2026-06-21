@@ -1,4 +1,4 @@
-# Copyright 2021-2024 The MathWorks, Inc.
+# Copyright 2021-2026 The MathWorks, Inc.
 
 """Run the tests for Docker images which can run in -vnc mode"""
 
@@ -32,7 +32,7 @@ class TestVncMode(unittest.TestCase):
             command="-vnc",
         )
         cls.host = testinfra.get_host("docker://" + cls.container.id)
-        helper.wait_for_cmd_cont(cls.container, "vnc", 30)
+        helper.wait_for_cmd_cont(cls.container, "Xtigervnc", 30)
         helper.wait_for_cmd_cont(cls.container, "noVNC", 30)
 
     @classmethod
