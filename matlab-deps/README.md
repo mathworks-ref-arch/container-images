@@ -15,7 +15,16 @@ When a base image is no longer supported by Ubuntu, the 'matlab-deps' image base
 
 | Tags         | MATLAB Version | Operating System | Platforms | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |---------- |----------- | ----------- |
-|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026a/ubuntu24.04/Dockerfile) | R2026a | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
+|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
+|[`r2026b`, `R2026b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
+|[`r2026b-ubuntu26.04`, `R2026b-ubuntu26.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
+|[`r2026b-ubuntu24.04`, `R2026b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu24.04/Dockerfile) | R2026b | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
+|[`r2026b-ubuntu22.04`, `R2026b-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu22.04/Dockerfile) | R2026b | Ubuntu 22.04 | `linux/amd64` | ubuntu:22.04 | |
+|[`r2026b-ubi9`, `R2026b-ubi9`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubi9/Dockerfile) | R2026b | Red Hat UBI 9 | `linux/amd64` | registry.access.redhat.​com/ubi9/ubi:latest | |
+|[`r2026b-ubi8`, `R2026b-ubi8`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubi8/Dockerfile) | R2026b | Red Hat UBI 8 | `linux/amd64` | registry.access.redhat.​com/ubi8/ubi:latest | |
+|[`r2026b-debian13`, `R2026b-debian13`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/debian13/Dockerfile) | R2026b | Debian 13 | `linux/amd64` | debian:13 | |
+|[`r2026b-debian12`, `R2026b-debian12`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/debian12/Dockerfile) | R2026b | Debian 12 | `linux/amd64` | debian:12 | |
+|[`r2026b-aws-batch`, `R2026b-aws-batch`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/aws-batch/Dockerfile) | R2026b | Ubuntu 24.04 | `linux/amd64` | nvidia/cuda:13.1.2-base-ubuntu24.04 | For use with [MATLAB® Parallel Server™ with AWS® Batch](https://github.com/mathworks-ref-arch/matlab-parallel-server-with-aws-batch)|
 |[`r2026a`, `R2026a`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026a/ubuntu24.04/Dockerfile) | R2026a | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
 |[`r2026a-ubuntu24.04`, `R2026a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026a/ubuntu24.04/Dockerfile) | R2026a | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
 |[`r2026a-ubuntu22.04`, `R2026a-ubuntu22.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026a/ubuntu22.04/Dockerfile) | R2026a | Ubuntu 22.04 | `linux/amd64` | ubuntu:22.04 | |

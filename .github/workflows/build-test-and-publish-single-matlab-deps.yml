@@ -27,6 +27,10 @@ on:
         description: "Specify if this image should also be tagged as latest"
         required: true
         type: boolean
+      platforms:
+        description: "Comma-separated list of platforms to build the image for. For example: linux/amd64,linux/arm64"
+        required: true
+        type: string
       test_file_path:
         description: "Relative path to the root directory. Ex: ./tests/matlab-deps/test_ubuntu2204.py"
         required: false
@@ -50,10 +54,15 @@ on:
         description: "Specify if this image should also be tagged as latest"
         required: true
         type: boolean
+      platforms:
+        description: "Comma-separated list of platforms to build the image for. For example: linux/amd64,linux/arm64"
+        required: true
+        type: string
       test_file_path:
         description: "Relative path to the root directory. Ex: ./tests/matlab-deps/test_ubuntu2204.py"
         required: false
         type: string
+
     secrets:
       DOCKERHUB_USERNAME:
         description: "DockerHub username with permissions to push the image"
@@ -64,10 +73,101 @@ on:
 
 env:
   image_name: mathworks/matlab-deps
+  platforms: 'linux/amd64' # TODO: replace with ${{ inputs.platforms }} when multiplatform build is supported
 
 jobs:
-  build-test-push-image:
+  generate-image-tags:
     runs-on: ubuntu-latest
+    outputs:
+      image_name_tags: ${{ steps.image_name_tags.outputs.image_name_tags }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Generate Image Tags
+        id: image_name_tags
+        uses: ./.github/actions/gen-image-tags
+        with:
+          image_name: ${{ env.image_name }}
+          release_tag: ${{ inputs.matlab_release_tag }}
+          os_info_tag: ${{ inputs.os_info_tag }}
+          is_default_os: ${{ inputs.is_default_os }}
+          should_add_latest_tag: ${{ inputs.should_add_latest_tag }}
+
+  build-test-amd64:
+    runs-on: ubuntu-latest
+    needs: generate-image-tags
+    if: ${{ contains(inputs.platforms, 'linux/amd64') }}
+    env:
+      platforms: 'linux/amd64' # override to only build for amd64 platform in this job
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Image
+        id: build-image
+        uses: docker/build-push-action@v7
+        with:
+          context: "./matlab-deps/${{ inputs.matlab_release_tag }}/${{ inputs.os_info_tag }}"
+          platforms: ${{ env.platforms }}
+          load: true
+          tags: ${{ needs.generate-image-tags.outputs.image_name_tags }}
+
+      - name: Test Image
+        uses: ./.github/actions/test-matlab-deps
+        if: ${{ inputs.test_file_path != '' }}
+        with:
+          image_id: ${{ steps.build-image.outputs.imageid }}
+          test_file_path: ${{ inputs.test_file_path }}
+
+  build-test-arm64:
+    runs-on: ubuntu-24.04-arm
+    needs: generate-image-tags
+    if: ${{ contains(inputs.platforms, 'linux/arm64') }}
+    env:
+      platforms: 'linux/arm64' # override to only build for arm64 platform in this job
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Image
+        id: build-image
+        uses: docker/build-push-action@v7
+        with:
+          context: "./matlab-deps/${{ inputs.matlab_release_tag }}/${{ inputs.os_info_tag }}"
+          platforms: ${{ env.platforms }}
+          load: true
+          tags: ${{ needs.generate-image-tags.outputs.image_name_tags }}
+
+      - name: Test Image
+        uses: ./.github/actions/test-matlab-deps
+        if: ${{ inputs.test_file_path != '' }}
+        with:
+          image_id: ${{ steps.build-image.outputs.imageid }}
+          test_file_path: ${{ inputs.test_file_path }}
+
+  push-image:
+    runs-on: ubuntu-latest
+    needs: [generate-image-tags, build-test-amd64, build-test-arm64]
+    if: ${{ !failure() && !cancelled() }} # if success or skipped
 
     permissions:
       contents: read
@@ -81,37 +181,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Generate Image Tags
-        id: image_name_tags
-        uses: ./.github/actions/gen-image-tags
-        with:
-          image_name: ${{ env.image_name }}
-          release_tag: ${{ inputs.matlab_release_tag }}
-          os_info_tag: ${{ inputs.os_info_tag }}
-          is_default_os: ${{ inputs.is_default_os }}
-          should_add_latest_tag: ${{ inputs.should_add_latest_tag }}
     
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build Image
-        id: build-image
+        # The image is rebuilt and pushed here because pushing the images built 
+        # in the previous jobs would cause one of the two overriding the other
+      - name: Push Image
         uses: docker/build-push-action@v7
         with:
           context: "./matlab-deps/${{ inputs.matlab_release_tag }}/${{ inputs.os_info_tag }}"
-          platforms: linux/amd64
-          load: true
-          tags: ${{ steps.image_name_tags.outputs.image_name_tags }}
-
-      - name: Test Image
-        uses: ./.github/actions/test-matlab-deps
-        if: ${{ inputs.test_file_path != '' }}
-        with:
-          image_id: ${{ steps.build-image.outputs.imageid }}
-          test_file_path: ${{ inputs.test_file_path }}
-      
-      - name: Push Image
-        shell: bash
-        run: docker push --all-tags ${{ env.image_name }}
-
+          platforms: ${{ env.platforms }}
+          push: true
+          tags: ${{ needs.generate-image-tags.outputs.image_name_tags }}

@@ -16,19 +16,46 @@ on:
     paths:
       - ".github/workflows/publish-matlab-deps-arm64.yml"
       - "matlab-deps/r2026a/**"
+      - "matlab-deps/r2026b/**"
 
 env:
   image_name: ghcr.io/${{ github.repository }}/matlab-deps-arm64
-  release: r2026a
-  default_os: ubuntu24.04
+  latest_release: r2026b
+  releases: '[
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["ubuntu22.04", "ubuntu24.04"]},
+    { "release": "r2026b", "default_os": "ubuntu26.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "ubuntu26.04", "debian12", "debian13"]}
+    ]'
 
 jobs:
+  generate-inputs:
+    runs-on: ubuntu-latest
+
+    permissions: {}
+
+    outputs:
+      image_input_data: ${{ steps.gen-json-list.outputs.image_input_data }}
+      latest_release: ${{ env.latest_release }}
+
+    steps:
+      - name: Generate JSON list of inputs to build and test images
+        id: gen-json-list
+        env:
+          releases: ${{ env.releases }}
+        run: |
+          list=$(echo ${releases} | jq -c '[.[] | .supported_os[] as $os | {
+            release_tag: .release,
+            os_info_tag: $os,
+            default_os: .default_os,
+          }]')
+          echo "image_input_data=$list" >> "$GITHUB_OUTPUT"
+
   build-and-push:
     runs-on: ubuntu-24.04-arm
+    needs: generate-inputs
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu24.04, ubuntu22.04]
+        image_input_data: ${{ fromJson(needs.generate-inputs.outputs.image_input_data) }}
 
     permissions:
       contents: read
@@ -48,40 +75,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Setup Image Tags
-        id: setup_image_tags
-        shell: bash
-        run: |
-          RAW_RELEASE=${{ env.release }} \
-          && LOWER_CASE_RELEASE=${RAW_RELEASE,,} \
-          && UPPER_CASE_RELEASE=${LOWER_CASE_RELEASE^} \
-          && echo "UPPER_CASE_RELEASE=${UPPER_CASE_RELEASE}" >> "${GITHUB_OUTPUT}" \
-          && echo "LOWER_CASE_RELEASE=${LOWER_CASE_RELEASE}" >> "${GITHUB_OUTPUT}" \
-          && echo "UPPER_CASE_RELEASE_AND_OS=${UPPER_CASE_RELEASE}-${{ matrix.os }}" >> "${GITHUB_OUTPUT}" \
-          && echo "LOWER_CASE_RELEASE_AND_OS=${LOWER_CASE_RELEASE}-${{ matrix.os }}" >> "${GITHUB_OUTPUT}"
-    
       
-      - name: Push Default OS Image
-        if: ${{ matrix.os == env.default_os }}
+      - name: Generate Image Tags
+        id: image_name_tags
+        uses: ./.github/actions/gen-image-tags
+        with:
+          image_name: ${{ env.image_name }}
+          release_tag: ${{ matrix.image_input_data.release_tag }}
+          os_info_tag: ${{ matrix.image_input_data.os_info_tag }}
+          is_default_os: ${{ matrix.image_input_data.os_info_tag == matrix.image_input_data.default_os }}
+          should_add_latest_tag: false
+      
+      - name: Push Image
         uses: docker/build-push-action@v7
         with:
-          context: matlab-deps/${{ env.release }}/${{ matrix.os }}
+          context: "./matlab-deps/${{ matrix.image_input_data.release_tag }}/${{ matrix.image_input_data.os_info_tag }}"
           platforms: linux/arm64
           push: true
-          tags: |
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE_AND_OS }}
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE_AND_OS }}
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE }}
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE }}
-
-      
-      - name: Push non-Default OS Image
-        if: ${{ matrix.os != env.default_os }}
-        uses: docker/build-push-action@v7
-        with:
-          context: matlab-deps/${{ env.release }}/${{ matrix.os }}
-          platforms: linux/arm64
-          push: true
-          tags: |
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.UPPER_CASE_RELEASE_AND_OS }}
-            ${{ env.image_name }}:${{ steps.setup_image_tags.outputs.LOWER_CASE_RELEASE_AND_OS }}
+          tags: ${{ steps.image_name_tags.outputs.image_name_tags }}

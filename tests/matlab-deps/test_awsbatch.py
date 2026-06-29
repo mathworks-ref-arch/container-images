@@ -26,6 +26,7 @@ BASE_OS_DICT = {
     "r2025a": "ubuntu22.04",
     "r2025b": "ubuntu22.04",
     "r2026a": "ubuntu24.04",
+    "r2026b": "ubuntu24.04",
 }
 
 class TestAWSBatch(test_apt.TestApt):

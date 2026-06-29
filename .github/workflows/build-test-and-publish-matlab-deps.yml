@@ -35,7 +35,8 @@ env:
     { "release": "r2024b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
     { "release": "r2025a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
     { "release": "r2025b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04"], "platforms": "linux/amd64" },
-    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "debian12", "debian13"], "platforms": "linux/amd64" }
+    { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "debian12", "debian13"], "platforms": "linux/amd64" },
+    { "release": "r2026b", "default_os": "ubuntu26.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "ubuntu26.04", "debian12", "debian13"], "platforms": "linux/amd64" }
     ]'
 
 jobs:
@@ -144,4 +145,5 @@ jobs:
       os_info_tag: ${{ matrix.image_input_data.os_info_tag }}
       is_default_os: ${{ matrix.image_input_data.os_info_tag == matrix.image_input_data.default_os }}
       should_add_latest_tag: ${{ matrix.image_input_data.os_info_tag == matrix.image_input_data.default_os && matrix.image_input_data.release_tag == needs.generate-inputs.outputs.latest_release }}
+      platforms: ${{ matrix.image_input_data.platforms }}
       test_file_path: tests/matlab-deps/${{ matrix.image_input_data.test_file_name }}
