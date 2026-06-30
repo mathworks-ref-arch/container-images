@@ -15,7 +15,7 @@ When a base image is no longer supported by Ubuntu, the 'matlab-deps' image base
 
 | Tags         | MATLAB Version | Operating System | Platforms | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |---------- |----------- | ----------- |
-|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
+|[`latest`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026a/ubuntu24.04/Dockerfile) | R2026a | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
 |[`r2026b`, `R2026b`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
 |[`r2026b-ubuntu26.04`, `R2026b-ubuntu26.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu26.04/Dockerfile) | R2026b | Ubuntu 26.04 | `linux/amd64` | ubuntu:26.04 | |
 |[`r2026b-ubuntu24.04`, `R2026b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-deps/r2026b/ubuntu24.04/Dockerfile) | R2026b | Ubuntu 24.04 | `linux/amd64` | ubuntu:24.04 | |
