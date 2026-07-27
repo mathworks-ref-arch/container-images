@@ -64,6 +64,7 @@ sudo
 unzip
 wget
 x11-xkb-utils
+xkb-data
 zlib1g
 csh
 g++
