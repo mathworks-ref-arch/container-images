@@ -11,6 +11,16 @@ To use an image based on a fixed Ubuntu base image instead, use the appropriate 
 
 When a base image is no longer supported by Ubuntu, the 'matlab-deps' image based on these images will be removed from Docker Hub. You can however still build your own container images using the source Dockerfiles available in the [MathWorks Container Images Repository](https://github.com/mathworks-ref-arch/container-images/tree/main/matlab-deps).
 
+## Base Dependency Lists
+- The base OS package list required by a given MATLAB release and base OS is published in this repository at the stable path:
+
+  ```
+  matlab-deps/<release>/<base_os>/base-dependencies-<arch>.txt
+  ```
+
+- This naming applies uniformly to every supported release from R2019b onward. The legacy `base-dependencies.txt` (without arch suffix) is kept in place for releases R2019b through R2025b so that pre-existing URLs continue to resolve, but new consumers should adopt the suffixed URL.
+- `<arch>=amd64` is available for every supported release. `<arch>=arm64` is available only from R2026a onward; requesting `base-dependencies-arm64.txt` for an older release returns HTTP 404, because those MATLAB releases do not support arm64.
+
 ## Supported Tags
 
 | Tags         | MATLAB Version | Operating System | Platforms | Base Image | Usage Notes |
