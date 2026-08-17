@@ -6,10 +6,12 @@ libatk1.0-0t64
 libatomic1
 libatspi2.0-0t64
 libc6
+libcap-ng0
 libcap2
 libcrypt1
 libcups2t64
 libdlt2
+libegl1
 libfontconfig1
 libfribidi0
 libgbm1
@@ -28,6 +30,7 @@ libnss3
 libnuma1
 libopengl0
 libpam0g
+libpcre2-8-0
 libpixman-1-0
 libpsm2-2
 librdmacm1t64
@@ -36,6 +39,7 @@ libtirpc3t64
 libucx0
 libudev1
 libuuid1
+libxcb-glx0
 libxcomposite1
 libxdamage1
 libxfixes3

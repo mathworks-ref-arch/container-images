@@ -22,12 +22,15 @@ libXt.x86_64
 libXtst.x86_64
 libatomic.x86_64
 libcap.x86_64
+libcap-ng.x86_64
+libglvnd-egl.x86_64
 libglvnd-glx.x86_64
 libibverbs.x86_64
 librdmacm.x86_64
 libsndfile.x86_64
 libtirpc.x86_64
 libuuid.x86_64
+libxcb.x86_64
 libxcrypt-compat.x86_64
 make.x86_64
 mesa-libgbm.x86_64
@@ -37,6 +40,7 @@ nss.x86_64
 nss-util.x86_64
 numactl-libs.x86_64
 pam.x86_64
+pcre2.x86_64
 pixman.x86_64
 procps-ng.x86_64
 sudo.x86_64
