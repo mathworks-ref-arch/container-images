@@ -46,4 +46,5 @@ systemd-libs.x86_64
 unzip.x86_64
 wget.x86_64
 which.x86_64
+xkeyboard-config.noarch
 zlib.x86_64
