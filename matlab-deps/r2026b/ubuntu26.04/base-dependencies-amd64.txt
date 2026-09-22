@@ -6,6 +6,7 @@ libatk-bridge2.0-0t64
 libatk1.0-0t64
 libatomic1
 libatspi2.0-0t64
+libbz2-1.0
 libc6
 libcap-ng0
 libcap2
@@ -18,11 +19,13 @@ libgbm1
 libgl1
 libglib2.0-0t64
 libglx0
+libgomp1
 libgstreamer-plugins-base1.0-0
 libgstreamer1.0-0
 libhidapi-libusb0
 libibverbs1
 libice6
+liblzma5
 libmosquitto1
 libmosquittopp1
 libnspr4
@@ -41,6 +44,7 @@ libudev1
 libuhd4.9.0
 libuuid1
 libxcb-glx0
+libxcb-xinput0
 libxcomposite1
 libxdamage1
 libxfixes3

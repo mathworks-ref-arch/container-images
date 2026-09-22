@@ -23,6 +23,7 @@ libcap.x86_64
 libcap-ng.x86_64
 libglvnd-egl.x86_64
 libglvnd-glx.x86_64
+libgomp.x86_64
 libibverbs.x86_64
 librdmacm.x86_64
 libsndfile.x86_64
@@ -47,4 +48,5 @@ unzip.x86_64
 wget.x86_64
 which.x86_64
 xkeyboard-config.noarch
+xz-libs.x86_64
 zlib.x86_64
