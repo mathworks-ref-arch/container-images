@@ -63,7 +63,7 @@ jobs:
         tag: [ubi9.8]
         include:
           - package: matlab
-            tag: R2026a
+            tag: R2026b
 
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository }}/ubi-hardening-extras/${{ matrix.package }}
@@ -79,7 +79,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        
+
       - name: Cleanup
         uses: ./.github/actions/cleanup-runner
 
