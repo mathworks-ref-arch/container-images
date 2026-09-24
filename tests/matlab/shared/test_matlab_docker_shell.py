@@ -141,8 +141,11 @@ class TestBasicFeatures(unittest.TestCase):
     def test_files_in_directory(self):
         """Test that the following files are present."""
         matlab_release = helper.get_release_from_dir(self.host)
+        vnc_config_dir = "/home/matlab/" + self.host.environment().get(
+            "VNC_CONFIG_DIR", ".vnc"
+        )
         paths = [
-            ("/home/matlab/.vnc", "xstartup"),
+            (vnc_config_dir, "xstartup"),
             ("/home/matlab/Desktop", "MATLAB.desktop"),
             ("/home/matlab/.config", "xfce4"),
             ("/home/matlab/.matlab/" + matlab_release, "matlab.prf"),
@@ -161,8 +164,11 @@ class TestBasicFeatures(unittest.TestCase):
 
     def test_permissions(self):
         """Test that the listed files have the right permissions."""
+        vnc_config_dir = "/home/matlab/" + self.host.environment().get(
+            "VNC_CONFIG_DIR", ".vnc"
+        )
         pairs = [
-            ("/home/matlab/.vnc/xstartup", "r.xr-xr-x"),
+            (f"{vnc_config_dir}/xstartup", "r.xr-xr-x"),
             ("/home/matlab/Desktop/MATLAB.desktop", "r.xr-xr-x"),
             ("/home/matlab/.matlab/", "r.xr-xr-x"),
             ("/bin/run.sh", "r.xr-xr-x"),

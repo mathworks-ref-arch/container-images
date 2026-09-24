@@ -27,6 +27,9 @@ ARG MATHWORKS_SERVICE_HOST_INSTALL_URL=""
 # Leave blank to use the default PyPi repository.
 ARG PIP_INDEX_URL=""
 
+# Specify the VNC configuration directory, relative to the user's home directory.
+ARG VNC_CONFIG_DIR=".config/tigervnc"
+
 ARG GCC=""
 ARG GPP=""
 
@@ -41,6 +44,7 @@ ARG MATLAB_INSTALL_LOCATION
 ARG MPM_ADDITIONAL_FLAGS
 ARG MATHWORKS_SERVICE_HOST_INSTALL_URL
 ARG PIP_INDEX_URL
+ARG VNC_CONFIG_DIR
 ARG GCC
 ARG GPP
 
@@ -218,12 +222,14 @@ EXPOSE ${MWI_APP_PORT}
 # https://github.com/mathworks-ref-arch/matlab-dockerfile#help-make-matlab-even-better
 ENV MW_DDUX_FORCE_ENABLE=true
 
+ENV VNC_CONFIG_DIR=${VNC_CONFIG_DIR}
+
 ################################################################################
 # Final Setup
 ################################################################################
 
 # Setup the container's desktop environment.
-COPY build/config/xstartup       ${HOME}/.vnc/
+COPY build/config/xstartup       ${HOME}/${VNC_CONFIG_DIR}/
 COPY build/config/MATLAB.desktop ${HOME}/Desktop/
 COPY build/config/xfce4/         ${HOME}/.config/xfce4/
 COPY build/config/startup.m      ${HOME}/Documents/MATLAB/
@@ -235,7 +241,7 @@ COPY build/config/matlab.prf     ${HOME}/.matlab/${MATLAB_RELEASE}/
 COPY build/config/xscreensaver   ${HOME}/.xscreensaver
 
 RUN sudo chown -R matlab:matlab ${HOME} \
-    && chmod +x  ${HOME}/.vnc/xstartup \
+    && chmod +x  ${HOME}/${VNC_CONFIG_DIR}/xstartup \
     && chmod u+w ${HOME}/Desktop/MATLAB.desktop \
     && chmod u+w ${HOME}/.matlab/${MATLAB_RELEASE}/matlab.prf \
     && chmod +x  ${HOME}/Desktop/MATLAB.desktop \
@@ -246,7 +252,7 @@ COPY build/config/novnc_login_redirect.html ${NOVNC}/redirect.html
 
 ARG DEFAULT_VNC_PASSWORD=matlab
 
-RUN printf "${DEFAULT_VNC_PASSWORD}\n${DEFAULT_VNC_PASSWORD}\n\n" | vncpasswd
+RUN printf "${DEFAULT_VNC_PASSWORD}\n${DEFAULT_VNC_PASSWORD}\n\n" | vncpasswd "${HOME}/${VNC_CONFIG_DIR}/passwd"
 
 WORKDIR /home/matlab/Documents/MATLAB/
 ENTRYPOINT ["tini", "--", "/bin/run.sh"]

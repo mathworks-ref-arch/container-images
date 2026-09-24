@@ -14,7 +14,7 @@ exportInBashrc() {
     # into ~/.bashrc so that any bash session started acquires them correctly.
     while [ $# -gt 0 ]; do
         KEY=$1
-        eval "VALUE=\$$KEY"
+        eval "VALUE=\${$KEY:-}"
         echo "export $KEY=$VALUE" >>~/.bashrc
         shift
     done
@@ -41,15 +41,15 @@ startVNCServer() {
 
     # VNC password and xstartup are configured for the matlab user at build time.
     # When running as a different user (e.g. root without user customisation),
-    # $HOME/.vnc/ does not exist. Without a password file, TigerVNC silently waits
+    # $HOME/$VNC_CONFIG_DIR does not exist. Without a password file, TigerVNC silently waits
     # for the user to type a new password on stdin — with stdout redirected to
     # /dev/null the prompt is invisible and the process hangs indefinitely.
-    if [ ! -d "${HOME}/.vnc" ]; then
-        mkdir -p "${HOME}/.vnc"
-        cp /home/matlab/.vnc/passwd   "${HOME}/.vnc/passwd"
-        chmod 0600 "${HOME}/.vnc/passwd"
-        cp /home/matlab/.vnc/xstartup "${HOME}/.vnc/xstartup"
-        chmod +x   "${HOME}/.vnc/xstartup"
+    if [ ! -d "${HOME}/${VNC_CONFIG_DIR:-.vnc}" ]; then
+        mkdir -p "${HOME}/${VNC_CONFIG_DIR:-.vnc}"
+        cp "/home/matlab/${VNC_CONFIG_DIR:-.vnc}/passwd"   "${HOME}/${VNC_CONFIG_DIR:-.vnc}/passwd"
+        chmod 0600 "${HOME}/${VNC_CONFIG_DIR:-.vnc}/passwd"
+        cp "/home/matlab/${VNC_CONFIG_DIR:-.vnc}/xstartup" "${HOME}/${VNC_CONFIG_DIR:-.vnc}/xstartup"
+        chmod +x   "${HOME}/${VNC_CONFIG_DIR:-.vnc}/xstartup"
     fi
 
     /usr/bin/vncserver -localhost no >/dev/null 2>&1
@@ -183,8 +183,8 @@ checkEnvironmentVariables() {
             echo "can be a short hostname, a fully qualified hostname or an IP address"
             echo
         else
-            export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS} -Dtmw.proxyHost.override=${MW_PROXY_HOST} -Dtmw.proxyPort.override=${MW_PROXY_PORT}"
-            if [ -n "${MW_PROXY_USERNAME}" ]; then
+            export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dtmw.proxyHost.override=${MW_PROXY_HOST} -Dtmw.proxyPort.override=${MW_PROXY_PORT}"
+            if [ -n "${MW_PROXY_USERNAME:-}" ]; then
                 export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS} -Dtmw.proxyUser.override=${MW_PROXY_USERNAME} -Dtmw.proxyPassword.override=${MW_PROXY_PASSWORD}"
             fi
             exportInBashrc no_proxy http_proxy https_proxy MW_PROXY_HOST MW_PROXY_PORT MW_PROXY_USERNAME MW_PROXY_PASSWORD

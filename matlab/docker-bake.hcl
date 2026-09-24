@@ -1,9 +1,9 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 # General Configuration variables
 
 variable "LATEST_RELEASE" {
-  default = "R2026a"
+  default = "R2026b"
 }
 
 variable "MATLAB_RELEASE" {
@@ -11,7 +11,7 @@ variable "MATLAB_RELEASE" {
 }
 
 variable "MATLAB_DEPS_OS" {
-  default = "ubuntu24.04"
+  default = "ubuntu26.04"
 }
 
 variable "MPM_ADDITIONAL_FLAGS" {
@@ -27,14 +27,18 @@ variable "PIP_INDEX_URL" {
   default = ""
 }
 
+variable "VNC_CONFIG_DIR" {
+  default = ".config/tigervnc"
+}
+
 variable "GCC" {
   # By default, this should match the version of gcc required by the latest MATLAB release.
-  default = "gcc-12"
+  default = "gcc-14"
 }
 
 variable "GPP" {
   # By default, this should match the version of g++ required by the latest MATLAB release.
-  default = "g++-12"
+  default = "g++-14"
 }
 
 variable "MATHWORKS_SERVICE_HOST_INSTALL_URL" {
@@ -48,6 +52,7 @@ variable "common_args" {
     MATLAB_RELEASE = "${MATLAB_RELEASE}"
     MPM_ADDITIONAL_FLAGS = "${MPM_ADDITIONAL_FLAGS}"
     PIP_INDEX_URL = "${PIP_INDEX_URL}"
+    VNC_CONFIG_DIR = "${VNC_CONFIG_DIR}"
     GCC = "${GCC}"
     GPP = "${GPP}"
     MATHWORKS_SERVICE_HOST_INSTALL_URL = "${MATHWORKS_SERVICE_HOST_INSTALL_URL}"

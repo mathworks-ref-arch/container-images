@@ -53,14 +53,16 @@ class TestVncMode(unittest.TestCase):
     def test_password_is_set(self):
         """Test that the custom VNC password has been set correctly.
 
-        We check that the (encrypted) content of ~/.vnc/passwd equals the output
-        of
+        We check that the encrypted content of the VNC password file equals the output of
         `echo $CUSTOM_PASSWORD | vncpasswd -f`
         """
 
+        vnc_config_dir = "/home/matlab/" + self.host.environment().get(
+            "VNC_CONFIG_DIR", ".vnc"
+        )
         self.assertEqual(
             self.host.run("echo '8charspw' | vncpasswd -f").stdout_bytes,
-            self.host.file("/home/matlab/.vnc/passwd").content,
+            self.host.file(f"{vnc_config_dir}/passwd").content,
         )
 
     def test_vnc_active(self):
