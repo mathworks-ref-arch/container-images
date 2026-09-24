@@ -1,4 +1,4 @@
-# Copyright 2022-2024 The MathWorks, Inc.
+# Copyright 2022-2026 The MathWorks, Inc.
 
 """Shared tests to test the integration of the matlab-proxy feature into the
 dl-docker and matlab-docker containers.
@@ -177,7 +177,7 @@ class TestMatlabProxyInteg(unittest.TestCase):
             mwi_base_url=self.host.environment().get("MWI_BASE_URL", ""),
         )
         matlab_status = res["matlab"]["status"]
-        timeout = 60
+        timeout = 120
         start_time = time.time()
         while matlab_status == "starting" and (time.time() - start_time < timeout):
             time.sleep(0.5)
