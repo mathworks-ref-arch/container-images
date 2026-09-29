@@ -1,16 +1,20 @@
-# Copyright 2024 The MathWorks, Inc.
-
-version: "3.8"
+# Copyright 2024-2026 The MathWorks, Inc.
 
 services:
   network-license-manager:
     image: ghcr.io/mathworks-ref-arch/container-images/network-license-manager:latest
     # To build the image locally instead of using the hosted image,
-    #  comment out the "image:" line and uncomment the "build:" line.
-    # build: .
+    # provide a custom image name in the line below and uncomment the "build" block.
+    # Set the ZIP_SOURCE build argument to the path of a local zip file
+    # if do not want to use the default value defined in the Dockerfile
+    # build:
+    #   context: .
+    #   args:
+    #     ZIP_SOURCE:
+    #     EXTRA_MLM_OPTS:
     network_mode: host
     init: true
     restart: on-failure
     volumes:
-    - ./licenses:/usr/local/MATLAB/licenses/:ro
-    - ./logs:/tmp/log/mathworks
+      - ./licenses:/usr/local/MATLAB/licenses/:ro
+      - ./logs:/tmp/log/mathworks

@@ -1,4 +1,4 @@
-# Copyright 2024 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
 import os
 import pathlib
@@ -45,7 +45,7 @@ class TestNLMLicensing(unittest.TestCase):
             source=logdir,
             type="bind",
         )
-        logfilename = "logs.txt"
+        logfilename = "lmgrd.log"
         self.logfilepath = pathlib.Path(self.logs_mount["Source"]) / logfilename
         self.addCleanup(lambda: self.logfilepath.unlink(missing_ok=True))
 
@@ -75,12 +75,21 @@ class TestNLMLicensing(unittest.TestCase):
 
         self.assertTrue(self.logfilepath.is_file)
         with open(str(self.logfilepath), "r") as logfile:
+            logfile_content = logfile.read()
             self.assertEqual(
                 nlm_logs,
-                logfile.read(),
-                "The docker logs and the log file are not the same",
+                logfile_content,
+                f"\n\n=== Docker logs: ===\n{nlm_logs}\n\n=== Log file content: ===\n{logfile_content}\n\n",
             )
-        self.assertEqual(stat.filemode(self.logfilepath.stat().st_mode), "-rw-rw-rw-")
+        dir_stat = self.logfilepath.parent.stat()
+        self.assertEqual(dir_stat.st_uid, os.getuid())
+        self.assertTrue(dir_stat.st_mode & stat.S_IWUSR)
+
+        file_stat = self.logfilepath.stat()
+        self.assertEqual(stat.filemode(file_stat.st_mode), "-rw-rw-rw-")
+
+        exit_code, _ = nlm.exec_run("runuser -u lmgr -- test -w /tmp/log/mathworks/lmgrd.log")
+        self.assertEqual(exit_code, 0)
 
     def test_license_manager_shutdown(self):
         """
@@ -111,11 +120,18 @@ class TestNLMLicensing(unittest.TestCase):
 
         self.assertTrue(self.logfilepath.is_file)
         with open(str(self.logfilepath), "r") as logfile:
+            logfile_content = logfile.read()
             self.assertEqual(
                 nlm_logs,
-                logfile.read(),
-                "The docker logs and the log file are not the same",
-            )
+                logfile_content,
+                f"\n\n=== Docker logs: ===\n{nlm_logs}\n\n=== Log file content: ===\n{logfile_content}\n\n"
+                )
+        dir_stat = self.logfilepath.parent.stat()
+        self.assertEqual(dir_stat.st_uid, os.getuid())
+        self.assertTrue(dir_stat.st_mode & stat.S_IWUSR)
+
+        file_stat = self.logfilepath.stat()
+        self.assertEqual(stat.filemode(file_stat.st_mode), "-rw-rw-rw-")
 
     def test_nlm_can_license_matlab(self):
         """
@@ -165,18 +181,18 @@ class TestNLMLicensing(unittest.TestCase):
                 f"The network license manager took more that ${timeout}s to exit when no license file is provided"
             )
 
-        self.assertEqual(nlm_status["StatusCode"], 0)
+        self.assertNotEqual(nlm_status["StatusCode"], 0)
 
         nlm_logs = nlm.logs().decode()
         self.assertIn("Cannot find license file", nlm_logs)
 
         self.assertTrue(self.logfilepath.is_file)
         with open(str(self.logfilepath), "r") as logfile:
-            logfilecontent = logfile.read()
+            logfile_content = logfile.read()
             self.assertEqual(
                 nlm_logs,
-                logfilecontent,
-                "The docker logs and the log file are not the same",
+                logfile_content,
+                f"\n\n=== Docker logs: ===\n{nlm_logs}\n\n=== Log file content: ===\n{logfile_content}\n\n",
             )
         self.assertEqual(stat.filemode(self.logfilepath.stat().st_mode), "-rw-rw-rw-")
 
