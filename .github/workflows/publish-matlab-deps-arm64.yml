@@ -23,7 +23,7 @@ env:
   latest_release: r2026b
   releases: '[
     { "release": "r2026a", "default_os": "ubuntu24.04", "supported_os": ["ubuntu22.04", "ubuntu24.04"]},
-    { "release": "r2026b", "default_os": "ubuntu26.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubuntu22.04", "ubuntu24.04", "ubuntu26.04", "debian12", "debian13"]}
+    { "release": "r2026b", "default_os": "ubuntu26.04", "supported_os": ["aws-batch", "ubi8", "ubi9", "ubi10", "ubuntu22.04", "ubuntu24.04", "ubuntu26.04", "debian12", "debian13"]}
     ]'
 
 jobs:
