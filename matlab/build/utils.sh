@@ -215,7 +215,13 @@ startContainer() {
     elif [ "${BROWSER}" = true ]; then
 
         printMessage browser_readme
-        matlab-proxy-app "${CUSTOM_ARGS[@]}"
+        # `exec` replaces this shell with matlab-proxy so it stays a direct
+        # descendant of the tini entrypoint. This ensures termination signals
+        # (e.g. from `docker stop` or a Kubernetes pod shutdown) reach
+        # matlab-proxy, which then shuts MATLAB down gracefully and runs any
+        # cleanup such as finish.m. Matches the `exec` used by the VNC and MATLAB
+        # branches below.
+        exec matlab-proxy-app "${CUSTOM_ARGS[@]}"
 
     # Otherwise, run MATLAB
     else

@@ -9,9 +9,15 @@ run_setup_session() {
   shift
   local user_home=$(getent passwd "$user" | cut -d: -f6)
 
-  HOME="$user_home" sudo --preserve-env --user "$user" \
-    script --quiet --command \
-    "/bin/setup_session.sh $(printf '%q ' "$@")" /dev/null
+  # `exec` at each hop (here, and inside the --command string) keeps the session
+  # process a direct child of the tini entrypoint, so termination signals (e.g.
+  # `docker stop`) reach matlab-proxy/MATLAB and let them shut down gracefully.
+  # The inner `exec` is explicit because `script` runs the command via $SHELL,
+  # and not every shell (e.g. dash/sh) exec's the final command on its own.
+  # `--return` makes `script` exit with the status of the command it ran.
+  exec env HOME="$user_home" sudo --preserve-env --user "$user" \
+    script --quiet --return --command \
+    "exec /bin/setup_session.sh $(printf '%q ' "$@")" /dev/null
 }
 
 modify_default_user() {
