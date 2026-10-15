@@ -20,7 +20,7 @@ on:
       - "tests/matlab-deps/**"
 
 env:
-  latest_release: r2026a
+  latest_release: r2026b
   releases: '[
     { "release": "r2019b", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
     { "release": "r2020a", "default_os": "ubuntu24.04", "supported_os": ["aws-batch", "ubuntu24.04"], "platforms": "linux/amd64" },
