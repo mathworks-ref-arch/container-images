@@ -1,4 +1,4 @@
-"""Test class for matlab-deps:ubi* Docker images."""
+"""Test class for yum-based matlab-deps Docker images."""
 
 # Copyright 2023-2026 The MathWorks, Inc.
 

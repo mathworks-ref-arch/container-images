@@ -44,9 +44,10 @@ def extract_release_from_tags(tags):
 def extract_os_from_tags(tags):
     ubuntu_pattern = re.compile("ubuntu[0-9]{2}.[0-9]{2}")
     ubi_pattern = re.compile("ubi[0-9]{1,2}")
+    almalinux_pattern = re.compile("almalinux[0-9]{1,2}")
     aws_pattern = re.compile("aws-batch")
     debian_pattern = re.compile("debian[0-9]{2}")
-    os_pattern = re.compile(f"({ubuntu_pattern.pattern})|({ubi_pattern.pattern})|({aws_pattern.pattern})|({debian_pattern.pattern})", re.IGNORECASE)
+    os_pattern = re.compile(f"({ubuntu_pattern.pattern})|({ubi_pattern.pattern})|({almalinux_pattern.pattern})|({aws_pattern.pattern})|({debian_pattern.pattern})", re.IGNORECASE)
     # os is an empty set
     oses = set()
     # collect all oses mentioned in the tags
