@@ -1,6 +1,7 @@
-# Copyright 2024-2025 The MathWorks, Inc.
+# Copyright 2024-2026 The MathWorks, Inc.
 
-FROM nvidia/cuda:12.2.2-base-ubuntu22.04
+ARG BASE_IMAGE=nvidia/cuda:12.2.2-base-ubuntu22.04
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks, Inc."
 

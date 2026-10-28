@@ -1,5 +1,6 @@
 # Copyright 2026 The MathWorks, Inc.
-FROM debian:13
+ARG BASE_IMAGE=debian:13
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks"
 

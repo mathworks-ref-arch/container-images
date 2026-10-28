@@ -1,5 +1,6 @@
 # Copyright 2026 The MathWorks, Inc.
-FROM ubuntu:22.04
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks, Inc."
 

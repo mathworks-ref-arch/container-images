@@ -1,5 +1,6 @@
-# Copyright 2021 The MathWorks, Inc.
-FROM registry.access.redhat.com/ubi8/ubi:8.5-226
+# Copyright 2021-2026 The MathWorks, Inc.
+ARG BASE_IMAGE=registry.access.redhat.com/ubi8/ubi:8.5-226
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks, Inc."
 

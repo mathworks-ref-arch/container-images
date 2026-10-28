@@ -1,5 +1,6 @@
 # Copyright 2026 The MathWorks, Inc.
-FROM almalinux:9
+ARG BASE_IMAGE=almalinux:9
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks, Inc."
 

@@ -1,5 +1,6 @@
-# Copyright 2022 The MathWorks, Inc.
-FROM registry.access.redhat.com/ubi8/ubi:latest
+# Copyright 2022-2026 The MathWorks, Inc.
+ARG BASE_IMAGE=registry.access.redhat.com/ubi8/ubi:latest
+FROM ${BASE_IMAGE}
 
 LABEL maintainer="The MathWorks, Inc."
 
