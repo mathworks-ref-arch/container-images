@@ -8,7 +8,7 @@ libc6
 libcairo2
 libcrypt1
 libcups2
-libegl-mali-xlnx
+libegl1
 libfontconfig1
 libfribidi0
 libgl1
