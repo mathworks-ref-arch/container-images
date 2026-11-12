@@ -8,7 +8,8 @@ This container includes the dependencies required by MATLAB&reg; Runtime.
 
 | Tags         | MATLAB Version | Operating System | Base Image | Usage Notes |
 | ------------ |:--------------:| ---------------- |----------- | ----------- |
-|[`latest`, `r2026a`, `r2026a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2026a/ubuntu24.04/Dockerfile) | r2026a | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`latest`, `r2026b`, `r2026b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2026b/ubuntu24.04/Dockerfile) | r2026b | Ubuntu 24.04 | ubuntu:24.04 | |
+|[`r2026a`, `r2026a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2026a/ubuntu24.04/Dockerfile) | r2026a | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2025b`, `r2025b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2025b/ubuntu24.04/Dockerfile) | r2025b | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2025a`, `r2025a-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2025a/ubuntu24.04/Dockerfile) | r2025a | Ubuntu 24.04 | ubuntu:24.04 | |
 |[`r2024b`, `r2024b-ubuntu24.04`](https://github.com/mathworks-ref-arch/container-images/blob/main/matlab-runtime-deps/r2024b/ubuntu24.04/Dockerfile) | r2024b | Ubuntu 24.04 | ubuntu:24.04 | |
